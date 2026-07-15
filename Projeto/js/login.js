@@ -66,7 +66,7 @@ btnLogin.addEventListener("click", async function () {
         const usuario = await fazerLogin(Iemail.value.trim(), Isenha.value);
         localStorage.setItem("usuario", JSON.stringify(usuario));
         console.log("Login bem-sucedido:", usuario);
-        //window.location.href = "dashboard.html";
+        window.location.href = "dashboard.html";
 
     } catch (erro) {
         mostrarErro(erro.message);
