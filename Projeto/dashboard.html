@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UEPB Connect — Dashboard</title>
+<link rel="stylesheet" href="CSS/indexDashboard.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-mark">UP</div>
+    <div class="sidebar-logo-text">UEPB Connect<span>Portal do aluno</span></div>
+  </div>
+  <a href="dashboard.html" class="nav-item active"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
+  <a href="#" class="nav-item"><i class="ti ti-briefcase"></i> Vagas</a>
+  <a href="#" class="nav-item"><i class="ti ti-building"></i> Empresas</a>
+  <a href="#" class="nav-item"><i class="ti ti-heart"></i> Salvos</a>
+  <div class="nav-sep"></div>
+  <a href="#" class="nav-item"><i class="ti ti-user"></i> Meu perfil</a>
+  <a href="#" class="nav-item"><i class="ti ti-settings"></i> Configurações</a>
+  <div class="nav-avatar">
+    <div class="av-circle">MS</div>
+    <div class="av-text"><p>Maria Silva</p><span>CC · 5º período</span></div>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-title">Bom dia, Maria <i class="ti ti-sun" style="font-size:15px;vertical-align:-2px;color:#BA7517"></i></div>
+    <div class="topbar-right">
+      <div class="search-box"><i class="ti ti-search"></i><input placeholder="Buscar vagas, empresas…"></div>
+      <div class="notif-btn"><i class="ti ti-bell"></i><div class="notif-dot"></div></div>
+    </div>
+  </div>
+
+  <div class="body">
+    <div class="col-left">
+      <div class="metrics">
+        <div class="metric">
+          <div class="metric-label"><i class="ti ti-briefcase"></i> Vagas novas</div>
+          <div class="metric-val">24</div>
+          <div class="metric-change up"><i class="ti ti-arrow-up" style="font-size:10px"></i> 8 essa semana</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label"><i class="ti ti-target"></i> Match alto</div>
+          <div class="metric-val">9</div>
+          <div class="metric-change up"><i class="ti ti-arrow-up" style="font-size:10px"></i> +3 hoje</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label"><i class="ti ti-send"></i> Candidaturas</div>
+          <div class="metric-val">3</div>
+          <div class="metric-change neutral">2 em análise</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label"><i class="ti ti-heart"></i> Salvos</div>
+          <div class="metric-val">7</div>
+          <div class="metric-change neutral">1 expira em breve</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hdr">
+          <div class="card-hdr-left">
+            <i class="ti ti-sparkles"></i>
+            <div>
+              <div class="card-hdr-title">Vagas recomendadas para você</div>
+              <div class="card-hdr-sub">Com base nas suas áreas e tecnologias</div>
+            </div>
+          </div>
+          <a href="#" class="card-action">Ver todas →</a>
+        </div>
+
+        <div class="filter-row">
+          <span class="filter-label">Tipo:</span>
+          <span class="filter-chip on" onclick="toggleFilter(this)">Todos</span>
+          <span class="filter-chip" onclick="toggleFilter(this)">Estágio</span>
+          <span class="filter-chip" onclick="toggleFilter(this)">CLT</span>
+          <span class="filter-chip" onclick="toggleFilter(this)">Freelance</span>
+          <span class="filter-label" style="margin-left:6px">Área:</span>
+          <span class="filter-chip area-on" onclick="toggleFilter(this)">IA / Dados</span>
+          <span class="filter-chip" onclick="toggleFilter(this)">Web</span>
+          <span class="filter-chip" onclick="toggleFilter(this)">Mobile</span>
+          <span class="filter-chip" onclick="toggleFilter(this)">Cloud</span>
+        </div>
+
+        <div class="vaga-list">
+          <a href="vaga-detalhe.html" class="vaga destaque">
+            <div class="vaga-logo" style="background:#E6F1FB;color:#0C447C">SL</div>
+            <div class="vaga-body">
+              <div class="vaga-top">
+                <div>
+                  <div class="vaga-title">Estágio em ciência de dados</div>
+                  <div class="vaga-company">SertãoLabs · Campina Grande, PB</div>
+                </div>
+                <div class="match-badge match-high"><i class="ti ti-bolt" style="font-size:11px"></i> 97% match</div>
+              </div>
+              <div class="vaga-tags">
+                <span class="vtag area">Ciência de dados</span>
+                <span class="vtag tech">Python</span>
+                <span class="vtag tech">TensorFlow</span>
+                <span class="vtag tipo">Estágio</span>
+              </div>
+              <div class="vaga-footer">
+                <span class="vaga-meta"><i class="ti ti-coin"></i> R$ 1.200/mês</span>
+                <span class="vaga-meta"><i class="ti ti-clock"></i> Há 1 dia</span>
+                <span class="vaga-meta"><i class="ti ti-map-pin"></i> Presencial</span>
+                <button class="save-btn saved" onclick="event.preventDefault();this.classList.toggle('saved')" aria-label="Salvo"><i class="ti ti-heart"></i></button>
+              </div>
+            </div>
+          </a>
+
+          <a href="vaga-detalhe.html" class="vaga">
+            <div class="vaga-logo" style="background:#EEEDFE;color:#3C3489">NX</div>
+            <div class="vaga-body">
+              <div class="vaga-top">
+                <div>
+                  <div class="vaga-title">Estágio em machine learning</div>
+                  <div class="vaga-company">NexaTech · Recife, PE (remoto)</div>
+                </div>
+                <div class="match-badge match-high"><i class="ti ti-bolt" style="font-size:11px"></i> 91% match</div>
+              </div>
+              <div class="vaga-tags">
+                <span class="vtag area">Inteligência artificial</span>
+                <span class="vtag tech">Python</span>
+                <span class="vtag tech">PyTorch</span>
+                <span class="vtag tipo">Estágio</span>
+              </div>
+              <div class="vaga-footer">
+                <span class="vaga-meta"><i class="ti ti-coin"></i> R$ 1.500/mês</span>
+                <span class="vaga-meta"><i class="ti ti-clock"></i> Há 2 dias</span>
+                <span class="vaga-meta"><i class="ti ti-map-pin"></i> Remoto</span>
+                <button class="save-btn" onclick="event.preventDefault();this.classList.toggle('saved')" aria-label="Salvar"><i class="ti ti-heart"></i></button>
+              </div>
+            </div>
+          </a>
+
+          <a href="vaga-detalhe.html" class="vaga">
+            <div class="vaga-logo" style="background:#E1F5EE;color:#085041">DG</div>
+            <div class="vaga-body">
+              <div class="vaga-top">
+                <div>
+                  <div class="vaga-title">Analista de dados júnior</div>
+                  <div class="vaga-company">DataGov PB · João Pessoa, PB</div>
+                </div>
+                <div class="match-badge match-high"><i class="ti ti-bolt" style="font-size:11px"></i> 88% match</div>
+              </div>
+              <div class="vaga-tags">
+                <span class="vtag area">Ciência de dados</span>
+                <span class="vtag tech">Python</span>
+                <span class="vtag tech">Java</span>
+                <span class="vtag tipo">CLT</span>
+              </div>
+              <div class="vaga-footer">
+                <span class="vaga-meta"><i class="ti ti-coin"></i> R$ 2.800/mês</span>
+                <span class="vaga-meta"><i class="ti ti-clock"></i> Há 3 dias</span>
+                <span class="vaga-meta"><i class="ti ti-map-pin"></i> Híbrido</span>
+                <button class="save-btn" onclick="event.preventDefault();this.classList.toggle('saved')" aria-label="Salvar"><i class="ti ti-heart"></i></button>
+              </div>
+            </div>
+          </a>
+
+          <a href="vaga-detalhe.html" class="vaga">
+            <div class="vaga-logo" style="background:#FAEEDA;color:#633806">CR</div>
+            <div class="vaga-body">
+              <div class="vaga-top">
+                <div>
+                  <div class="vaga-title">Estágio em desenvolvimento web</div>
+                  <div class="vaga-company">Coruja Digital · Remoto</div>
+                </div>
+                <div class="match-badge match-med"><i class="ti ti-bolt" style="font-size:11px"></i> 74% match</div>
+              </div>
+              <div class="vaga-tags">
+                <span class="vtag area">Desenvolvimento web</span>
+                <span class="vtag tech">React</span>
+                <span class="vtag tech">Node.js</span>
+                <span class="vtag tipo">Estágio</span>
+              </div>
+              <div class="vaga-footer">
+                <span class="vaga-meta"><i class="ti ti-coin"></i> R$ 1.000/mês</span>
+                <span class="vaga-meta"><i class="ti ti-clock"></i> Há 4 dias</span>
+                <span class="vaga-meta"><i class="ti ti-map-pin"></i> Remoto</span>
+                <button class="save-btn" onclick="event.preventDefault();this.classList.toggle('saved')" aria-label="Salvar"><i class="ti ti-heart"></i></button>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-right">
+      <div class="profile-card">
+        <div class="avatar">MS</div>
+        <div class="profile-name">Maria Aparecida Silva</div>
+        <div class="profile-sub">Ciência da Computação · UEPB</div>
+        <div class="profile-status"><div class="profile-dot"></div> Buscando oportunidade</div>
+        <div class="profile-divider"></div>
+        <div class="profile-stat">Período <span>5º</span></div>
+        <div class="profile-stat">Vagas compatíveis <span>24</span></div>
+        <div class="profile-stat">Candidaturas ativas <span>3</span></div>
+        <div class="complete-bar-wrap">
+          <div class="complete-bar-label"><span>Perfil completo</span><span>78%</span></div>
+          <div class="complete-bar-bg"><div class="complete-bar-fill" style="width:78%"></div></div>
+        </div>
+        <button class="edit-btn"><i class="ti ti-edit" style="font-size:14px"></i> Editar perfil</button>
+      </div>
+
+      <div class="tags-card">
+        <div class="card-hdr" style="margin-bottom:.75rem">
+          <div class="card-hdr-left"><i class="ti ti-tag" style="font-size:15px"></i><div class="card-hdr-title">Seus interesses</div></div>
+          <a href="#" class="card-action">Editar</a>
+        </div>
+        <div class="tags-sec-label">Áreas de afinidade</div>
+        <div class="tags-wrap">
+          <span class="ptag area">Inteligência artificial</span>
+          <span class="ptag area">Ciência de dados</span>
+        </div>
+        <div class="tags-sec-label">Tecnologias</div>
+        <div class="tags-wrap">
+          <span class="ptag tech">Python</span>
+          <span class="ptag tech">Java</span>
+          <span class="ptag tech">Spring Boot</span>
+          <span class="ptag tech">TensorFlow</span>
+        </div>
+      </div>
+
+      <div class="recents-card">
+        <div class="card-hdr" style="margin-bottom:.75rem">
+          <div class="card-hdr-left"><i class="ti ti-clock" style="font-size:15px"></i><div class="card-hdr-title">Atividade recente</div></div>
+        </div>
+        <div class="rec-item"><div class="rec-icon"><i class="ti ti-send"></i></div><div class="rec-text"><p>Candidatura enviada</p><span>SertãoLabs · 2h atrás</span></div></div>
+        <div class="rec-item"><div class="rec-icon"><i class="ti ti-eye"></i></div><div class="rec-text"><p>Perfil visualizado</p><span>NexaTech · ontem</span></div></div>
+        <div class="rec-item"><div class="rec-icon"><i class="ti ti-heart"></i></div><div class="rec-text"><p>Vaga salva</p><span>DataGov PB · 2 dias atrás</span></div></div>
+        <div class="rec-item"><div class="rec-icon"><i class="ti ti-bell"></i></div><div class="rec-text"><p>3 novas vagas compatíveis</p><span>Hoje · IA / Dados</span></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleFilter(el) {
+  const wasOn = el.classList.contains('on') || el.classList.contains('area-on');
+  if (wasOn) { el.classList.remove('on', 'area-on'); }
+  else {
+    const areaChips = ['IA / Dados','Web','Mobile','Cloud'];
+    el.classList.add(areaChips.includes(el.textContent.trim()) ? 'area-on' : 'on');
+  }
+}
+</script>
+</body>
+</html>

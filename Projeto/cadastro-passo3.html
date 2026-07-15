@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UEPB Connect — Cadastro (3/4)</title>
+<link rel="stylesheet" href="CSS/index3.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-mark">UP</div>
+    <div class="sidebar-logo-text">UEPB Connect<span>Portal do aluno</span></div>
+  </div>
+  <div class="step-list">
+    <div class="step-item done"><div class="step-num"><i class="ti ti-check" style="font-size:12px"></i></div><div class="step-label">Dados pessoais<span>Concluído</span></div></div>
+    <div class="step-item done"><div class="step-num"><i class="ti ti-check" style="font-size:12px"></i></div><div class="step-label">Acadêmico<span>Concluído</span></div></div>
+    <div class="step-item active"><div class="step-num">3</div><div class="step-label">Perfil profissional<span>Áreas, tecnologias</span></div></div>
+    <div class="step-item pending"><div class="step-num">4</div><div class="step-label">Redes e links<span>LinkedIn, GitHub</span></div></div>
+  </div>
+</aside>
+
+<main class="main">
+
+  <div class="card">
+    <div class="card-title"><i class="ti ti-target"></i> Áreas de afinidade <span class="counter" id="area-count">0 selecionadas</span></div>
+    <div class="card-sub">Escolha as áreas com que você mais se identifica (pode selecionar várias)</div>
+    <div class="chips" id="areas">
+      <span class="chip" data-type="area" onclick="toggle(this)">Desenvolvimento web</span>
+      <span class="chip" data-type="area" onclick="toggle(this)">Desenvolvimento mobile</span>
+      <span class="chip" data-type="area" onclick="toggle(this)">Inteligência artificial</span>
+      <span class="chip" data-type="area" onclick="toggle(this)">Ciência de dados</span>
+      <span class="chip" data-type="area" onclick="toggle(this)">Segurança da informação</span>
+      <span class="chip" data-type="area" onclick="toggle(this)">DevOps / Cloud</span>
+      <span class="chip" data-type="area" onclick="toggle(this)">Banco de dados</span>
+      <span class="chip" data-type="area" onclick="toggle(this)">Redes e infraestrutura</span>
+      <span class="chip" data-type="area" onclick="toggle(this)">Engenharia de software</span>
+      <span class="chip" data-type="area" onclick="toggle(this)">UX / Design de produto</span>
+      <span class="chip" data-type="area" onclick="toggle(this)">Sistemas embarcados</span>
+      <span class="chip" data-type="area" onclick="toggle(this)">Jogos digitais</span>
+      <span class="chip" data-type="area" onclick="toggle(this)">Blockchain</span>
+      <span class="chip" data-type="area" onclick="toggle(this)">Robótica</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><i class="ti ti-code"></i> Tecnologias <span class="counter" id="tech-count">0 selecionadas</span></div>
+    <div class="card-sub">Marque as tecnologias que você conhece ou está aprendendo</div>
+
+    <div class="sec-label">Linguagens</div>
+    <div class="chips" id="linguagens">
+      <span class="chip" data-type="tech" data-category="linguagens" 
+      
+      onclick="toggle(this)">Python</span>
+      <span class="chip" data-type="tech" data-category="linguagens" onclick="toggle(this)">JavaScript</span>
+      <span class="chip" data-type="tech" data-category="linguagens" onclick="toggle(this)">Java</span>
+      <span class="chip" data-type="tech" data-category="linguagens" onclick="toggle(this)">C / C++</span>
+      <span class="chip" data-type="tech" data-category="linguagens" onclick="toggle(this)">TypeScript</span>
+      <span class="chip" data-type="tech" data-category="linguagens" onclick="toggle(this)">Kotlin</span>
+      <span class="chip" data-type="tech" data-category="linguagens" onclick="toggle(this)">Swift</span>
+      <span class="chip" data-type="tech" data-category="linguagens" onclick="toggle(this)">Go</span>
+      <span class="chip" data-type="tech" data-category="linguagens" onclick="toggle(this)">Rust</span>
+      <span class="chip" data-type="tech" data-category="linguagens" onclick="toggle(this)">PHP</span>
+      <span class="chip" data-type="tech" data-category="linguagens" onclick="toggle(this)">R</span>
+    </div>
+
+    <div class="sec-label">Frameworks e bibliotecas</div>
+    <div class="chips">
+      <span class="chip" data-type="tech" data-category="frameworks" onclick="toggle(this)">React</span>
+      <span class="chip" data-type="tech" data-category="frameworks" onclick="toggle(this)">Vue.js</span>
+      <span class="chip" data-type="tech" data-category="frameworks" onclick="toggle(this)">Angular</span>
+      <span class="chip" data-type="tech" data-category="frameworks" onclick="toggle(this)">Node.js</span>
+      <span class="chip" data-type="tech" data-category="frameworks" onclick="toggle(this)">Django</span>
+      <span class="chip" data-type="tech" data-category="frameworks" onclick="toggle(this)">Spring Boot</span>
+      <span class="chip" data-type="tech" data-category="frameworks" onclick="toggle(this)">Flutter</span>
+      <span class="chip" data-type="tech" data-category="frameworks" onclick="toggle(this)">TensorFlow / PyTorch</span>
+      <span class="chip" data-type="tech" data-category="frameworks" onclick="toggle(this)">React Native</span>
+      <span class="chip" data-type="tech" data-category="frameworks" onclick="toggle(this)">Laravel</span>
+    </div>
+
+    <div class="sec-label">Cloud e infraestrutura</div>
+    <div class="chips">
+      <span class="chip" data-type="tech" data-category="cloud" onclick="toggle(this)">AWS</span>
+      <span class="chip" data-type="tech" data-category="cloud" onclick="toggle(this)">Google Cloud</span>
+      <span class="chip" data-type="tech" data-category="cloud" onclick="toggle(this)">Azure</span>
+      <span class="chip" data-type="tech" data-category="cloud" onclick="toggle(this)">Docker</span>
+      <span class="chip" data-type="tech" data-category="cloud" onclick="toggle(this)">Kubernetes</span>
+      <span class="chip" data-type="tech" data-category="cloud" onclick="toggle(this)">Linux</span>
+      <span class="chip" data-type="tech" data-category="cloud" onclick="toggle(this)">Git</span>
+    </div>
+
+    <div class="sec-label">Banco de dados</div>
+    <div class="chips">
+      <span class="chip" data-type="tech" data-category="bancoDados" onclick="toggle(this)">PostgreSQL</span>
+      <span class="chip" data-type="tech" data-category="bancoDados" onclick="toggle(this)">MySQL</span>
+      <span class="chip" data-type="tech" data-category="bancoDados" onclick="toggle(this)">MongoDB</span>
+      <span class="chip" data-type="tech" data-category="bancoDados" onclick="toggle(this)">Redis</span>
+      <span class="chip" data-type="tech" data-category="bancoDados" onclick="toggle(this)">Firebase</span>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <a href="cadastro-passo2.html"><button class="btn">← Voltar</button></a>
+   <button type="button" class="btn btn-primary">Próximo →</button>
+  </div>
+</main>
+
+<script src="js/cadastroTela3.js"></script>
+
+<script>
+function toggle(el) {
+  const type = el.dataset.type;
+  const cls = type === 'area' ? 'sel-area' : 'sel-tech';
+  el.classList.toggle(cls);
+  updateCounts();
+}
+function updateCounts() {
+  document.getElementById('area-count').textContent = document.querySelectorAll('.chip.sel-area').length + ' selecionadas';
+  document.getElementById('tech-count').textContent = document.querySelectorAll('.chip.sel-tech').length + ' selecionadas';
+}
+</script>
+</body>
+</html>
