@@ -312,4 +312,96 @@ spring.datasource.password=SUA_SENHA
 
 > **Observação:** O nome do banco de dados já está configurado como `testebanco`, portanto não é necessário alterá-lo.
 
+## Equipe de Desenvolvimento
 
+O **UEPB Connect** foi desenvolvido de forma colaborativa por uma equipe de quatro integrantes, que contribuíram conjuntamente para o desenvolvimento da aplicação.
+
+<div align="center">
+
+<table>
+<tr>
+
+<td align="center" width="25%">
+
+<a href="https://github.com/murilo-xavier">
+<img src="https://github.com/murilo-xavier.png" width="120px;" alt="Murilo Xavier"/>
+</a>
+
+### Murilo Xavier de Macedo
+
+<a href="https://github.com/murilo-xavier">
+<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white"/>
+</a>
+
+<a href="https://linkedin.com/in/murilo-xavier">
+<img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white"/>
+</a>
+
+muriloxmacedo@gmail.com
+
+</td>
+
+<td align="center" width="25%">
+
+<a href="https://github.com/alvesx77">
+<img src="https://github.com/alvesx77.png" width="120px;" alt="Nixon Alves"/>
+</a>
+
+### Nixon Alves de Melo Filho
+
+<a href="https://github.com/alvesx77">
+<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white"/>
+</a>
+
+<a href="https://linkedin.com/in/">
+<img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white"/>
+</a>
+
+📧 Nixon2@gmail.com
+
+</td>
+
+<td align="center" width="25%">
+
+<a href="https://github.com/">
+<img src="https://github.com/.png" width="120px;" alt="Italo"/>
+</a>
+
+### Italo
+
+<a href="https://github.com/">
+<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white"/>
+</a>
+
+<a href="https://linkedin.com/in/">
+<img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white"/>
+</a>
+
+📧 emailItalo@gmail.com
+
+</td>
+
+<td align="center" width="25%">
+
+<a href="https://github.com/">
+<img src="https://github.com/.png" width="120px;" alt="Laryssa Medeiros"/>
+</a>
+
+### Laryssa
+
+<a href="https://github.com/">
+<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white"/>
+</a>
+
+<a href="https://linkedin.com/in/">
+<img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white"/>
+</a>
+
+📧 emailLaryssa@gmail.com
+
+</td>
+
+</tr>
+</table>
+
+</div>
