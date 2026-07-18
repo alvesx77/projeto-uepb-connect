@@ -279,5 +279,37 @@ O frontend é servido pela própria aplicação **Spring Boot**. Após iniciar o
 
 Com esses passos concluídos, o **UEPB Connect** estará em execução e pronto para utilização.
 
+## Configuração do Banco de Dados
+
+O **UEPB Connect** utiliza o **MySQL 8.0** como banco de dados. Para configurar a aplicação, siga os passos abaixo.
+
+### 1️⃣ Criar o banco de dados
+
+Crie um banco de dados com o nome:
+
+```sql
+CREATE DATABASE testebanco;
+```
+
+### 2️⃣ Importar o banco
+
+Importe o arquivo do banco de dados disponibilizado no repositório para o banco `testebanco`.
+
+### 3️⃣ Configurar as credenciais
+
+Abra o arquivo:
+
+```text
+src/main/resources/application.properties
+```
+
+Altere apenas as credenciais de acesso ao MySQL de acordo com sua configuração local:
+
+```properties
+spring.datasource.username=SEU_USUARIO
+spring.datasource.password=SUA_SENHA
+```
+
+> **Observação:** O nome do banco de dados já está configurado como `testebanco`, portanto não é necessário alterá-lo.
 
 
