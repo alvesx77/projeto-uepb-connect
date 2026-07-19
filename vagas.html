@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UEPB Connect — Vagas</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<link rel="stylesheet" href="css/vagas.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-mark">UP</div>
+    <div class="sidebar-logo-text">UEPB Connect<span>Portal do aluno</span></div>
+  </div>
+  <a href="dashboard.html" class="nav-item"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
+  <a href="vagas.html" class="nav-item active"><i class="ti ti-briefcase"></i> Vagas</a>
+  <a href="#" class="nav-item"><i class="ti ti-building"></i> Empresas</a>
+  <a href="#" class="nav-item"><i class="ti ti-heart"></i> Salvos</a>
+  <div class="nav-sep"></div>
+  <a href="editar-perfil.html" class="nav-item"><i class="ti ti-user"></i> Meu perfil</a>
+  <a href="#" class="nav-item"><i class="ti ti-settings"></i> Configurações</a>
+  <div class="nav-avatar">
+    <div class="av-circle">MS</div>
+    <div class="av-text"><p>Maria Silva</p><span>CC · 5º período</span></div>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-title">Vagas disponíveis</div>
+    <div class="topbar-right">
+      <div class="search-box"><i class="ti ti-search"></i><input id="search-input" placeholder="Buscar por cargo, empresa..."></div>
+    </div>
+  </div>
+
+  <div class="content">
+    <aside class="filters-panel">
+      <div class="filters-hdr">
+        <span>Filtros</span>
+        <button class="clear-link" id="btnLimpar">Limpar tudo</button>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-title">Tipo de vaga</div>
+        <label class="check-opt"><input type="checkbox" data-group="tipo" value="estagio"> Estágio</label>
+        <label class="check-opt"><input type="checkbox" data-group="tipo" value="clt"> CLT</label>
+        <label class="check-opt"><input type="checkbox" data-group="tipo" value="freelance"> Freelance / PJ</label>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-title">Modalidade</div>
+        <label class="check-opt"><input type="checkbox" data-group="modalidade" value="presencial"> Presencial</label>
+        <label class="check-opt"><input type="checkbox" data-group="modalidade" value="remoto"> Remoto</label>
+        <label class="check-opt"><input type="checkbox" data-group="modalidade" value="hibrido"> Híbrido</label>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-title">Área</div>
+        <label class="check-opt"><input type="checkbox" data-group="area" value="Ciência de dados"> Ciência de dados</label>
+        <label class="check-opt"><input type="checkbox" data-group="area" value="Inteligência artificial"> Inteligência artificial</label>
+        <label class="check-opt"><input type="checkbox" data-group="area" value="Desenvolvimento web"> Desenvolvimento web</label>
+        <label class="check-opt"><input type="checkbox" data-group="area" value="Desenvolvimento mobile"> Desenvolvimento mobile</label>
+        <label class="check-opt"><input type="checkbox" data-group="area" value="DevOps / Cloud"> DevOps / Cloud</label>
+        <label class="check-opt"><input type="checkbox" data-group="area" value="UX / Design de produto"> UX / Design de produto</label>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-title">Compatibilidade mínima</div>
+        <input type="range" id="matchRange" min="0" max="100" step="5" value="0">
+        <div class="range-val"><span id="matchRangeVal">0%</span> ou mais</div>
+      </div>
+    </aside>
+
+    <section class="results-panel">
+      <div class="results-hdr">
+        <div class="results-count"><span id="results-count">0</span> vagas encontradas</div>
+        <div class="sort-wrap">
+          <label for="sortSelect">Ordenar por</label>
+          <select id="sortSelect">
+            <option value="recentes">Mais recentes</option>
+            <option value="match">Maior compatibilidade</option>
+            <option value="salario">Maior remuneração</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="vaga-list" id="vaga-list"></div>
+
+      <div class="empty-state" id="empty-state">
+        <i class="ti ti-search-off"></i>
+        <p>Nenhuma vaga encontrada com esses filtros</p>
+        <button class="btn" id="btnLimparVazio">Limpar filtros</button>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script src="js/vagas.js"></script>
+</body>
+</html>

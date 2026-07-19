@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UEPB Connect — Editar perfil</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<link rel="stylesheet" href="css/perfil.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-mark">UP</div>
+    <div class="sidebar-logo-text">UEPB Connect<span>Portal do aluno</span></div>
+  </div>
+  <a href="dashboard.html" class="nav-item"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
+  <a href="vagas.html" class="nav-item"><i class="ti ti-briefcase"></i> Vagas</a>
+  <a href="#" class="nav-item"><i class="ti ti-building"></i> Empresas</a>
+  <a href="#" class="nav-item"><i class="ti ti-heart"></i> Salvos</a>
+  <div class="nav-sep"></div>
+  <a href="editar-perfil.html" class="nav-item active"><i class="ti ti-user"></i> Meu perfil</a>
+  <a href="#" class="nav-item"><i class="ti ti-settings"></i> Configurações</a>
+  <div class="nav-avatar">
+    <div class="av-circle">MS</div>
+    <div class="av-text"><p>Maria Silva</p><span>CC · 5º período</span></div>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <a href="dashboard.html" class="back-btn"><i class="ti ti-arrow-left"></i> Voltar</a>
+    <div class="topbar-sep"></div>
+    <div class="breadcrumb">Meu perfil / <span>Editar</span></div>
+  </div>
+
+  <div class="content">
+    <div class="page-head">
+      <h1>Editar perfil</h1>
+      <p>Mantenha suas informações atualizadas para receber recomendações de vagas mais precisas</p>
+    </div>
+
+    <div class="toast" id="toast"><i class="ti ti-check"></i> <span id="toast-text">Perfil atualizado com sucesso!</span></div>
+
+    <div class="card">
+      <div class="card-title"><i class="ti ti-user"></i> Identificação</div>
+      <div class="grid2">
+        <div class="field full">
+          <label>Nome completo <span class="req">*</span></label>
+          <input type="text" class="nomeCompleto" placeholder="Ex.: Maria Aparecida Silva">
+        </div>
+        <div class="field">
+          <label>E-mail institucional <span class="req">*</span></label>
+          <input type="email" class="email" placeholder="nome@aluno.uepb.edu.br">
+          <div class="hint">Use apenas o e-mail fornecido pela UEPB</div>
+        </div>
+        <div class="field">
+          <label>Telefone / WhatsApp <span class="req">*</span></label>
+          <input type="tel" class="telefone" placeholder="(83) 9 0000-0000">
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><i class="ti ti-school"></i> Dados acadêmicos</div>
+      <div class="grid2">
+        <div class="field full">
+          <label>Curso <span class="req">*</span></label>
+          <select class="curso">
+            <option value="">Selecione seu curso</option>
+            <option>Ciência da Computação</option>
+            <option>Sistemas de Informação</option>
+            <option>Engenharia de Computação</option>
+            <option>Licenciatura em Computação</option>
+            <option>Engenharia Elétrica</option>
+            <option>Matemática</option>
+            <option>Administração</option>
+            <option>Outro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Período atual <span class="req">*</span></label>
+          <select class="periodo">
+            <option value="">Selecione</option>
+            <option>1º período</option><option>2º período</option>
+            <option>3º período</option><option>4º período</option>
+            <option>5º período</option><option>6º período</option>
+            <option>7º período</option><option>8º período</option>
+            <option>9º período</option><option>10º período</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Matrícula</label>
+          <input type="text" class="matricula" placeholder="Ex.: 20230123456">
+        </div>
+        <div class="field full">
+          <label>Link do Lattes</label>
+          <input type="url" class="curriculo" placeholder="http://lattes.cnpq.br/...">
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><i class="ti ti-briefcase"></i> Situação de empregabilidade</div>
+      <div class="status-grid">
+        <div class="status-card" data-value="buscando" onclick="selectStatus(this)">
+          <i class="ti ti-search"></i>
+          <div><p>Buscando oportunidade</p><span>Aberto a estágios ou empregos na área</span></div>
+        </div>
+        <div class="status-card" data-value="empregado_area" onclick="selectStatus(this)">
+          <i class="ti ti-building"></i>
+          <div><p>Empregado na área</p><span>Já atua em TI / área de formação</span></div>
+        </div>
+        <div class="status-card" data-value="empregado_fora" onclick="selectStatus(this)">
+          <i class="ti ti-briefcase-off"></i>
+          <div><p>Empregado fora da área</p><span>Trabalha em outra área no momento</span></div>
+        </div>
+        <div class="status-card" data-value="estudando" onclick="selectStatus(this)">
+          <i class="ti ti-book"></i>
+          <div><p>Só estudando</p><span>Foco apenas nos estudos agora</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><i class="ti ti-target"></i> Áreas de afinidade <span class="counter" id="area-count">0 selecionadas</span></div>
+      <div class="chips" id="areas">
+        <span class="chip" data-type="area" onclick="toggleChip(this)">Desenvolvimento web</span>
+        <span class="chip" data-type="area" onclick="toggleChip(this)">Desenvolvimento mobile</span>
+        <span class="chip" data-type="area" onclick="toggleChip(this)">Inteligência artificial</span>
+        <span class="chip" data-type="area" onclick="toggleChip(this)">Ciência de dados</span>
+        <span class="chip" data-type="area" onclick="toggleChip(this)">Segurança da informação</span>
+        <span class="chip" data-type="area" onclick="toggleChip(this)">DevOps / Cloud</span>
+        <span class="chip" data-type="area" onclick="toggleChip(this)">Banco de dados</span>
+        <span class="chip" data-type="area" onclick="toggleChip(this)">Redes e infraestrutura</span>
+        <span class="chip" data-type="area" onclick="toggleChip(this)">Engenharia de software</span>
+        <span class="chip" data-type="area" onclick="toggleChip(this)">UX / Design de produto</span>
+        <span class="chip" data-type="area" onclick="toggleChip(this)">Sistemas embarcados</span>
+        <span class="chip" data-type="area" onclick="toggleChip(this)">Jogos digitais</span>
+        <span class="chip" data-type="area" onclick="toggleChip(this)">Blockchain</span>
+        <span class="chip" data-type="area" onclick="toggleChip(this)">Robótica</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><i class="ti ti-code"></i> Tecnologias <span class="counter" id="tech-count">0 selecionadas</span></div>
+
+      <div class="sec-label">Linguagens</div>
+      <div class="chips">
+        <span class="chip" data-type="tech" data-category="linguagens" onclick="toggleChip(this)">Python</span>
+        <span class="chip" data-type="tech" data-category="linguagens" onclick="toggleChip(this)">JavaScript</span>
+        <span class="chip" data-type="tech" data-category="linguagens" onclick="toggleChip(this)">Java</span>
+        <span class="chip" data-type="tech" data-category="linguagens" onclick="toggleChip(this)">C / C++</span>
+        <span class="chip" data-type="tech" data-category="linguagens" onclick="toggleChip(this)">TypeScript</span>
+        <span class="chip" data-type="tech" data-category="linguagens" onclick="toggleChip(this)">Kotlin</span>
+        <span class="chip" data-type="tech" data-category="linguagens" onclick="toggleChip(this)">Swift</span>
+        <span class="chip" data-type="tech" data-category="linguagens" onclick="toggleChip(this)">Go</span>
+        <span class="chip" data-type="tech" data-category="linguagens" onclick="toggleChip(this)">Rust</span>
+        <span class="chip" data-type="tech" data-category="linguagens" onclick="toggleChip(this)">PHP</span>
+        <span class="chip" data-type="tech" data-category="linguagens" onclick="toggleChip(this)">R</span>
+      </div>
+
+      <div class="sec-label">Frameworks e bibliotecas</div>
+      <div class="chips">
+        <span class="chip" data-type="tech" data-category="frameworks" onclick="toggleChip(this)">React</span>
+        <span class="chip" data-type="tech" data-category="frameworks" onclick="toggleChip(this)">Vue.js</span>
+        <span class="chip" data-type="tech" data-category="frameworks" onclick="toggleChip(this)">Angular</span>
+        <span class="chip" data-type="tech" data-category="frameworks" onclick="toggleChip(this)">Node.js</span>
+        <span class="chip" data-type="tech" data-category="frameworks" onclick="toggleChip(this)">Django</span>
+        <span class="chip" data-type="tech" data-category="frameworks" onclick="toggleChip(this)">Spring Boot</span>
+        <span class="chip" data-type="tech" data-category="frameworks" onclick="toggleChip(this)">Flutter</span>
+        <span class="chip" data-type="tech" data-category="frameworks" onclick="toggleChip(this)">TensorFlow / PyTorch</span>
+        <span class="chip" data-type="tech" data-category="frameworks" onclick="toggleChip(this)">React Native</span>
+        <span class="chip" data-type="tech" data-category="frameworks" onclick="toggleChip(this)">Laravel</span>
+      </div>
+
+      <div class="sec-label">Cloud e infraestrutura</div>
+      <div class="chips">
+        <span class="chip" data-type="tech" data-category="cloud" onclick="toggleChip(this)">AWS</span>
+        <span class="chip" data-type="tech" data-category="cloud" onclick="toggleChip(this)">Google Cloud</span>
+        <span class="chip" data-type="tech" data-category="cloud" onclick="toggleChip(this)">Azure</span>
+        <span class="chip" data-type="tech" data-category="cloud" onclick="toggleChip(this)">Docker</span>
+        <span class="chip" data-type="tech" data-category="cloud" onclick="toggleChip(this)">Kubernetes</span>
+        <span class="chip" data-type="tech" data-category="cloud" onclick="toggleChip(this)">Linux</span>
+        <span class="chip" data-type="tech" data-category="cloud" onclick="toggleChip(this)">Git</span>
+      </div>
+
+      <div class="sec-label">Banco de dados</div>
+      <div class="chips">
+        <span class="chip" data-type="tech" data-category="bancoDados" onclick="toggleChip(this)">PostgreSQL</span>
+        <span class="chip" data-type="tech" data-category="bancoDados" onclick="toggleChip(this)">MySQL</span>
+        <span class="chip" data-type="tech" data-category="bancoDados" onclick="toggleChip(this)">MongoDB</span>
+        <span class="chip" data-type="tech" data-category="bancoDados" onclick="toggleChip(this)">Redis</span>
+        <span class="chip" data-type="tech" data-category="bancoDados" onclick="toggleChip(this)">Firebase</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><i class="ti ti-link"></i> Perfis e portfólio</div>
+      <div class="link-row">
+        <div class="link-icon" style="background:#E6F1FB;color:#1a3a6e"><i class="ti ti-brand-linkedin"></i></div>
+        <div class="link-meta"><p>LinkedIn</p><span>Perfil profissional</span></div>
+        <input class="link-input url-linkedin" type="url" placeholder="linkedin.com/in/seu-perfil">
+      </div>
+      <div class="link-row">
+        <div class="link-icon" style="background:#EEEDFE;color:#3C3489"><i class="ti ti-brand-github"></i></div>
+        <div class="link-meta"><p>GitHub</p><span>Repositórios e projetos</span></div>
+        <input class="link-input url-github" type="url" placeholder="github.com/seu-usuario">
+      </div>
+      <div class="link-row">
+        <div class="link-icon" style="background:#EAF3DE;color:#3B6D11"><i class="ti ti-world"></i></div>
+        <div class="link-meta"><p>Portfólio / site pessoal</p><span>Opcional</span></div>
+        <input class="link-input url-portfolio" type="url" placeholder="meusite.com">
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><i class="ti ti-eye"></i> Visibilidade do perfil</div>
+      <div class="vis-list">
+        <label class="vis-opt"><input type="radio" name="vis" value="todos" checked> Empresas e recrutadores parceiros da UEPB</label>
+        <label class="vis-opt"><input type="radio" name="vis" value="recrutadores"> Apenas recrutadores (não outros alunos)</label>
+        <label class="vis-opt"><input type="radio" name="vis" value="privado"> Perfil privado (só coordenação)</label>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <a href="dashboard.html"><button type="button" class="btn">Cancelar</button></a>
+      <button type="button" id="btnSalvar" class="btn btn-primary"><i class="ti ti-device-floppy" style="font-size:14px;vertical-align:-2px;margin-right:4px"></i> Salvar alterações</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/editarPerfil.js"></script>
+</body>
+</html>
