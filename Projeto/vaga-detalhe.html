@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UEPB Connect — Detalhe da vaga</title>
+<link rel="stylesheet" href="CSS/indexVagasDetalhe.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-mark">UP</div>
+    <div class="sidebar-logo-text">UEPB Connect<span>Portal do aluno</span></div>
+  </div>
+  <a href="dashboard.html" class="nav-item"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
+  <a href="#" class="nav-item active"><i class="ti ti-briefcase"></i> Vagas</a>
+  <a href="#" class="nav-item"><i class="ti ti-building"></i> Empresas</a>
+  <a href="#" class="nav-item"><i class="ti ti-heart"></i> Salvos</a>
+  <div class="nav-sep"></div>
+  <a href="#" class="nav-item"><i class="ti ti-user"></i> Meu perfil</a>
+  <a href="#" class="nav-item"><i class="ti ti-settings"></i> Configurações</a>
+  <div class="nav-avatar">
+    <div class="av-circle">MS</div>
+    <div class="av-text"><p>Maria Silva</p><span>CC · 5º período</span></div>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <a href="dashboard.html" class="back-btn"><i class="ti ti-arrow-left"></i> Voltar</a>
+    <div class="topbar-sep"></div>
+    <div class="breadcrumb">Vagas / <span>Estágio em ciência de dados</span></div>
+  </div>
+
+  <div class="content">
+    <div class="col-l">
+      <div class="card">
+        <div class="vaga-header">
+          <div class="co-logo">SL</div>
+          <div>
+            <div class="vaga-h-title">Estágio em ciência de dados</div>
+            <div class="vaga-h-co">SertãoLabs · Campina Grande, PB · Publicado há 1 dia</div>
+            <div class="vaga-h-tags">
+              <span class="vtag area">Ciência de dados</span>
+              <span class="vtag tech">Python</span>
+              <span class="vtag tech">TensorFlow</span>
+              <span class="vtag tipo">Estágio</span>
+              <span class="vtag loc"><i class="ti ti-map-pin" style="font-size:11px;vertical-align:-1px"></i> Presencial</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="sec-title">Sobre a vaga</div>
+        <p class="desc-text">A SertãoLabs busca um estagiário motivado para integrar o time de dados. Você vai trabalhar com análise exploratória de dados, construção de pipelines de ML e visualização de resultados para clientes dos setores agrícola e hídrico do Nordeste. A equipe é pequena e colaborativa, com mentorias semanais e espaço para aprender rápido.</p>
+      </div>
+
+      <div class="card">
+        <div class="sec-title">Requisitos e seu perfil</div>
+        <div class="req-list">
+          <div class="req-item ok"><i class="ti ti-circle-check"></i> Python (intermediário) — você tem esta tecnologia no perfil</div>
+          <div class="req-item ok"><i class="ti ti-circle-check"></i> TensorFlow / PyTorch — você tem esta tecnologia no perfil</div>
+          <div class="req-item ok"><i class="ti ti-circle-check"></i> Afinidade com ciência de dados — área no seu perfil</div>
+          <div class="req-item partial"><i class="ti ti-circle-half"></i> SQL básico — não listado, mas comum ao seu curso</div>
+          <div class="req-item miss"><i class="ti ti-circle-dashed"></i> Experiência com Spark — diferencial, não obrigatório</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-r">
+      <div class="apply-card">
+        <div style="font-size:13px;font-weight:500;color:var(--text-primary);margin-bottom:4px">Candidatar-se</div>
+        <div style="font-size:12px;color:var(--text-tertiary);margin-bottom:12px">Seu perfil será enviado para a empresa</div>
+        <button class="apply-btn" onclick="showToast('Candidatura enviada com sucesso!')"><i class="ti ti-send" style="font-size:14px"></i> Candidatar-se agora</button>
+        <button class="save-btn2" id="saveBtn" onclick="toggleSave()"><i class="ti ti-heart" style="font-size:14px" id="saveIcon"></i> <span id="saveText">Salvar vaga</span></button>
+        <div class="deadline"><i class="ti ti-calendar" style="font-size:13px"></i> Encerra em 18 jun. 2026</div>
+      </div>
+
+      <div class="card">
+        <div class="sec-title">Detalhes da vaga</div>
+        <table class="info-table">
+          <tr><td>Remuneração</td><td>R$ 1.200/mês</td></tr>
+          <tr><td>Carga horária</td><td>30h/semana</td></tr>
+          <tr><td>Modalidade</td><td>Presencial</td></tr>
+          <tr><td>Duração</td><td>12 meses</td></tr>
+          <tr><td>Benefícios</td><td>VT + VR</td></tr>
+          <tr><td>Início previsto</td><td>Julho 2026</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="match-wrap">
+          <div class="match-header">
+            <div class="match-title">Compatibilidade</div>
+            <div class="match-pct">97%</div>
+          </div>
+          <div class="match-row">
+            <div class="match-row-label">Áreas de interesse</div>
+            <div class="match-bg"><div class="match-fill green" style="width:100%"></div></div>
+            <div class="match-val">100%</div>
+          </div>
+          <div class="match-row">
+            <div class="match-row-label">Tecnologias</div>
+            <div class="match-bg"><div class="match-fill green" style="width:90%"></div></div>
+            <div class="match-val">90%</div>
+          </div>
+          <div class="match-row">
+            <div class="match-row-label">Período / nível</div>
+            <div class="match-bg"><div class="match-fill amber" style="width:80%"></div></div>
+            <div class="match-val">80%</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="sec-title">Vagas similares</div>
+        <div class="similar-list">
+          <a href="vaga-detalhe.html" class="sim-item">
+            <div class="sim-logo" style="background:#EEEDFE;color:#3C3489">NX</div>
+            <div class="sim-text"><p>Estágio ML</p><span>NexaTech · Remoto</span></div>
+            <div class="sim-pct">91%</div>
+          </a>
+          <a href="vaga-detalhe.html" class="sim-item">
+            <div class="sim-logo" style="background:#E1F5EE;color:#085041">DG</div>
+            <div class="sim-text"><p>Analista dados Jr.</p><span>DataGov PB</span></div>
+            <div class="sim-pct">88%</div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let saved = false;
+function toggleSave() {
+  saved = !saved;
+  document.getElementById('saveText').textContent = saved ? 'Vaga salva' : 'Salvar vaga';
+  document.getElementById('saveIcon').style.color = saved ? '#185FA5' : '';
+  showToast(saved ? 'Vaga salva!' : 'Vaga removida dos salvos');
+}
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>
