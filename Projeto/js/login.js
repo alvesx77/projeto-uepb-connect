@@ -30,9 +30,14 @@ toggleSenha.addEventListener("click", function () {
 
 async function fazerLogin(email, senha) {
     const response = await fetch(`${API_URL}/login`, {
+
         method: "POST",
+        
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ emailInstitucional: email, senha })
+        
+        credentials: "include",
+        
+        body: JSON.stringify({ emailInstitucional: email, senha:senha })
     });
 
     if (!response.ok) {
@@ -40,7 +45,7 @@ async function fazerLogin(email, senha) {
         throw new Error(mensagemErro || "Erro ao fazer login");
     }
 
-    return response.json(); // { id, nomeCompleto, emailInstitucional, tipoUsuario }
+    return response.text(); // { id, nomeCompleto, emailInstitucional, tipoUsuario }
 }
 
 btnLogin.addEventListener("click", async function () {
@@ -63,9 +68,10 @@ btnLogin.addEventListener("click", async function () {
     btnLogin.textContent = "Entrando...";
 
     try {
-        const usuario = await fazerLogin(Iemail.value.trim(), Isenha.value);
-        localStorage.setItem("usuario", JSON.stringify(usuario));
-        console.log("Login bem-sucedido:", usuario);
+        const dados = await fazerLogin(
+            Iemail.value.trim(),
+            Isenha.value
+        );
         window.location.href = "dashboard.html";
 
     } catch (erro) {

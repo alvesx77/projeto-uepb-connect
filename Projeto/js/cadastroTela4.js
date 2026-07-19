@@ -96,7 +96,7 @@ btn.addEventListener("click", function () {
 
         showSuccess();
 
-        window.location.href = "dashboard.html";
+        window.location.href = "login.html";
     })
     .catch(error => {
         console.error("Erro:", error);

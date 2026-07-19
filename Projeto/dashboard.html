@@ -28,7 +28,7 @@
 
 <div class="main">
   <div class="topbar">
-    <div class="topbar-title">Bom dia, Maria <i class="ti ti-sun" style="font-size:15px;vertical-align:-2px;color:#BA7517"></i></div>
+    <div class="topbar-title">Bom dia,<samp id="nome-topbar"> <i class="ti ti-sun" style="font-size:15px;vertical-align:-2px;color:#BA7517"></i></div>
     <div class="topbar-right">
       <div class="search-box"><i class="ti ti-search"></i><input placeholder="Buscar vagas, empresas…"></div>
       <div class="notif-btn"><i class="ti ti-bell"></i><div class="notif-dot"></div></div>
@@ -212,12 +212,12 @@
           <a href="#" class="card-action">Editar</a>
         </div>
         <div class="tags-sec-label">Áreas de afinidade</div>
-        <div class="tags-wrap">
+        <div class="tags-wrap" id="areas-container">
           <span class="ptag area">Inteligência artificial</span>
           <span class="ptag area">Ciência de dados</span>
         </div>
         <div class="tags-sec-label">Tecnologias</div>
-        <div class="tags-wrap">
+        <div class="tags-wrap" id="linguagens-container">
           <span class="ptag tech">Python</span>
           <span class="ptag tech">Java</span>
           <span class="ptag tech">Spring Boot</span>
@@ -237,6 +237,9 @@
     </div>
   </div>
 </div>
+
+
+<script src="js/dashboard.js"></script>
 
 <script>
 function toggleFilter(el) {
