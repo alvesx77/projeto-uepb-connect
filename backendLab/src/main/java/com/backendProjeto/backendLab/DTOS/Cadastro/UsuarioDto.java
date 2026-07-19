@@ -45,7 +45,6 @@ public class UsuarioDto {
     private String linkPortifolio;
     private String situacaoEmpregabilidade;
     private String visibilidadePerfil;
-    private String tipoUsuario;
 
     private List<String> linguagens;
     private List<String> frameworks;
