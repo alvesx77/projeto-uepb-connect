@@ -18,7 +18,7 @@ public class Paginas {
     }
 
     public Page<Usuarios> paginasDeUsuarios(){
-        Pageable pageable = PageRequest.of(0,2);
+        Pageable pageable = PageRequest.of(0,5);
         Page<Usuarios> pagina = usuarioRepository.findAll(pageable);
         return pagina;
     }

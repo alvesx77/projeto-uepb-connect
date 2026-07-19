@@ -57,7 +57,7 @@ public class CadastroService {
         usuario.setLinkPortifolio(usuarioDto.getLinkPortifolio());
         usuario.setSituacaoEmpregabilidade(usuarioDto.getSituacaoEmpregabilidade());
         usuario.setVisibilidadePerfil(usuarioDto.getVisibilidadePerfil());
-        usuario.setTipoUsuario(usuarioDto.getTipoUsuario() != null ? usuarioDto.getTipoUsuario(): "ALUNO");
+        usuario.setTipoUsuario(TipoUsuario.ALUNO);
 
         usuario.setLinguagens(resolverLinguagens(usuarioDto.getLinguagens()));
         usuario.setFrameworks(resolverFrameworks(usuarioDto.getFrameworks()));

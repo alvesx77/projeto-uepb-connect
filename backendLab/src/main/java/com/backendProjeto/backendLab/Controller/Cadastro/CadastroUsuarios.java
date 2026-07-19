@@ -1,6 +1,7 @@
 package com.backendProjeto.backendLab.Controller.Cadastro;
 
 import com.backendProjeto.backendLab.DTOS.Cadastro.UsuarioDto;
+import com.backendProjeto.backendLab.DTOS.Cadastro.UsuarioRespotaCadastroDto;
 import com.backendProjeto.backendLab.Model.Usuarios.Usuarios;
 
 import com.backendProjeto.backendLab.Service.Cadastro.CadastroService;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/cadastrarUsuario")
 public class CadastroUsuarios {
 
@@ -23,6 +23,8 @@ public class CadastroUsuarios {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> cadastrarUsuarios(@Valid @RequestBody UsuarioDto usuarioDto){
-        return new ResponseEntity<>(this.usuarioService.saveUsuarios(usuarioDto),HttpStatus.CREATED);
+        Usuarios usuariosSalvos = this.usuarioService.saveUsuarios(usuarioDto);
+        UsuarioRespotaCadastroDto usuarioRespotaCadastroDto = new UsuarioRespotaCadastroDto(usuariosSalvos);
+        return new ResponseEntity<>(usuarioRespotaCadastroDto,HttpStatus.CREATED);
     }
 }
