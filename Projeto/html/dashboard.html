@@ -4,7 +4,55 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UEPB Connect — Dashboard</title>
-<link rel="stylesheet" href="CSS/indexDashboard.css">
+<link rel="stylesheet" href="../CSS/indexDashboard.css">
+
+<style>
+  /* Tela de sucesso exibida após salvar as alterações do perfil */
+  #perfil-success {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    padding: 3rem 1.5rem;
+  }
+  .ps-box {
+    background: var(--bg-card);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 2.75rem 2.5rem;
+    max-width: 460px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 1px 2px rgba(15,35,70,.03), 0 1px 6px rgba(15,35,70,.03);
+  }
+  .ps-check {
+    width: 60px; height: 60px; border-radius: 50%;
+    background: #E1F5EE; color: #0F6E56;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.25rem; font-size: 26px;
+  }
+  .ps-box h2 { font-size: 19px; font-weight: 500; color: var(--text-primary); margin-bottom: 6px; }
+  .ps-box > p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1.5rem; }
+  .ps-resumo {
+    text-align: left;
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: .875rem 1rem;
+    margin-bottom: 1.75rem;
+  }
+  .ps-row {
+    display: flex; justify-content: space-between; gap: 10px;
+    padding: 6px 0; border-bottom: 0.5px solid var(--border);
+    font-size: 12.5px;
+  }
+  .ps-row:last-child { border-bottom: none; }
+  .ps-row span:first-child { color: var(--text-tertiary); }
+  .ps-row span:first-child::after { content: ":"; }
+  .ps-row span:last-child { color: var(--text-primary); font-weight: 500; text-align: right; }
+  .ps-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+</style>
+
 </head>
 <body>
 
@@ -14,11 +62,11 @@
     <div class="sidebar-logo-text">UEPB Connect<span>Portal do aluno</span></div>
   </div>
   <a href="dashboard.html" class="nav-item active"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
-  <a href="#" class="nav-item"><i class="ti ti-briefcase"></i> Vagas</a>
+  <a href="vagas.html" class="nav-item"><i class="ti ti-briefcase"></i> Vagas</a>
   <a href="#" class="nav-item"><i class="ti ti-building"></i> Empresas</a>
   <a href="#" class="nav-item"><i class="ti ti-heart"></i> Salvos</a>
   <div class="nav-sep"></div>
-  <a href="#" class="nav-item"><i class="ti ti-user"></i> Meu perfil</a>
+  <a href="perfil.html" class="nav-item"><i class="ti ti-user"></i> Meu perfil</a>
   <a href="#" class="nav-item"><i class="ti ti-settings"></i> Configurações</a>
   <div class="nav-avatar">
     <div class="av-circle">MS</div>
@@ -69,7 +117,7 @@
               <div class="card-hdr-sub">Com base nas suas áreas e tecnologias</div>
             </div>
           </div>
-          <a href="#" class="card-action">Ver todas →</a>
+          <a href="vagas.html" class="card-action">Ver todas →</a>
         </div>
 
         <div class="filter-row">
@@ -203,7 +251,7 @@
           <div class="complete-bar-label"><span>Perfil completo</span><span>78%</span></div>
           <div class="complete-bar-bg"><div class="complete-bar-fill" style="width:78%"></div></div>
         </div>
-        <button class="edit-btn"><i class="ti ti-edit" style="font-size:14px"></i> Editar perfil</button>
+         <a href="editar-perfil.html"><button class="edit-btn"><i class="ti ti-edit" style="font-size:14px"></i> Editar perfil</button></a>
       </div>
 
       <div class="tags-card">
@@ -239,17 +287,56 @@
 </div>
 
 
-<script src="js/dashboard.js"></script>
+<script src="../js/dashboard.js"></script>
 
 <script>
+const GRUPO_TIPO = ['Todos', 'Estágio', 'CLT', 'Freelance'];
+const GRUPO_AREA = ['IA / Dados', 'Web', 'Mobile', 'Cloud'];
+
+const MAPA_TIPO = { 'Todos': null, 'Estágio': 'estagio', 'CLT': 'clt', 'Freelance': 'freelance' };
+const MAPA_AREA = { 'IA / Dados': 'ia-dados', 'Web': 'web', 'Mobile': 'mobile', 'Cloud': 'cloud' };
+
 function toggleFilter(el) {
-  const wasOn = el.classList.contains('on') || el.classList.contains('area-on');
-  if (wasOn) { el.classList.remove('on', 'area-on'); }
-  else {
-    const areaChips = ['IA / Dados','Web','Mobile','Cloud'];
-    el.classList.add(areaChips.includes(el.textContent.trim()) ? 'area-on' : 'on');
+  const texto = el.textContent.trim();
+
+  if (GRUPO_TIPO.includes(texto)) {
+    document.querySelectorAll('.filter-chip').forEach(c => {
+      if (GRUPO_TIPO.includes(c.textContent.trim())) c.classList.remove('on');
+    });
+    el.classList.add('on');
+  } else if (GRUPO_AREA.includes(texto)) {
+    document.querySelectorAll('.filter-chip').forEach(c => {
+      if (GRUPO_AREA.includes(c.textContent.trim())) c.classList.remove('area-on');
+    });
+    el.classList.add('area-on');
   }
+
+  aplicarFiltroRecomendadas();
 }
+
+function aplicarFiltroRecomendadas() {
+  const chipTipo = document.querySelector('.filter-chip.on');
+  const chipArea = document.querySelector('.filter-chip.area-on');
+  const tipoFiltro = chipTipo ? MAPA_TIPO[chipTipo.textContent.trim()] : null;
+  const areaFiltro = chipArea ? MAPA_AREA[chipArea.textContent.trim()] : null;
+
+  const vagas = document.querySelectorAll('#recomendadas-list .vaga');
+  let visiveis = 0;
+
+  vagas.forEach(v => {
+    const tipoOk = !tipoFiltro || v.dataset.tipo === tipoFiltro;
+    const areaOk = !areaFiltro || v.dataset.area === areaFiltro;
+    const mostrar = tipoOk && areaOk;
+    v.style.display = mostrar ? '' : 'none';
+    if (mostrar) visiveis++;
+  });
+
+  const empty = document.getElementById('recomendadas-empty');
+  if (empty) empty.style.display = visiveis === 0 ? 'block' : 'none';
+}
+
+document.addEventListener('DOMContentLoaded', aplicarFiltroRecomendadas);
 </script>
+
 </body>
 </html>

@@ -141,7 +141,6 @@ btn.addEventListener("click",async () => {
             senha: Isenha.value
         };
 
-        
         localStorage.setItem("cadastroTela", JSON.stringify(dadosTela));
         window.location.href = "cadastro-passo2.html";
 

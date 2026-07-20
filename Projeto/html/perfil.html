@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UEPB Connect — Meu perfil</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<link rel="stylesheet" href="../css/perfil.css">
+<style>
+  /* ---------------------------------------------------------------
+     Estilos próprios da tela de visualização de perfil.
+     Usa as MESMAS variáveis definidas em perfil.css
+     (--brand, --accent, --border, --bg-card, --radius-lg, ...)
+     para ficar consistente com o resto do site.
+  --------------------------------------------------------------- */
+
+  /* Hero com o resumo do perfil, no mesmo gradiente da sidebar */
+  .pv-hero {
+    background: linear-gradient(135deg, #2f5c9e 0%, var(--brand) 60%, #0d1f3d 100%);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: #fff;
+    margin-bottom: 1.25rem;
+    box-shadow: 0 10px 26px -10px rgba(13,31,61,.55);
+  }
+  .pv-hero-avatar {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: rgba(255,255,255,.16);
+    border: 2px solid rgba(255,255,255,.5);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; font-weight: 600; letter-spacing: .3px;
+    flex-shrink: 0;
+  }
+  .pv-hero-info { flex: 1; min-width: 0; }
+  .pv-hero-name { font-size: 19px; font-weight: 600; line-height: 1.25; }
+  .pv-hero-sub { font-size: 13px; color: rgba(255,255,255,.75); margin-top: 2px; }
+  .pv-hero-status {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 12px; background: rgba(255,255,255,.14);
+    border: 0.5px solid rgba(255,255,255,.3);
+    padding: 5px 12px; border-radius: 99px; font-size: 12px; font-weight: 500;
+  }
+  .pv-hero-status .dot { width: 7px; height: 7px; border-radius: 50%; background: #7CF0C2; }
+  .pv-hero-edit {
+    flex-shrink: 0; background: #fff; color: var(--brand);
+    border: none; border-radius: var(--radius-md); padding: 10px 18px;
+    font-size: 13px; font-weight: 600; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 6px;
+    text-decoration: none; font-family: inherit;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .pv-hero-edit:hover { transform: translateY(-1px); box-shadow: 0 6px 16px -4px rgba(0,0,0,.35); }
+
+  /* Linhas de informação (label: valor) reaproveitando .card do perfil.css */
+  .pv-info-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 28px; }
+  .pv-info-row {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+    padding: 10px 0; border-bottom: 0.5px solid var(--border);
+  }
+  .pv-info-grid .pv-info-row:nth-last-child(-n+1) { border-bottom: none; }
+  .pv-info-label {
+    color: var(--text-tertiary); font-size: 12px; font-weight: 500; white-space: nowrap;
+  }
+  .pv-info-label::after { content: ":"; }
+  .pv-info-value {
+    color: var(--text-primary); font-size: 13.5px; font-weight: 500;
+    text-align: right; word-break: break-word;
+  }
+  .pv-info-value.pv-empty { color: var(--text-tertiary); font-weight: 400; font-style: italic; }
+  .pv-info-value a { color: var(--brand); text-decoration: none; font-weight: 500; }
+  .pv-info-value a:hover { text-decoration: underline; }
+
+  .pv-chip-empty { color: var(--text-tertiary); font-size: 13px; font-style: italic; }
+
+  /* Links (LinkedIn / GitHub / Portfólio) com valor + ":" */
+  .pv-link-row .link-meta { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+  .pv-link-row .link-meta p { white-space: nowrap; }
+  .pv-link-row .link-meta p::after { content: ":"; }
+  .pv-link-row .link-meta span { font-size: 12.5px; color: var(--text-secondary); word-break: break-all; }
+  .pv-link-row .link-meta span.pv-empty { color: var(--text-tertiary); font-style: italic; }
+  .pv-link-row .link-meta span a { color: var(--brand); text-decoration: none; }
+  .pv-link-row .link-meta span a:hover { text-decoration: underline; }
+
+  .pv-vis-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--brand-light); color: var(--brand);
+    padding: 10px 14px; border-radius: var(--radius-md); font-size: 13px; font-weight: 500;
+  }
+  .pv-vis-badge i { font-size: 16px; }
+
+  @media (max-width: 720px) {
+    .pv-hero { flex-wrap: wrap; }
+    .pv-info-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-mark">UP</div>
+    <div class="sidebar-logo-text">UEPB Connect<span>Portal do aluno</span></div>
+  </div>
+  <a href="dashboard.html" class="nav-item"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
+  <a href="vagas.html" class="nav-item"><i class="ti ti-briefcase"></i> Vagas</a>
+  <a href="#" class="nav-item"><i class="ti ti-building"></i> Empresas</a>
+  <a href="#" class="nav-item"><i class="ti ti-heart"></i> Salvos</a>
+  <div class="nav-sep"></div>
+  <a href="perfil.html" class="nav-item active"><i class="ti ti-user"></i> Meu perfil</a>
+  <a href="#" class="nav-item"><i class="ti ti-settings"></i> Configurações</a>
+  <div class="nav-avatar">
+    <div class="av-circle">MS</div>
+    <div class="av-text"><p>Maria Silva</p><span>CC · 5º período</span></div>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <a href="dashboard.html" class="back-btn"><i class="ti ti-arrow-left"></i> Voltar</a>
+    <div class="topbar-sep"></div>
+    <div class="breadcrumb">Meu perfil</div>
+  </div>
+
+  <div class="content">
+
+    <!-- Hero do perfil -->
+    <div class="pv-hero">
+      <div class="pv-hero-avatar" id="pv-avatar">--</div>
+      <div class="pv-hero-info">
+        <div class="pv-hero-name" id="pv-nome">—</div>
+        <div class="pv-hero-sub" id="pv-curso-sub">—</div>
+        <div class="pv-hero-status"><span class="dot"></span><span id="pv-status">—</span></div>
+      </div>
+      <a href="editar-perfil.html" class="pv-hero-edit">
+        <i class="ti ti-edit" style="font-size:15px"></i> Editar perfil
+      </a>
+    </div>
+
+    <!-- Identificação -->
+    <div class="card">
+      <div class="card-title"><i class="ti ti-user"></i> Identificação</div>
+      <div class="pv-info-grid">
+        <div class="pv-info-row"><span class="pv-info-label">Nome completo</span><span class="pv-info-value" id="pv-nomeCompleto">—</span></div>
+        <div class="pv-info-row"><span class="pv-info-label">E-mail institucional</span><span class="pv-info-value" id="pv-email">—</span></div>
+        <div class="pv-info-row"><span class="pv-info-label">Telefone / WhatsApp</span><span class="pv-info-value" id="pv-telefone">—</span></div>
+      </div>
+    </div>
+
+    <!-- Dados acadêmicos -->
+    <div class="card">
+      <div class="card-title"><i class="ti ti-school"></i> Dados acadêmicos</div>
+      <div class="pv-info-grid">
+        <div class="pv-info-row"><span class="pv-info-label">Curso</span><span class="pv-info-value" id="pv-curso">—</span></div>
+        <div class="pv-info-row"><span class="pv-info-label">Período atual</span><span class="pv-info-value" id="pv-periodo">—</span></div>
+        <div class="pv-info-row"><span class="pv-info-label">Matrícula</span><span class="pv-info-value" id="pv-matricula">—</span></div>
+        <div class="pv-info-row"><span class="pv-info-label">Link do Lattes</span><span class="pv-info-value" id="pv-curriculo">—</span></div>
+      </div>
+    </div>
+
+    <!-- Áreas de afinidade -->
+    <div class="card">
+      <div class="card-title"><i class="ti ti-target"></i> Áreas de afinidade</div>
+      <div class="chips" id="pv-areas"></div>
+    </div>
+
+    <!-- Tecnologias -->
+    <div class="card">
+      <div class="card-title"><i class="ti ti-code"></i> Tecnologias</div>
+      <div class="chips" id="pv-tecnologias"></div>
+    </div>
+
+    <!-- Perfis e portfólio -->
+    <div class="card">
+      <div class="card-title"><i class="ti ti-link"></i> Perfis e portfólio</div>
+      <div class="link-row pv-link-row">
+        <div class="link-icon" style="background:#E6F1FB;color:#1a3a6e"><i class="ti ti-brand-linkedin"></i></div>
+        <div class="link-meta"><p>LinkedIn</p><span id="pv-linkedin">Não informado</span></div>
+      </div>
+      <div class="link-row pv-link-row">
+        <div class="link-icon" style="background:#EEEDFE;color:#3C3489"><i class="ti ti-brand-github"></i></div>
+        <div class="link-meta"><p>GitHub</p><span id="pv-github">Não informado</span></div>
+      </div>
+      <div class="link-row pv-link-row">
+        <div class="link-icon" style="background:#EAF3DE;color:#3B6D11"><i class="ti ti-world"></i></div>
+        <div class="link-meta"><p>Portfólio / site pessoal</p><span id="pv-portfolio">Não informado</span></div>
+      </div>
+    </div>
+
+    <!-- Visibilidade -->
+    <div class="card">
+      <div class="card-title"><i class="ti ti-eye"></i> Visibilidade do perfil</div>
+      <div class="pv-vis-badge"><i class="ti ti-shield-check"></i> <span id="pv-visibilidade">—</span></div>
+    </div>
+
+    <div class="btn-row" style="justify-content:flex-start">
+      <a href="dashboard.html"><button type="button" class="btn">Voltar ao dashboard</button></a>
+      <a href="editar-perfil.html">
+        <button type="button" class="btn btn-primary">
+          <i class="ti ti-edit" style="font-size:14px;vertical-align:-2px;margin-right:4px"></i> Editar perfil
+        </button>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script src="../js/perfil.js"></script>
+</body>
+</html>
