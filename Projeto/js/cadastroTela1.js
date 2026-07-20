@@ -125,9 +125,8 @@ btn.addEventListener("click",async () => {
             return;
         }
 
-        const telefoneNumeros = Itelefone.value.replace(/\D/g, "");
         const resultadoTelefone = await verificarDisponibilidade(
-            "telefone", telefoneNumeros
+            "telefone",  Itelefone.value.trim()
         );
         if (!resultadoTelefone.disponivel) {
             mostrarErro(resultadoTelefone.mensagem);
@@ -137,7 +136,7 @@ btn.addEventListener("click",async () => {
         const dadosTela = {
             nomeCompleto: Inome.value.trim(),
             emailInstitucional: Iemail.value.trim(),
-            telefone: telefoneNumeros,
+            telefone: Itelefone.value.trim(),
             senha: Isenha.value
         };
 

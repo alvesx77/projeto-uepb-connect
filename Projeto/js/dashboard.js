@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8080/validarToken";
+const API_URL = "http://localhost:8080/retornarDadosDashboard";
 
 
 async function carregarUsuario(){

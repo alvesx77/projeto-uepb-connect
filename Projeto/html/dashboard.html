@@ -4,55 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UEPB Connect — Dashboard</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <link rel="stylesheet" href="../CSS/indexDashboard.css">
-
-<style>
-  /* Tela de sucesso exibida após salvar as alterações do perfil */
-  #perfil-success {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-    padding: 3rem 1.5rem;
-  }
-  .ps-box {
-    background: var(--bg-card);
-    border: 0.5px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 2.75rem 2.5rem;
-    max-width: 460px;
-    width: 100%;
-    text-align: center;
-    box-shadow: 0 1px 2px rgba(15,35,70,.03), 0 1px 6px rgba(15,35,70,.03);
-  }
-  .ps-check {
-    width: 60px; height: 60px; border-radius: 50%;
-    background: #E1F5EE; color: #0F6E56;
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 1.25rem; font-size: 26px;
-  }
-  .ps-box h2 { font-size: 19px; font-weight: 500; color: var(--text-primary); margin-bottom: 6px; }
-  .ps-box > p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1.5rem; }
-  .ps-resumo {
-    text-align: left;
-    background: var(--bg);
-    border: 0.5px solid var(--border);
-    border-radius: var(--radius-md);
-    padding: .875rem 1rem;
-    margin-bottom: 1.75rem;
-  }
-  .ps-row {
-    display: flex; justify-content: space-between; gap: 10px;
-    padding: 6px 0; border-bottom: 0.5px solid var(--border);
-    font-size: 12.5px;
-  }
-  .ps-row:last-child { border-bottom: none; }
-  .ps-row span:first-child { color: var(--text-tertiary); }
-  .ps-row span:first-child::after { content: ":"; }
-  .ps-row span:last-child { color: var(--text-primary); font-weight: 500; text-align: right; }
-  .ps-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-</style>
-
 </head>
 <body>
 
@@ -76,7 +29,7 @@
 
 <div class="main">
   <div class="topbar">
-    <div class="topbar-title">Bom dia,<samp id="nome-topbar"> <i class="ti ti-sun" style="font-size:15px;vertical-align:-2px;color:#BA7517"></i></div>
+    <div class="topbar-title">Bom dia, <span id="nome-topbar"></span> <i class="ti ti-sun" style="font-size:15px;vertical-align:-2px;color:#BA7517"></i></div>
     <div class="topbar-right">
       <div class="search-box"><i class="ti ti-search"></i><input placeholder="Buscar vagas, empresas…"></div>
       <div class="notif-btn"><i class="ti ti-bell"></i><div class="notif-dot"></div></div>
@@ -133,8 +86,11 @@
           <span class="filter-chip" onclick="toggleFilter(this)">Cloud</span>
         </div>
 
-        <div class="vaga-list">
-          <a href="vaga-detalhe.html" class="vaga destaque">
+        <div class="vaga-list" id="recomendadas-list">
+          <div class="empty-state" id="recomendadas-empty" style="display:none;padding:2rem 1rem;text-align:center;color:var(--text-tertiary);font-size:13px">
+            Nenhuma vaga recomendada bate com esse filtro no momento.
+          </div>
+          <a href="vaga-detalhe.html" class="vaga destaque" data-tipo="estagio" data-area="ia-dados">
             <div class="vaga-logo" style="background:#E6F1FB;color:#0C447C">SL</div>
             <div class="vaga-body">
               <div class="vaga-top">
@@ -159,7 +115,7 @@
             </div>
           </a>
 
-          <a href="vaga-detalhe.html" class="vaga">
+          <a href="vaga-detalhe.html" class="vaga" data-tipo="estagio" data-area="ia-dados">
             <div class="vaga-logo" style="background:#EEEDFE;color:#3C3489">NX</div>
             <div class="vaga-body">
               <div class="vaga-top">
@@ -184,7 +140,7 @@
             </div>
           </a>
 
-          <a href="vaga-detalhe.html" class="vaga">
+          <a href="vaga-detalhe.html" class="vaga" data-tipo="clt" data-area="ia-dados">
             <div class="vaga-logo" style="background:#E1F5EE;color:#085041">DG</div>
             <div class="vaga-body">
               <div class="vaga-top">
@@ -209,7 +165,7 @@
             </div>
           </a>
 
-          <a href="vaga-detalhe.html" class="vaga">
+          <a href="vaga-detalhe.html" class="vaga" data-tipo="estagio" data-area="web">
             <div class="vaga-logo" style="background:#FAEEDA;color:#633806">CR</div>
             <div class="vaga-body">
               <div class="vaga-top">
@@ -251,7 +207,7 @@
           <div class="complete-bar-label"><span>Perfil completo</span><span>78%</span></div>
           <div class="complete-bar-bg"><div class="complete-bar-fill" style="width:78%"></div></div>
         </div>
-         <a href="editar-perfil.html"><button class="edit-btn"><i class="ti ti-edit" style="font-size:14px"></i> Editar perfil</button></a>
+       <a href="editar-perfil.html"><button class="edit-btn"><i class="ti ti-edit" style="font-size:14px"></i> Editar perfil</button></a>
       </div>
 
       <div class="tags-card">
@@ -285,7 +241,6 @@
     </div>
   </div>
 </div>
-
 
 <script src="../js/dashboard.js"></script>
 
@@ -337,6 +292,5 @@ function aplicarFiltroRecomendadas() {
 
 document.addEventListener('DOMContentLoaded', aplicarFiltroRecomendadas);
 </script>
-
 </body>
 </html>

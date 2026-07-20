@@ -72,7 +72,7 @@ btnLogin.addEventListener("click", async function () {
             Iemail.value.trim(),
             Isenha.value
         );
-        window.location.href = "dashboard.html";
+        window.location.href = "../html/dashboard.html";
 
     } catch (erro) {
         mostrarErro(erro.message);

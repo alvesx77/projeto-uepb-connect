@@ -1,6 +1,4 @@
-// ---------------------------------------------------------------
-// Tela de visualização do perfil (somente leitura)
-// ---------------------------------------------------------------
+const API_URL = "http://localhost:8080/retornarDadosPerfil";
 
 const STATUS_LABELS = {
     buscando: "Buscando oportunidade",
@@ -69,14 +67,33 @@ function renderChips(container, lista) {
 // Carrega os dados já salvos (localStorage por enquanto) e
 // preenche a tela inteira
 // ---------------------------------------------------------------
-function carregarPerfil() {
-    // TODO: quando a API estiver conectada, trocar por:
-    // fetch("https://SUA_API/profile/me", { headers: { Authorization: "Bearer " + token }})
-    //   .then(res => res.json())
-    //   .then(preencherTela);
-    const dados = JSON.parse(localStorage.getItem("cadastroTela")) || {};
-    console.log("Dados do perfil carregados:", dados);
-    preencherTela(dados);
+async function carregarUsuario(){
+    try{
+
+        
+        const resposta = await fetch(API_URL, {
+            method: "GET",
+            credentials: "include"
+        });
+
+
+        if(!resposta.ok){
+            window.location.href = "login.html";
+            return;
+        }
+
+       
+
+        const usuario = await resposta.json();
+        
+        console.log(usuario);
+
+        preencherTela(usuario);
+
+    }
+    catch(error){
+        console.error("erro ao buscar usuario", error)
+    }
 }
 
 function preencherTela(dados) {
@@ -98,7 +115,7 @@ function preencherTela(dados) {
     preencherTexto("pv-matricula", dados.matricula);
     preencherLink("pv-curriculo", dados.curriculo);
 
-    renderChips(document.getElementById("pv-areas"), dados.areasAfinidade);
+    renderChips(document.getElementById("pv-areas"), dados.areasAfinidades);
 
     const tecnologias = [
         ...(dados.linguagens || []),
@@ -116,4 +133,5 @@ function preencherTela(dados) {
         VIS_LABELS[dados.visibilidadePerfil] || VIS_LABELS.todos;
 }
 
-document.addEventListener("DOMContentLoaded", carregarPerfil);
+
+document.addEventListener("DOMContentLoaded",carregarUsuario);
