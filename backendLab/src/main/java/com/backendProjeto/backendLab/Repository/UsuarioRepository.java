@@ -13,8 +13,6 @@ import java.util.Optional;
 
 public interface UsuarioRepository extends JpaRepository<Usuarios,Long> {
 
-    UserDetails findByEmailInstitucional(String emailInstitucional);
-
     @Query("""
     SELECT a.nome
     FROM Usuarios u
@@ -31,6 +29,31 @@ public interface UsuarioRepository extends JpaRepository<Usuarios,Long> {
     """)
     List<String>buscarNomesLigugens(@Param("email") String email);
 
+    @Query("""
+    SELECT l.nome
+    FROM Usuarios u
+    JOIN u.frameworks l
+    WHERE u.emailInstitucional = :email
+    """)
+    List<String>buscarNomesFrameworks(@Param("email")String email);
+
+    @Query("""
+    SELECT l.nome
+    FROM Usuarios u
+    JOIN u.cloud l
+    WHERE u.emailInstitucional = :email
+    """)
+    List<String>buscarNomesClouds(@Param("email") String email);
+
+    @Query("""
+    SELECT l.nome
+    FROM Usuarios u
+    JOIN u.bancoDados l
+    WHERE u.emailInstitucional = :email
+    """)
+    List<String>buscarNomesBancosDados(@Param("email")String email);
+
+    Usuarios findByEmailInstitucional(String emailInstitucional);
     boolean existsByEmailInstitucional(String emailInstitucional);
     boolean existsByTelefone(String telefone);
     boolean existsByMatricula(String matricula);

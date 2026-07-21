@@ -16,6 +16,7 @@ public class ValidationCadastro {
 
     @RequestMapping(method = RequestMethod.GET,path = "/email")
     public ResponseEntity<?> verificarEmail(@RequestParam String valor){
+
         usuarioService.verifcarEmailInstitucional(valor);
         return ResponseEntity.ok().build();
     }

@@ -1,7 +1,6 @@
-package com.backendProjeto.backendLab.Controller.Validacao;
+package com.backendProjeto.backendLab.Controller.Dashboard;
 
-import com.backendProjeto.backendLab.DTOS.InformaçõesDashbord.InformaçõesDashbordDto;
-import com.backendProjeto.backendLab.Model.Usuarios.Linguagem;
+import com.backendProjeto.backendLab.DTOS.InformaçõesDashbord.InformacoesDashbordDto;
 import com.backendProjeto.backendLab.Model.Usuarios.Usuarios;
 import com.backendProjeto.backendLab.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/validarToken")
-public class ValidarToken {
+@RequestMapping("/retornarDadosDashboard")
+public class RetornarDadosDashboard {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<?> validarToken(@AuthenticationPrincipal Usuarios usuarioAutenticado ){
+    public ResponseEntity<?> retornaDados(@AuthenticationPrincipal Usuarios usuarioAutenticado ){
 
         if (usuarioAutenticado == null){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -33,7 +32,7 @@ public class ValidarToken {
 
         List<String> liguagens = usuarioRepository.buscarNomesLigugens(usuarioAutenticado.getEmailInstitucional());
 
-        InformaçõesDashbordDto dto = new InformaçõesDashbordDto();
+        InformacoesDashbordDto dto = new InformacoesDashbordDto();
 
         dto.setNomeCompleto(usuarioAutenticado.getNomeCompleto());
         dto.setCurso(usuarioAutenticado.getCurso());

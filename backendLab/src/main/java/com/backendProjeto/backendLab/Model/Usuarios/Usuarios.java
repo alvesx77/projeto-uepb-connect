@@ -47,13 +47,16 @@ public class Usuarios implements UserDetails {
     @Column(nullable = false,unique = true)
     private String matricula;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT",nullable = true)
     private String curriculo;
 
+    @Column(nullable = true)
     private String linkGithub;
 
+    @Column(nullable = true)
     private String linkLinkedin;
 
+    @Column(nullable = true)
     private String linkPortifolio;
 
     @Column(nullable = false)
