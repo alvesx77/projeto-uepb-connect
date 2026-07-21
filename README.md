@@ -353,11 +353,11 @@ muriloxmacedo@gmail.com
 <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white"/>
 </a>
 
-<a href="https://linkedin.com/in/">
+<a href="https://www.linkedin.com/in/nixon-alves?utm_source=share_via&utm_content=profile&utm_medium=member_ios">
 <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white"/>
 </a>
 
-📧 Nixon2@gmail.com
+ Nixonalves667@gmail.com
 
 </td>
 
