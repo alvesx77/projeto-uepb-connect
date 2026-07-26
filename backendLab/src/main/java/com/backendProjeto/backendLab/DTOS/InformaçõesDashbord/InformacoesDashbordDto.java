@@ -14,5 +14,8 @@ public class InformacoesDashbordDto {
     private String periodo;
     private List<String> areasAfinidades;
     private List<String> linguagens;
+    private List<String> frameworks;
+    private List<String> clouds;
+    private List<String> bancoDados;
 
 }

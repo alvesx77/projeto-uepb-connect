@@ -48,7 +48,15 @@ public class RefreshController {
             String novoRefreshToken = refreshTokenService.gerarSalvar(usario);
             String novoAccessToken = tokenService.generateToken(usario);
 
-            ResponseCookie cookie = ResponseCookie.from("refreshToken",novoRefreshToken)
+            ResponseCookie accessCookie = ResponseCookie.from("accessToken",novoAccessToken)
+                    .httpOnly(true)
+                    .secure(false)
+                    .sameSite("Lax")
+                    .path("/")
+                    .maxAge(Duration.ofHours(2))
+                    .build();
+
+            ResponseCookie refreshCookie = ResponseCookie.from("refreshToken",novoRefreshToken)
                     .httpOnly(true)
                     .secure(false)
                     .sameSite("Lax")
@@ -56,7 +64,8 @@ public class RefreshController {
                     .maxAge(Duration.ofDays(7))
                     .build();
 
-            response.addHeader(HttpHeaders.SET_COOKIE,cookie.toString());
+            response.addHeader(HttpHeaders.SET_COOKIE,accessCookie.toString());
+            response.addHeader(HttpHeaders.SET_COOKIE,refreshCookie.toString());
 
             return new ResponseEntity<>(new TokenDto(novoAccessToken),HttpStatus.OK);
     }
@@ -71,14 +80,24 @@ public class RefreshController {
             refreshTokenService.revogar(refreshToken);
         }
 
-        ResponseCookie cookie = ResponseCookie.from("refreshToken","")
+        ResponseCookie accessCookie = ResponseCookie.from("accessToken","")
                 .httpOnly(true)
                 .secure(false)
                 .sameSite("Lax")
                 .path("/")
                 .maxAge(0)
                 .build();
-        response.addHeader(HttpHeaders.SET_COOKIE,cookie.toString());
+
+        ResponseCookie refreshCookie = ResponseCookie.from("refreshToken","")
+                .httpOnly(true)
+                .secure(false)
+                .sameSite("Lax")
+                .path("/")
+                .maxAge(0)
+                .build();
+
+        response.addHeader(HttpHeaders.SET_COOKIE,accessCookie.toString());
+        response.addHeader(HttpHeaders.SET_COOKIE,refreshCookie.toString());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

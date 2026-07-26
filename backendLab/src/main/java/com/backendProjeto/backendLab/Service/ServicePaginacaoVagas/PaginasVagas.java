@@ -1,4 +1,4 @@
-package com.backendProjeto.backendLab.Service.TasksFuturas;
+package com.backendProjeto.backendLab.Service.ServicePaginacaoVagas;
 
 import com.backendProjeto.backendLab.Model.Usuarios.Usuarios;
 import org.springframework.data.domain.Page;
@@ -7,13 +7,11 @@ import org.springframework.data.domain.Pageable;
 import com.backendProjeto.backendLab.Repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
-public class Paginas {
+public class PaginasVagas {
     private final UsuarioRepository usuarioRepository;
 
-    public Paginas(UsuarioRepository usuarioRepository) {
+    public PaginasVagas(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
     }
 

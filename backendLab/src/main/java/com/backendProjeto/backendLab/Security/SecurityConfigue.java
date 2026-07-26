@@ -41,9 +41,12 @@ public class SecurityConfigue {
                         .requestMatchers(HttpMethod.GET,"/validacao/**").permitAll()
                         .requestMatchers(HttpMethod.GET,"/retornarDadosDashboard").authenticated()
                         .requestMatchers(HttpMethod.GET,"/retornarDadosPerfil").authenticated()
+                        .requestMatchers(HttpMethod.GET,"/retornarDadosEditarPerfil").authenticated()
+                        .requestMatchers(HttpMethod.PUT,"/editarDadosPerfil").authenticated()
                         .requestMatchers(HttpMethod.POST,"/auth/refresh").permitAll()
                         .requestMatchers(HttpMethod.POST,"/auth/logout").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/users").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET,"/vagas/retorenarVagas").authenticated()
+                        .requestMatchers(HttpMethod.POST,"/vagas/adicionarVagas").hasRole("ADMIN")
                         .anyRequest()
                         .authenticated()
                 ).addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
@@ -56,7 +59,8 @@ public class SecurityConfigue {
 
         configuration.setAllowedOrigins(List.of(
                 "http://127.0.0.1:5500",
-                "http://localhost:5500"));
+                "http://localhost:5500",
+                "http://10.220.0.107:5500"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);

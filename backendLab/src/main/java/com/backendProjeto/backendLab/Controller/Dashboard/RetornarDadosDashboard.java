@@ -32,6 +32,12 @@ public class RetornarDadosDashboard {
 
         List<String> liguagens = usuarioRepository.buscarNomesLigugens(usuarioAutenticado.getEmailInstitucional());
 
+        List<String> frameworks = usuarioRepository.buscarNomesFrameworks(usuarioAutenticado.getEmailInstitucional());
+
+        List<String> clouds = usuarioRepository.buscarNomesClouds(usuarioAutenticado.getEmailInstitucional());
+
+        List<String> bancoDados = usuarioRepository.buscarNomesBancosDados(usuarioAutenticado.getEmailInstitucional());
+
         InformacoesDashbordDto dto = new InformacoesDashbordDto();
 
         dto.setNomeCompleto(usuarioAutenticado.getNomeCompleto());
@@ -40,6 +46,9 @@ public class RetornarDadosDashboard {
         dto.setPeriodo(usuarioAutenticado.getPeriodo());
         dto.setAreasAfinidades(areas);
         dto.setLinguagens(liguagens);
+        dto.setFrameworks(frameworks);
+        dto.setClouds(clouds);
+        dto.setBancoDados(bancoDados);
 
         return ResponseEntity.ok(dto);
     }

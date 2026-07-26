@@ -32,12 +32,17 @@ public class SecurityFilter extends OncePerRequestFilter {
                var subject = tokenService.validationToke(token);
 
                if (subject != null && !subject.isEmpty()){
-                   UserDetails userDetails = usuarioRepository.findByEmailInstitucional(subject);
+                   Long id = Long.parseLong(subject);
 
-                   if (userDetails !=null){
-                       var authentication = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
+                   usuarioRepository.findById(id).ifPresent(usuario -> {
+                       var authentication = new UsernamePasswordAuthenticationToken(
+                               usuario,
+                               null,
+                               usuario.getAuthorities()
+                       );
+
                        SecurityContextHolder.getContext().setAuthentication(authentication);
-                   }
+                   });
                }
            }
            catch (RuntimeException exception){
