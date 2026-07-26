@@ -16,10 +16,10 @@ async function carregarUsuario(){
             return;
         }
 
-       
+
 
         const usuario = await resposta.json();
-        
+
         console.log(usuario);
 
         preencherDados(usuario);
@@ -33,7 +33,31 @@ async function carregarUsuario(){
 
 }
 
+function renderTagList(containerId, lista) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = "";
+
+    if (!Array.isArray(lista) || lista.length === 0) {
+        container.innerHTML = '<span class="ptag-empty">Nenhuma selecionada</span>';
+        return;
+    }
+
+    lista.forEach(item => {
+        const span = document.createElement("span");
+        span.className = "ptag tech";
+        span.textContent = item;
+        container.appendChild(span);
+    });
+}
+
 function preencherDados(usuario){
+
+    document.getElementById("nome-sidebar").textContent =
+    usuario.nomeCompleto;
+
+    document.getElementById("curso-sidebar").textContent =
+    `${usuario.curso} · ${usuario.periodo}`;
 
     document.querySelector(".profile-name").textContent =
         usuario.nomeCompleto;
@@ -70,14 +94,10 @@ function preencherDados(usuario){
         areasContainer.appendChild(span);
     });
 
-    const linguagensContainer = document.getElementById("linguagens-container");
-    linguagensContainer.innerHTML = "";
-    usuario.linguagens.forEach(linguagem => {
-        const span = document.createElement("span");
-        span.className = "ptag tech";
-        span.textContent = linguagem;
-        linguagensContainer.appendChild(span);
-    });
+    renderTagList("linguagens-container", usuario.linguagens);
+    renderTagList("frameworks-container", usuario.frameworks);
+    renderTagList("cloud-container", usuario.clouds);
+    renderTagList("bancoDados-container", usuario.bancoDados);
 
 }
 

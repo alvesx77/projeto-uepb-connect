@@ -109,6 +109,7 @@
   .ptag { font-size: 11px; padding: 3px 9px; border-radius: 99px; border: 0.5px solid; }
   .ptag.area { background: #E1F5EE; color: #085041; border-color: #9FE1CB; }
   .ptag.tech { background: #EEEDFE; color: #3C3489; border-color: #AFA9EC; }
+  .ptag-empty { font-size: 11px; color: var(--text-tertiary); font-style: italic; }
 
   .recents-card { background: var(--bg-card); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; }
   .rec-item { display: flex; align-items: center; gap: 9px; padding: 7px 0; border-bottom: 0.5px solid var(--border); }

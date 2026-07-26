@@ -19,6 +19,330 @@ const perfilSuccess = document.getElementById("perfil-success");
 const psResumo = document.getElementById("ps-resumo");
 const btnContinuarEditando = document.getElementById("btnContinuarEditando");
 
+const errorBox = document.getElementById("perfil-error");
+
+function mostrarErro(msg){
+
+    errorBox.textContent = msg;
+    errorBox.classList.add("show");
+
+}
+
+
+function esconderErro(){
+
+    errorBox.classList.remove("show");
+
+}
+
+function formatarTelefone(valor){
+
+    const digitos = valor
+        .replace(/\D/g,"")
+        .slice(0,11);
+
+
+    if(digitos.length > 10){
+        return digitos.replace(
+            /(\d{2})(\d{5})(\d{0,4})/,
+            "($1)$2-$3"
+        );
+    }
+
+
+    if(digitos.length > 6){
+
+        return digitos.replace(
+            /(\d{2})(\d{4})(\d{0,4})/,
+            "($1)$2-$3"
+        );
+
+    }
+
+
+    if(digitos.length > 2){
+
+        return digitos.replace(
+            /(\d{2})(\d{0,5})/,
+            "($1)$2"
+        );
+
+    }
+
+
+    if(digitos.length > 0){
+
+        return digitos.replace(
+            /(\d{0,2})/,
+            "($1"
+        );
+
+    }
+
+
+    return digitos;
+}
+
+Itelefone.addEventListener("input",()=>{
+    Itelefone.value = formatarTelefone(
+        Itelefone.value
+    );
+});
+
+// ---------------------------------------------------------------
+// REGEX DE VALIDAÇÃO
+// ---------------------------------------------------------------
+
+const REGEX = {
+    nome: /^[A-Za-zÀ-ÖØ-öø-ÿ']+(\s[A-Za-zÀ-ÖØ-öø-ÿ']+)+$/,
+    
+    emailInstitucional:
+        /^[\w.+-]+@(aluno|servidor)\.uepb\.edu\.br$/i,
+
+    telefone:
+        /^\(\d{2}\)\d{5}-\d{4}$/,
+
+    matricula:
+        /^\d{9}$/,
+
+    lattes:
+        /^https?:\/\/lattes\.cnpq\.br\/\d+$/i,
+
+    linkedin:
+        /^https:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9-]+\/?$/i,
+
+    github:
+        /^https:\/\/(www\.)?github\.com\/[a-zA-Z0-9-]+\/?$/i,
+
+    portfolio:
+        /^https?:\/\/(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(\/[^\s]*)?$/i
+};
+
+
+// ---------------------------------------------------------------
+// VALIDAÇÕES
+// ---------------------------------------------------------------
+
+function validarNome() {
+    return REGEX.nome.test(Inome.value.trim());
+}
+
+
+function validarEmail() {
+    return REGEX.emailInstitucional.test(
+        Iemail.value.trim()
+    );
+}
+
+
+function validarTelefone() {
+    return REGEX.telefone.test(
+        Itelefone.value.trim()
+    );
+}
+
+
+function validarCurso() {
+    return Icurso.value.trim() !== "";
+}
+
+
+function validarPeriodo() {
+    return Iperiodo.value.trim() !== "";
+}
+
+
+function validarMatricula() {
+
+    const valor = Imatricula.value.trim();
+
+    if(valor === "")
+        return true;
+
+    return REGEX.matricula.test(valor);
+}
+
+
+function validarCurriculo(){
+
+    const valor = Icurriculo.value.trim();
+
+    if(valor === "")
+        return true;
+
+    return REGEX.lattes.test(valor);
+}
+
+
+function validarLinkedin(){
+
+    const valor = Ilinkedin.value.trim();
+
+    if(valor === "")
+        return true;
+
+    return REGEX.linkedin.test(valor);
+}
+
+
+function validarGithub(){
+
+    const valor = Igithub.value.trim();
+
+    if(valor === "")
+        return true;
+
+    return REGEX.github.test(valor);
+}
+
+
+function validarPortfolio(){
+
+    const valor = Iportfolio.value.trim();
+
+    if(valor === "")
+        return true;
+
+    return REGEX.portfolio.test(valor);
+}
+
+
+function validarStatus(){
+
+    return getStatusSelecionado() !== null;
+}
+
+
+function validarAreas(){
+
+    return document.querySelectorAll(".sel-area").length > 0;
+
+}
+
+
+function validarTecnologias(){
+
+    return document.querySelectorAll(".sel-tech").length > 0;
+
+}
+
+
+
+// ---------------------------------------------------------------
+// VALIDAÇÃO GERAL
+// ---------------------------------------------------------------
+
+function validarFormularioEdicao(){
+
+    esconderErro();
+
+    if(!validarNome()){
+        mostrarErro(
+            "Informe o nome completo."
+        );
+        return false;
+    }
+
+
+    if(!validarEmail()){
+        mostrarErro(
+            "Use um email institucional UEPB válido."
+        );
+        return false;
+    }
+
+
+    if(!validarTelefone()){
+        mostrarErro(
+            "Telefone inválido. Use (99)99999-9999."
+        );
+        return false;
+    }
+
+
+    if(!validarCurso()){
+        mostrarErro(
+            "Informe o curso."
+        );
+        return false;
+    }
+
+
+    if(!validarPeriodo()){
+        mostrarErro(
+            "Informe o período."
+        );
+        return false;
+    }
+
+
+    if(!validarMatricula()){
+        mostrarErro(
+            "Matrícula inválida."
+        );
+        return false;
+    }
+
+
+    if(!validarCurriculo()){
+        mostrarErro(
+            "Currículo Lattes inválido."
+        );
+        return false;
+    }
+
+
+    if(!validarStatus()){
+        mostrarErro(
+            "Selecione sua situação de empregabilidade."
+        );
+        return false;
+    }
+
+
+    if(!validarAreas()){
+        mostrarErro(
+            "Selecione pelo menos uma área de afinidade."
+        );
+        return false;
+    }
+
+
+    if(!validarTecnologias()){
+        mostrarErro(
+            "Selecione pelo menos uma tecnologia."
+        );
+        return false;
+    }
+
+
+    if(!validarLinkedin()){
+        mostrarErro(
+            "LinkedIn inválido."
+        );
+        return false;
+    }
+
+
+    if(!validarGithub()){
+        mostrarErro(
+            "GitHub inválido."
+        );
+        return false;
+    }
+
+
+    if(!validarPortfolio()){
+        mostrarErro(
+            "Portfólio inválido."
+        );
+        return false;
+    }
+
+
+    return true;
+}
+
 const STATUS_LABELS = {
     buscando: "Buscando oportunidade",
     empregado_area: "Empregado na área",
@@ -52,10 +376,21 @@ function atualizarContadores() {
     document.getElementById("tech-count").textContent = document.querySelectorAll(".chip.sel-tech").length + " selecionadas";
 }
 
+function normalizar(str) {
+    return str
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .trim()
+        .toLowerCase();
+}
+
 function marcarChipsPorTexto(lista, seletorContainer, classeSelecao) {
     if (!Array.isArray(lista)) return;
+
+    const listaNormalizada = lista.map(normalizar);
+
     document.querySelectorAll(seletorContainer).forEach(chip => {
-        if (lista.includes(chip.textContent.trim())) {
+        if (listaNormalizada.includes(normalizar(chip.textContent))) {
             chip.classList.add(classeSelecao);
         }
     });
@@ -66,13 +401,26 @@ function marcarChipsPorTexto(lista, seletorContainer, classeSelecao) {
 // preenche o formulário inteiro
 // ---------------------------------------------------------------
 function carregarDados() {
-    // TODO: quando a API estiver conectada, trocar por:
-    // fetch("https://SUA_API/profile/me", { headers: { Authorization: "Bearer " + token }})
-    //   .then(res => res.json())
-    //   .then(preencherFormulario);
-    const dados = JSON.parse(localStorage.getItem("cadastroTela")) || {};
-    preencherFormulario(dados);
+    fetch("http://localhost:8080/retornarDadosEditarPerfil", {
+        method: "GET",
+        credentials: "include"
+    })
+    .then(res => {
+        if (res.status === 401 || res.status === 403) {
+            throw new Error("Sessão expirada, faça login novamente");
+        }
+        if (!res.ok) {
+            throw new Error("Erro ao carregar dados do perfil");
+        }
+        return res.json();
+    })
+    .then(preencherFormulario)
+    .catch(err => {
+        console.error(err);
+        mostrarToast(err.message);
+    });
 }
+
 
 function preencherFormulario(dados) {
     if (dados.nomeCompleto) Inome.value = dados.nomeCompleto;
@@ -85,6 +433,17 @@ function preencherFormulario(dados) {
     if (dados.linkLinkedin) Ilinkedin.value = dados.linkLinkedin;
     if (dados.linkGithub) Igithub.value = dados.linkGithub;
     if (dados.linkPortifolio) Iportfolio.value = dados.linkPortifolio;
+
+    const nomeSidebar = document.getElementById("nomeCompelo");
+    const periodoSidebar = document.getElementById("periodo");
+
+    if (dados.nomeCompleto && nomeSidebar) {
+        nomeSidebar.textContent = dados.nomeCompleto;
+    }
+
+    if (dados.periodo && periodoSidebar) {
+        periodoSidebar.textContent = dados.periodo;
+    }
 
     if (dados.situacaoEmpregabilidade) {
         const card = document.querySelector(`.status-card[data-value="${dados.situacaoEmpregabilidade}"]`);
@@ -197,19 +556,39 @@ if (btnContinuarEditando) {
 // Salvar alterações
 // ---------------------------------------------------------------
 btnSalvar.addEventListener("click", () => {
+
+    if(!validarFormularioEdicao()){
+        return;
+    }
+
     const dadosAtualizados = coletarDadosFormulario();
 
-    // TODO: quando a API estiver conectada, trocar por:
-    // fetch("https://SUA_API/profile/me", {
-    //   method: "PATCH",
-    //   headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
-    //   body: JSON.stringify(dadosAtualizados)
-    // })
-    //   .then(() => mostrarToast("Perfil atualizado com sucesso!"))
-    //   .catch(() => mostrarToast("Não foi possível salvar. Tente novamente."));
-
-    localStorage.setItem("cadastroTela", JSON.stringify(dadosAtualizados));
-    mostrarTelaSucesso(dadosAtualizados);
+    fetch("http://localhost:8080/editarDadosPerfil", {
+        method: "PUT",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dadosAtualizados)
+    })
+    .then(res => {
+        if (res.status === 401 || res.status === 403) {
+            throw new Error("Sessão expirada, faça login novamente");
+        }
+        if (!res.ok) {
+            return res.json()
+                .then(erro => { throw new Error(erro.message || "Erro ao salvar perfil"); })
+                .catch(() => { throw new Error("Erro ao salvar perfil"); });
+        }
+        return res.json();
+    })
+    .then(dadosSalvos => {
+        mostrarTelaSucesso(dadosSalvos);
+    })
+    .catch(err => {
+        console.error(err);
+        mostrarToast(err.message);
+    });
 });
 
 document.addEventListener("DOMContentLoaded", carregarDados);

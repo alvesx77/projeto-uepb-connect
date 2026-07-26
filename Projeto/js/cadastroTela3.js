@@ -1,5 +1,16 @@
 const btn = document.querySelector(".btn-primary");
 
+const errorBox = document.getElementById("passo3-error");
+
+function mostrarErro(msg) {
+    errorBox.textContent = msg;
+    errorBox.classList.add("show");
+}
+
+function esconderErro() {
+    errorBox.classList.remove("show");
+}
+
 function obterDados() {
     const areasAfinidade = [...document.querySelectorAll(".sel-area")]
         .map(el => el.textContent.trim());
@@ -50,14 +61,15 @@ function validarLinguagens() {
 }
 
 btn.addEventListener("click", () => {
+    esconderErro();
 
     if (!validarAreasDeAfinidade()) {
-        alert("Selecione pelo menos uma área de afinidade.");
+        mostrarErro("Selecione pelo menos uma área de afinidade.");
         return;
     }
 
     if (!validarLinguagens()) {
-        alert("Selecione pelo menos uma linguagem ou tecnologia.");
+        mostrarErro("Selecione pelo menos uma linguagem ou tecnologia.");
         return;
     }
 
