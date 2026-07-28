@@ -45,7 +45,7 @@ async function fazerLogin(email, senha) {
         throw new Error(mensagemErro || "Erro ao fazer login");
     }
 
-    return response.text(); // { id, nomeCompleto, emailInstitucional, tipoUsuario }
+    return await response.json(); // { id, nomeCompleto, emailInstitucional, tipoUsuario }
 }
 
 btnLogin.addEventListener("click", async function () {
@@ -72,6 +72,13 @@ btnLogin.addEventListener("click", async function () {
             Iemail.value.trim(),
             Isenha.value
         );
+
+        // salva o tipo do usuário
+        localStorage.setItem("tipoUsuario", dados.tipoUsuario);
+
+        // opcional
+        localStorage.setItem("nomeCompleto", dados.nomeCompleto);
+
         window.location.href = "../html/dashboard.html";
 
     } catch (erro) {

@@ -66,6 +66,12 @@ const TODAS_VAGAS = [
     }
 ];
 
+const btnNovaVaga = document.getElementById("btnNovaVaga");
+
+if (localStorage.getItem("tipoUsuario") === "ADMIN") {
+    btnNovaVaga.style.display = "flex";
+}
+
 const vagasSalvas = new Set();
 
 const searchInput = document.getElementById("search-input");
@@ -200,5 +206,19 @@ function limparFiltros() {
 }
 document.getElementById("btnLimpar").addEventListener("click", limparFiltros);
 document.getElementById("btnLimparVazio").addEventListener("click", limparFiltros);
+
+const tipoUsuario = localStorage.getItem("tipoUsuario");
+
+if (tipoUsuario === "ADMIN") {
+
+    const btn = document.getElementById("btnNovaVaga");
+
+    btn.style.display = "flex";
+
+    btn.addEventListener("click", () => {
+        window.location.href = "cadastrar-vaga.html";
+    });
+
+}
 
 aplicarFiltros();
