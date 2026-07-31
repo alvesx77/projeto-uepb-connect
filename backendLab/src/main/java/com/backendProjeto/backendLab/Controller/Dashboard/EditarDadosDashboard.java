@@ -41,6 +41,7 @@ public class EditarDadosDashboard {
                 usuarioAtualizado.getSituacaoEmpregabilidade(),
                 usuarioAtualizado.getTelefone(),
                 usuarioAtualizado.getVisibilidadePerfil());
+
         return ResponseEntity.ok(dto);
     }
 }

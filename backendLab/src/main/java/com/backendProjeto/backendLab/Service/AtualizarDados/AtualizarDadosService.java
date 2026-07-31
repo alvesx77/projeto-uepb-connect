@@ -7,6 +7,7 @@ import com.backendProjeto.backendLab.Model.Usuarios.*;
 import com.backendProjeto.backendLab.Repository.*;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +57,7 @@ public class AtualizarDadosService {
         usuario.setLinkGithub(informacoesEditarPerfilDto.getLinkGithub());
         usuario.setLinkPortifolio(informacoesEditarPerfilDto.getLinkPortifolio());
         usuario.setSituacaoEmpregabilidade(informacoesEditarPerfilDto.getSituacaoEmpregabilidade());
-
+        usuario.setUpdatedAt(LocalDateTime.now());
         atualizarAreasAfinidades(usuario,informacoesEditarPerfilDto);
         atualizarLinguagens(usuario,informacoesEditarPerfilDto);
         atualizarFrameworks(usuario,informacoesEditarPerfilDto);

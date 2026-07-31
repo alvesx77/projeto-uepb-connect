@@ -1,5 +1,6 @@
 package com.backendProjeto.backendLab.Model.Usuarios;
 
+import com.backendProjeto.backendLab.Model.Vagas.Candidatura;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
@@ -9,6 +10,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -123,6 +126,15 @@ public class Usuarios implements UserDetails {
            return List.of(new SimpleGrantedAuthority("ROLE_ALUNO"));
        }
     }
+
+    @Column(name = "created_at", insertable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at", insertable = false, updatable = false)
+    private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<Candidatura> candidaturas = new ArrayList<>();
 
     @Override
     public @Nullable String getPassword() {

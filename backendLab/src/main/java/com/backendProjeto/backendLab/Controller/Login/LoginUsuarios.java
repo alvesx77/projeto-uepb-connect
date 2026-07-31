@@ -1,5 +1,6 @@
 package com.backendProjeto.backendLab.Controller.Login;
 import com.backendProjeto.backendLab.DTOS.Login.LoginDto;
+import com.backendProjeto.backendLab.DTOS.Login.TokenDto;
 import com.backendProjeto.backendLab.Model.Usuarios.Usuarios;
 import com.backendProjeto.backendLab.Security.TokenService;
 import com.backendProjeto.backendLab.Service.RefreshTokenService.RefreshTokenService;
@@ -65,7 +66,11 @@ public class LoginUsuarios {
                                 refreshCookie.toString()
                         );
                     })
-                    .body("Login realizado com sucesso e token salvo");
+                    .body(new TokenDto(
+                            usuario.getNomeCompleto(),
+                            usuario.getTipoUsuario().name(),
+                            accsseToken
+                    ));
         }
         catch (AuthenticationException erro){
             return new ResponseEntity<>("E-mail ou senha invalida",HttpStatus.BAD_REQUEST);

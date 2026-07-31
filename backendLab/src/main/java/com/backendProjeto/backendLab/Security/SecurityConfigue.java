@@ -47,6 +47,8 @@ public class SecurityConfigue {
                         .requestMatchers(HttpMethod.POST,"/auth/logout").permitAll()
                         .requestMatchers(HttpMethod.GET,"/vagas/retorenarVagas").authenticated()
                         .requestMatchers(HttpMethod.POST,"/vagas/adicionarVagas").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/cadastrarVaga").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET,"/vagas").authenticated()
                         .anyRequest()
                         .authenticated()
                 ).addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

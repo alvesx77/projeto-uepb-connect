@@ -17,10 +17,10 @@ import java.util.List;
 @Data
 public class UsuarioDto {
 
-    @NotBlank(message = "nome completo é obrigatorio")
+    @NotBlank(message = "nomeCompleto completo é obrigatorio")
     @Pattern(
             regexp = "^[A-Za-zÀ-ÖØ-öø-ÿ']+(\\s[A-Za-zÀ-ÖØ-öø-ÿ']+)+$",
-            message = "Informe o nome completo."
+            message = "Informe o nomeCompleto completo."
     )
     private String nomeCompleto;
 
