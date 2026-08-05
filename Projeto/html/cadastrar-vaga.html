@@ -17,7 +17,7 @@
   <a href="dashboard.html" class="nav-item"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
   <a href="vagas.html" class="nav-item active"><i class="ti ti-briefcase"></i> Vagas</a>
   <a href="#" class="nav-item"><i class="ti ti-building"></i> Empresas</a>
-  <a href="#" class="nav-item"><i class="ti ti-heart"></i> Salvos</a>
+  <a href="vagas-salvas.html" class="nav-item"><i class="ti ti-heart"></i> Salvos</a>
   <div class="nav-sep"></div>
   <a href="perfil.html" class="nav-item"><i class="ti ti-user"></i> Meu perfil</a>
   <a href="#" class="nav-item"><i class="ti ti-settings"></i> Configurações</a>
@@ -83,15 +83,15 @@
 
         <div class="sec-label">Tipo de emprego <span class="req">*</span></div>
         <div class="status-grid" id="tipoEmpregoGrid">
-          <div class="status-card" data-value="ESTAGIO">
+          <div class="status-card" data-value="estagio">
             <i class="ti ti-school"></i>
             <div><p>Estágio</p><span>Vaga de estágio remunerado</span></div>
           </div>
-          <div class="status-card" data-value="CLT">
+          <div class="status-card" data-value="clt">
             <i class="ti ti-briefcase"></i>
             <div><p>CLT</p><span>Contratação formal</span></div>
           </div>
-          <div class="status-card" data-value="FREELANCER">
+          <div class="status-card" data-value="freelance">
             <i class="ti ti-file-invoice"></i>
             <div><p>Freelance / PJ</p><span>Projeto ou prestação de serviço</span></div>
           </div>
@@ -100,20 +100,48 @@
 
         <div class="sec-label">Modo de trabalho <span class="req">*</span></div>
         <div class="status-grid" id="modoTrabalhoGrid">
-          <div class="status-card" data-value="PRESENCIAL">
+          <div class="status-card" data-value="presencial">
             <i class="ti ti-building-store"></i>
             <div><p>Presencial</p><span>Trabalho no local</span></div>
           </div>
-          <div class="status-card" data-value="REMOTO">
+          <div class="status-card" data-value="remoto">
             <i class="ti ti-home"></i>
             <div><p>Remoto</p><span>Trabalho à distância</span></div>
           </div>
-          <div class="status-card" data-value="HIBRIDO">
+          <div class="status-card" data-value="hibrido">
             <i class="ti ti-adjustments"></i>
             <div><p>Híbrido</p><span>Presencial e remoto</span></div>
           </div>
         </div>
         <input type="hidden" id="modoTrabalho" name="modoTrabalho" required>
+      </div>
+
+      <!-- Detalhes da vaga (mesmas informações do card "Detalhes da vaga" exibido na tela de detalhe) -->
+      <div class="card">
+        <div class="card-title"><i class="ti ti-info-circle"></i> Detalhes da vaga</div>
+        <div class="grid2">
+          <div class="field">
+            <label for="remuneracao">Remuneração <span class="req">*</span></label>
+            <input type="text" id="remuneracao" name="remuneracao" placeholder="Ex: R$ 1.200/mês" required>
+          </div>
+          <div class="field">
+            <label for="cargaHoraria">Carga horária <span class="req">*</span></label>
+            <input type="text" id="cargaHoraria" name="cargaHoraria" placeholder="Ex: 30h/semana" required>
+          </div>
+          <div class="field">
+            <label for="duracao">Duração</label>
+            <input type="text" id="duracao" name="duracao" placeholder="Ex: 12 meses">
+          </div>
+          <div class="field">
+            <label for="beneficios">Benefícios</label>
+            <input type="text" id="beneficios" name="beneficios" placeholder="Ex: VT + VR">
+          </div>
+          <div class="field full">
+            <label for="inicioPrevisto">Início previsto</label>
+            <input type="text" id="inicioPrevisto" name="inicioPrevisto" placeholder="Ex: Julho 2026">
+          </div>
+        </div>
+        <span class="hint" style="display:block;margin-top:10px">Essas informações aparecem no card "Detalhes da vaga" na tela de detalhe da vaga.</span>
       </div>
 
       <!-- Tecnologias -->
@@ -169,7 +197,7 @@
 
         <div class="field full">
           <label for="detalhes">Detalhes adicionais</label>
-          <textarea id="detalhes" name="detalhes" rows="4" placeholder="Benefícios, carga horária, processo seletivo, etc. (opcional)"></textarea>
+          <textarea id="detalhes" name="detalhes" rows="4" placeholder="Processo seletivo, etapas, observações, etc. (opcional)"></textarea>
         </div>
       </div>
 
@@ -185,6 +213,7 @@
   </div>
 </div>
 
+<script src="../js/auth-fetch.js"></script>
 <script src="../js/cadastrar-vaga.js"></script>
 </body>
 </html>

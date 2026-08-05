@@ -64,16 +64,15 @@ function renderChips(container, lista) {
 }
 
 // ---------------------------------------------------------------
-// Carrega os dados já salvos (localStorage por enquanto) e
-// preenche a tela inteira
+// Carrega os dados já salvos e preenche a tela inteira
 // ---------------------------------------------------------------
 async function carregarUsuario(){
     try{
 
-        
-        const resposta = await fetch(API_URL, {
-            method: "GET",
-            credentials: "include"
+        // fetchComAuth (definido em auth-fetch.js) revalida o token
+        // automaticamente se a API responder 401
+        const resposta = await fetchComAuth(API_URL, {
+            method: "GET"
         });
 
 
@@ -82,10 +81,10 @@ async function carregarUsuario(){
             return;
         }
 
-       
+
 
         const usuario = await resposta.json();
-        
+
         console.log(usuario);
 
         preencherTela(usuario);
@@ -97,18 +96,6 @@ async function carregarUsuario(){
 }
 
 function preencherTela(dados) {
-
-     // Sidebar
-    document.getElementById("nome-sidebar").textContent =
-        dados.nomeCompleto || "Usuário";
-
-    document.getElementById("curso-sidebar").textContent =
-        [dados.curso, dados.periodo]
-            .filter(Boolean)
-            .join(" · ") || "Curso não informado";
-
-    // Hero
-    
     document.getElementById("pv-avatar").textContent = iniciaisDoNome(dados.nomeCompleto);
     document.getElementById("pv-nome").textContent = dados.nomeCompleto && dados.nomeCompleto.trim()
         ? dados.nomeCompleto
@@ -129,25 +116,13 @@ function preencherTela(dados) {
 
     renderChips(document.getElementById("pv-areas"), dados.areasAfinidades);
 
-    renderChips(
-        document.getElementById("pv-linguagens"),
-        dados.linguagens
-    );
-
-    renderChips(
-        document.getElementById("pv-frameworks"),
-        dados.frameworks
-    );
-
-    renderChips(
-        document.getElementById("pv-cloud"),
-        dados.cloud
-    );
-
-    renderChips(
-        document.getElementById("pv-bancoDados"),
-        dados.bancoDados
-    );
+    const tecnologias = [
+        ...(dados.linguagens || []),
+        ...(dados.frameworks || []),
+        ...(dados.cloud || []),
+        ...(dados.bancoDados || [])
+    ];
+    renderChips(document.getElementById("pv-tecnologias"), tecnologias);
 
     preencherLink("pv-linkedin", dados.linkLinkedin);
     preencherLink("pv-github", dados.linkGithub);

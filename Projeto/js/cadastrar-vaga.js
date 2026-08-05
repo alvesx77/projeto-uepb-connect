@@ -68,26 +68,37 @@ form.addEventListener("submit", async (event) => {
     }
 
     const dados = {
-        nome: document.getElementById("nome").value.trim(),
-        local: document.getElementById("local").value.trim(),
-        nomeVaga: document.getElementById("nomeVaga").value.trim(),
-        area: document.getElementById("area").value,
-        linguagens: valoresSelecionados(linguagensChips),
-        frameworks: valoresSelecionados(frameworksChips),
-        tipoEmprego: tipoEmpregoInput.value,
-        modoTrabalho: modoTrabalhoInput.value,
-        sobreVaga: document.getElementById("sobreVaga").value.trim(),
-        requisitos: document.getElementById("requisitos").value.trim(),
-        detalhes: document.getElementById("detalhes").value.trim()
-    };
+    nome: document.getElementById("nome").value.trim(),
+    local: document.getElementById("local").value.trim(),
+    nomeVaga: document.getElementById("nomeVaga").value.trim(),
+    area: document.getElementById("area").value,
+
+    linguagens: valoresSelecionados(linguagensChips),
+    frameworks: valoresSelecionados(frameworksChips),
+
+    // IMPORTANTE: converter para maiúsculo
+    tipoEmprego: tipoEmpregoInput.value.toUpperCase(),
+    modoTrabalho: modoTrabalhoInput.value.toUpperCase(),
+
+    remuneracao: document.getElementById("remuneracao").value.trim(),
+    cargaHoraria: document.getElementById("cargaHoraria").value.trim(),
+    duracao: document.getElementById("duracao").value.trim(),
+    beneficios: document.getElementById("beneficios").value.trim(),
+    inicioPrevisto: document.getElementById("inicioPrevisto").value.trim(),
+
+    sobreVaga: document.getElementById("sobreVaga").value.trim(),
+    requisitos: document.getElementById("requisitos").value.trim(),
+    detalhes: document.getElementById("detalhes").value.trim()
+};
 
     const btnSubmit = form.querySelector('button[type="submit"]');
     btnSubmit.disabled = true;
 
     try {
-        const resposta = await fetch(API_URL, {
+        // fetchComAuth (definido em auth-fetch.js) revalida o token
+        // automaticamente se a API responder 401
+        const resposta = await fetchComAuth(API_URL, {
             method: "POST",
-            credentials: "include",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(dados)
         });

@@ -1,322 +1,518 @@
-const API_URL = "http://localhost:8080/vagas";
+// ===============================================================
+// CONFIGURAÇÃO
+// ===============================================================
 
-// ===============================================================
-// VAGAS
-// ===============================================================
+const API_URL = "http://localhost:8080";
 
 let TODAS_VAGAS = [];
 
+const vagasSalvas = new Set();
+
 
 // ===============================================================
-// CARREGAR VAGAS DA API
+// ELEMENTOS DO HTML
 // ===============================================================
 
-async function carregarVagas() {
+const btnNovaVaga = document.getElementById("btnNovaVaga");
 
-    try {
+const searchInput = document.getElementById("search-input");
+const vagaList = document.getElementById("vaga-list");
+const emptyState = document.getElementById("empty-state");
+const resultsCount = document.getElementById("results-count");
+const sortSelect = document.getElementById("sortSelect");
+const matchRange = document.getElementById("matchRange");
+const matchRangeVal = document.getElementById("matchRangeVal");
 
-        const resposta = await fetch(API_URL, {
-            method: "GET",
-            credentials: "include"
-        });
 
-        if (!resposta.ok) {
-            throw new Error("Erro ao buscar vagas");
-        }
+// ===============================================================
+// USUÁRIO
+// ===============================================================
 
-        const dados = await resposta.json();
+const tipoUsuario = localStorage.getItem("tipoUsuario");
 
-        console.log("Vagas recebidas da API:", dados);
+if (tipoUsuario === "ADMIN" && btnNovaVaga) {
 
-        TODAS_VAGAS = dados.map(vaga => transformarVaga(vaga));
+    btnNovaVaga.style.display = "flex";
 
-        console.log("Vagas transformadas:", TODAS_VAGAS);
-
-        aplicarFiltros();
-
-    } catch (error) {
-
-        console.error("Erro ao carregar vagas:", error);
-
-        TODAS_VAGAS = [];
-
-        aplicarFiltros();
-    }
+    btnNovaVaga.addEventListener("click", () => {
+        window.location.href = "cadastrar-vaga.html";
+    });
 }
 
 
 // ===============================================================
-// TRANSFORMAR VAGA DA API PARA O FORMATO DO FRONTEND
+// NORMALIZA TEXTO
 // ===============================================================
 
-function transformarVaga(vaga) {
+function normalizarTexto(texto) {
 
-    const linguagens = vaga.linguagens
-        ? vaga.linguagens
-            .split(",")
-            .map(item => item.trim())
-            .filter(Boolean)
-        : [];
-
-    const frameworks = vaga.frameworks
-        ? vaga.frameworks
-            .split(",")
-            .map(item => item.trim())
-            .filter(Boolean)
-        : [];
-
-
-    // ===========================================================
-    // TAGS
-    // ===========================================================
-
-    const tags = [];
-
-    if (vaga.area) {
-        tags.push({
-            label: vaga.area,
-            tipo: "area"
-        });
+    if (texto === null || texto === undefined) {
+        return "";
     }
 
-
-    linguagens.forEach(linguagem => {
-
-        tags.push({
-            label: linguagem,
-            tipo: "tech"
-        });
-
-    });
+    return String(texto)
+        .trim()
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/\s+/g, " ");
+}
 
 
-    frameworks.forEach(framework => {
+// ===============================================================
+// NORMALIZA TIPO
+//
+// IMPORTANTE:
+//
+// HTML:
+// freelance
+//
+// API:
+// PJ
+//
+// Ambos serão tratados como:
+// pj
+// ===============================================================
 
-        tags.push({
-            label: framework,
-            tipo: "tech"
-        });
+function normalizarTipo(tipo) {
 
-    });
+    const valor = normalizarTexto(tipo);
 
+    switch (valor) {
 
-    // ===========================================================
-    // TIPO DE EMPREGO
-    // ===========================================================
+        case "freelance":
+        case "pj":
+        case "freelance / pj":
+            return "pj";
 
-    let tipo = "";
+        case "estagio":
+            return "estagio";
 
-    switch (vaga.tipoEmprego) {
+        case "clt":
+            return "clt";
 
-        case "ESTAGIO":
-            tipo = "estagio";
-            break;
+        case "temporario":
+            return "temporario";
 
-        case "CLT":
-            tipo = "clt";
-            break;
-
-        case "PJ":
-        case "FREELANCER":
-            tipo = "freelance";
-            break;
-
-        case "TRAINEE":
-            tipo = "trainee";
-            break;
-
-        case "TEMPORARIO":
-            tipo = "temporario";
-            break;
+        case "aprendiz":
+            return "aprendiz";
 
         default:
-            tipo = vaga.tipoEmprego?.toLowerCase() || "";
+            return valor;
     }
-
-
-    // ===========================================================
-    // MODO DE TRABALHO
-    // ===========================================================
-
-    const modalidade =
-        vaga.modoTrabalho?.toLowerCase() || "";
-
-
-    // ===========================================================
-    // OBJETO USADO PELO FRONTEND
-    // ===========================================================
-
-    return {
-
-        id: vaga.idVaga,
-
-        titulo: vaga.nome,
-
-        empresa: vaga.nomeEmpresa,
-
-        local: vaga.localEmpresa,
-
-        tipo: tipo,
-
-        modalidade: modalidade,
-
-        area: vaga.area,
-
-
-        // Ainda não existe cálculo de compatibilidade
-        match: 0,
-
-
-        // Ainda não existe remuneração no banco
-        remuneracao: 0,
-
-        remuneracaoTexto: "Não informado",
-
-
-        publicadoHa: "Recentemente",
-
-        diasAtras: 0,
-
-
-        tags: tags,
-
-
-        logoIniciais: gerarIniciais(vaga.nomeEmpresa),
-
-        logoBg: "#E6F1FB",
-
-        logoColor: "#0C447C"
-    };
 }
 
 
 // ===============================================================
-// GERAR INICIAIS DA EMPRESA
+// NORMALIZA MODALIDADE
+// ===============================================================
+
+function normalizarModalidade(modalidade) {
+
+    return normalizarTexto(modalidade);
+}
+
+
+// ===============================================================
+// NORMALIZA ÁREA
+// ===============================================================
+
+function normalizarArea(area) {
+
+    return normalizarTexto(area);
+}
+
+
+// ===============================================================
+// GERA INICIAIS DA EMPRESA
 // ===============================================================
 
 function gerarIniciais(nome) {
 
     if (!nome) {
-        return "??";
+        return "V";
     }
 
-    return nome
-        .split(" ")
-        .filter(Boolean)
-        .slice(0, 2)
-        .map(palavra => palavra[0])
-        .join("")
-        .toUpperCase();
+    const palavras = String(nome)
+        .trim()
+        .split(/\s+/);
+
+    if (palavras.length === 1) {
+
+        return palavras[0]
+            .substring(0, 2)
+            .toUpperCase();
+    }
+
+    return (
+        palavras[0][0] +
+        palavras[palavras.length - 1][0]
+    ).toUpperCase();
 }
 
 
 // ===============================================================
-// ADMIN
+// FORMATA TIPO DE EMPREGO
 // ===============================================================
 
-const btnNovaVaga =
-    document.getElementById("btnNovaVaga");
+function formatarTipoEmprego(tipo) {
 
-if (localStorage.getItem("tipoUsuario") === "ADMIN") {
+    const tipoNormalizado = normalizarTipo(tipo);
 
-    btnNovaVaga.style.display = "flex";
+    const tipos = {
 
-    btnNovaVaga.addEventListener("click", () => {
+        estagio: "Estágio",
 
-        window.location.href = "cadastrar-vaga.html";
+        clt: "CLT",
 
-    });
+        pj: "Freelance / PJ",
+
+        temporario: "Temporário",
+
+        aprendiz: "Aprendiz"
+    };
+
+    return (
+        tipos[tipoNormalizado] ||
+        tipo ||
+        "Não informado"
+    );
 }
 
 
 // ===============================================================
-// ELEMENTOS DA TELA
+// FORMATA MODALIDADE
 // ===============================================================
 
-const vagasSalvas = new Set();
+function formatarModalidade(modalidade) {
 
-const searchInput =
-    document.getElementById("search-input");
+    const modalidadeNormalizada =
+        normalizarModalidade(modalidade);
 
-const vagaList =
-    document.getElementById("vaga-list");
+    const modalidades = {
 
-const emptyState =
-    document.getElementById("empty-state");
+        presencial: "Presencial",
 
-const resultsCount =
-    document.getElementById("results-count");
+        remoto: "Remoto",
 
-const sortSelect =
-    document.getElementById("sortSelect");
+        hibrido: "Híbrido"
+    };
 
-const matchRange =
-    document.getElementById("matchRange");
-
-const matchRangeVal =
-    document.getElementById("matchRangeVal");
+    return (
+        modalidades[modalidadeNormalizada] ||
+        modalidade ||
+        "Não informado"
+    );
+}
 
 
 // ===============================================================
-// LER FILTROS
+// CRIA TAGS
+// ===============================================================
+
+function criarTags(vaga) {
+
+    const tags = [];
+
+    if (vaga.tipoEmprego) {
+
+        tags.push({
+            tipo: "tipo",
+            label: formatarTipoEmprego(vaga.tipoEmprego)
+        });
+    }
+
+    if (vaga.modoTrabalho) {
+
+        tags.push({
+            tipo: "modalidade",
+            label: formatarModalidade(vaga.modoTrabalho)
+        });
+    }
+
+    if (vaga.area) {
+
+        tags.push({
+            tipo: "area",
+            label: vaga.area
+        });
+    }
+
+    return tags;
+}
+
+
+// ===============================================================
+// CONVERTE VAGA DA API
+// ===============================================================
+
+function converterVaga(vaga, index) {
+
+    return {
+
+        id: vaga.idVaga,
+
+        titulo:
+            vaga.nome ||
+            "Vaga sem título",
+
+        empresa:
+            vaga.nomeEmpresa ||
+            "Empresa não informada",
+
+        local:
+            vaga.localEmpresa ||
+            "Local não informado",
+
+        // =======================================================
+        // TIPO
+        //
+        // PJ      -> pj
+        // freelance -> pj
+        // ESTAGIO -> estagio
+        // CLT     -> clt
+        // =======================================================
+
+        tipo:
+            normalizarTipo(
+                vaga.tipoEmprego
+            ),
+
+        // =======================================================
+        // MODALIDADE
+        // =======================================================
+
+        modalidade:
+            normalizarModalidade(
+                vaga.modoTrabalho
+            ),
+
+        // =======================================================
+        // ÁREA
+        // =======================================================
+
+        area:
+            normalizarArea(
+                vaga.area
+            ),
+
+        match:
+            Number(vaga.match ?? 0),
+
+        remuneracao:
+            Number(vaga.remuneracao ?? 0),
+
+        remuneracaoTexto:
+            vaga.remuneracaoTexto ||
+            "A combinar",
+
+        publicadoHa:
+            vaga.publicadoHa ||
+            "Recentemente",
+
+        diasAtras:
+            Number(
+                vaga.diasAtras ?? index
+            ),
+
+        logoIniciais:
+            vaga.logoIniciais ||
+            gerarIniciais(
+                vaga.nomeEmpresa
+            ),
+
+        logoBg:
+            vaga.logoBg ||
+            "#eeeeee",
+
+        logoColor:
+            vaga.logoColor ||
+            "#333333",
+
+        tags:
+            vaga.tags ||
+            criarTags(vaga),
+
+        detalhes:
+            vaga.detalhes || "",
+
+        frameworks:
+            vaga.frameworks || "",
+
+        linguagens:
+            vaga.linguagens || "",
+
+        requisitos:
+            vaga.requisitos || "",
+
+        sobreVaga:
+            vaga.sobreVaga || "",
+
+        idEmpresa:
+            vaga.idEmpresa
+    };
+}
+
+
+// ===============================================================
+// LÊ FILTROS ATIVOS
 // ===============================================================
 
 function lerFiltrosAtivos() {
 
-    const porGrupo = (grupo) => {
+    // ===========================================================
+    // TIPOS
+    //
+    // Aqui está a correção principal.
+    //
+    // HTML:
+    // value="freelance"
+    //
+    // vira:
+    // pj
+    //
+    // API:
+    // PJ
+    //
+    // também vira:
+    // pj
+    // ===========================================================
 
-        return [
-            ...document.querySelectorAll(
-                `input[data-group="${grupo}"]:checked`
-            )
-        ].map(input => input.value);
+    const tiposSelecionados = [
+        ...document.querySelectorAll(
+            'input[data-group="tipo"]:checked'
+        )
+    ].map(input => {
 
-    };
+        return normalizarTipo(
+            input.value
+        );
+
+    });
+
+
+    // ===========================================================
+    // MODALIDADES
+    // ===========================================================
+
+    const modalidadesSelecionadas = [
+        ...document.querySelectorAll(
+            'input[data-group="modalidade"]:checked'
+        )
+    ].map(input => {
+
+        return normalizarModalidade(
+            input.value
+        );
+
+    });
+
+
+    // ===========================================================
+    // ÁREAS
+    // ===========================================================
+
+    const areasSelecionadas = [
+        ...document.querySelectorAll(
+            'input[data-group="area"]:checked'
+        )
+    ].map(input => {
+
+        return normalizarArea(
+            input.value
+        );
+
+    });
 
 
     return {
 
         busca:
-            searchInput.value
-                .trim()
-                .toLowerCase(),
+            normalizarTexto(
+                searchInput?.value || ""
+            ),
 
         tipos:
-            porGrupo("tipo"),
+            tiposSelecionados,
 
         modalidades:
-            porGrupo("modalidade"),
+            modalidadesSelecionadas,
 
         areas:
-            porGrupo("area"),
+            areasSelecionadas,
 
         matchMinimo:
-            Number(matchRange.value),
+            Number(
+                matchRange?.value || 0
+            ),
 
         ordenar:
-            sortSelect.value
+            sortSelect?.value ||
+            "recentes"
     };
 }
 
 
 // ===============================================================
-// VERIFICAR FILTROS
+// VERIFICA SE A VAGA PASSA NOS FILTROS
 // ===============================================================
 
 function vagaPassaNoFiltro(vaga, filtros) {
 
+    // ===========================================================
+    // BUSCA
+    // ===========================================================
+
+    const titulo =
+        normalizarTexto(vaga.titulo);
+
+    const empresa =
+        normalizarTexto(vaga.empresa);
+
+    const area =
+        normalizarArea(vaga.area);
+
+
     if (
         filtros.busca &&
-        !(
-            vaga.titulo
-                .toLowerCase()
-                .includes(filtros.busca)
+        !titulo.includes(filtros.busca) &&
+        !empresa.includes(filtros.busca) &&
+        !area.includes(filtros.busca)
+    ) {
 
-            ||
+        return false;
+    }
 
-            vaga.empresa
-                .toLowerCase()
-                .includes(filtros.busca)
+
+    // ===========================================================
+    // TIPO
+    // ===========================================================
+
+    const tipoVaga =
+        normalizarTipo(vaga.tipo);
+
+
+    if (
+        filtros.tipos.length &&
+        !filtros.tipos.includes(tipoVaga)
+    ) {
+
+        return false;
+    }
+
+
+    // ===========================================================
+    // MODALIDADE
+    // ===========================================================
+
+    const modalidadeVaga =
+        normalizarModalidade(vaga.modalidade);
+
+
+    if (
+        filtros.modalidades.length &&
+        !filtros.modalidades.includes(
+            modalidadeVaga
         )
     ) {
 
@@ -324,34 +520,31 @@ function vagaPassaNoFiltro(vaga, filtros) {
     }
 
 
-    if (
-        filtros.tipos.length &&
-        !filtros.tipos.includes(vaga.tipo)
-    ) {
+    // ===========================================================
+    // ÁREA
+    // ===========================================================
 
-        return false;
-    }
-
-
-    if (
-        filtros.modalidades.length &&
-        !filtros.modalidades.includes(vaga.modalidade)
-    ) {
-
-        return false;
-    }
+    const areaVaga =
+        normalizarArea(vaga.area);
 
 
     if (
         filtros.areas.length &&
-        !filtros.areas.includes(vaga.area)
+        !filtros.areas.includes(areaVaga)
     ) {
 
         return false;
     }
 
 
-    if (vaga.match < filtros.matchMinimo) {
+    // ===========================================================
+    // MATCH
+    // ===========================================================
+
+    if (
+        Number(vaga.match) <
+        Number(filtros.matchMinimo)
+    ) {
 
         return false;
     }
@@ -362,47 +555,48 @@ function vagaPassaNoFiltro(vaga, filtros) {
 
 
 // ===============================================================
-// ORDENAR
+// ORDENA VAGAS
 // ===============================================================
 
 function ordenarVagas(lista, criterio) {
 
     const copia = [...lista];
 
-
     if (criterio === "match") {
 
         copia.sort(
-            (a, b) => b.match - a.match
+            (a, b) =>
+                Number(b.match) -
+                Number(a.match)
         );
 
     }
-
 
     else if (criterio === "salario") {
 
         copia.sort(
-            (a, b) => b.remuneracao - a.remuneracao
+            (a, b) =>
+                Number(b.remuneracao) -
+                Number(a.remuneracao)
         );
 
     }
-
 
     else {
 
         copia.sort(
-            (a, b) => a.diasAtras - b.diasAtras
+            (a, b) =>
+                Number(a.diasAtras) -
+                Number(b.diasAtras)
         );
-
     }
-
 
     return copia;
 }
 
 
 // ===============================================================
-// HTML DO CARD
+// RENDERIZA CARD
 // ===============================================================
 
 function vagaCardHtml(v) {
@@ -412,163 +606,124 @@ function vagaCardHtml(v) {
             ? "match-high"
             : "match-med";
 
-
     const savedClass =
-        vagasSalvas.has(v.id)
+        vagasSalvas.has(String(v.id))
             ? " saved"
             : "";
 
-
     const tagsHtml =
-        v.tags
-            .map(tag =>
-                `<span class="vtag ${tag.tipo}">
+        (v.tags || [])
+            .map(tag => `
+                <span class="vtag ${tag.tipo}">
                     ${tag.label}
-                </span>`
-            )
+                </span>
+            `)
             .join("");
 
 
     return `
 
-      <a
-        href="vaga-detalhe.html?id=${v.id}"
-        class="vaga"
-        data-vaga-id="${v.id}"
-      >
-
-        <div
-            class="vaga-logo"
-            style="
-                background:${v.logoBg};
-                color:${v.logoColor}
-            "
+        <a
+            href="vaga-detalhe.html?id=${encodeURIComponent(v.id)}"
+            class="vaga"
+            data-vaga-id="${v.id}"
         >
-            ${v.logoIniciais}
-        </div>
+
+            <div
+                class="vaga-logo"
+                style="
+                    background:${v.logoBg};
+                    color:${v.logoColor}
+                "
+            >
+                ${v.logoIniciais}
+            </div>
 
 
-        <div class="vaga-body">
+            <div class="vaga-body">
 
-            <div class="vaga-top">
+                <div class="vaga-top">
 
-                <div>
+                    <div>
 
-                    <div class="vaga-title">
-                        ${v.titulo}
+                        <div class="vaga-title">
+                            ${v.titulo}
+                        </div>
+
+                        <div class="vaga-company">
+                            ${v.empresa} · ${v.local}
+                        </div>
+
                     </div>
 
-                    <div class="vaga-company">
-                        ${v.empresa} · ${v.local}
+
+                    <div class="match-badge ${matchClass}">
+
+                        <i
+                            class="ti ti-bolt"
+                            style="font-size:11px"
+                        ></i>
+
+                        ${v.match}% match
+
                     </div>
 
                 </div>
 
 
-                <div class="match-badge ${matchClass}">
+                <div class="vaga-tags">
+                    ${tagsHtml}
+                </div>
 
-                    <i
-                        class="ti ti-bolt"
-                        style="
-                            font-size:11px
+
+                <div class="vaga-footer">
+
+                    <span class="vaga-meta">
+
+                        <i class="ti ti-coin"></i>
+
+                        ${v.remuneracaoTexto}
+
+                    </span>
+
+
+                    <span class="vaga-meta">
+
+                        <i class="ti ti-clock"></i>
+
+                        ${v.publicadoHa}
+
+                    </span>
+
+
+                    <button
+                        class="save-btn${savedClass}"
+                        onclick="
+                            return alternarSalvar(
+                                event,
+                                this,
+                                '${v.id}'
+                            )
                         "
-                    ></i>
+                        aria-label="Salvar"
+                    >
 
-                    ${v.match}% match
+                        <i class="ti ti-heart"></i>
+
+                    </button>
 
                 </div>
 
             </div>
 
-
-            <div class="vaga-tags">
-
-                ${tagsHtml}
-
-            </div>
-
-
-            <div class="vaga-footer">
-
-                <span class="vaga-meta">
-
-                    <i class="ti ti-coin"></i>
-
-                    ${v.remuneracaoTexto}
-
-                </span>
-
-
-                <span class="vaga-meta">
-
-                    <i class="ti ti-clock"></i>
-
-                    ${v.publicadoHa}
-
-                </span>
-
-
-                <button
-                    class="save-btn${savedClass}"
-                    onclick="
-                        return alternarSalvar(
-                            event,
-                            this,
-                            '${v.id}'
-                        )
-                    "
-                    aria-label="Salvar"
-                >
-
-                    <i class="ti ti-heart"></i>
-
-                </button>
-
-            </div>
-
-        </div>
-
-      </a>
+        </a>
 
     `;
 }
 
 
 // ===============================================================
-// SALVAR VAGA
-// ===============================================================
-
-function alternarSalvar(event, btn, vagaId) {
-
-    event.preventDefault();
-
-
-    if (vagasSalvas.has(vagaId)) {
-
-        vagasSalvas.delete(vagaId);
-
-        btn.classList.remove("saved");
-
-    }
-
-    else {
-
-        vagasSalvas.add(vagaId);
-
-        btn.classList.add("saved");
-
-    }
-
-
-    return false;
-}
-
-
-window.alternarSalvar = alternarSalvar;
-
-
-// ===============================================================
-// APLICAR FILTROS
+// APLICA FILTROS
 // ===============================================================
 
 function aplicarFiltros() {
@@ -592,48 +747,334 @@ function aplicarFiltros() {
         );
 
 
-    resultsCount.textContent =
-        filtradas.length;
+    if (resultsCount) {
+
+        resultsCount.textContent =
+            filtradas.length;
+    }
 
 
     if (filtradas.length === 0) {
 
-        vagaList.innerHTML = "";
+        if (vagaList) {
+            vagaList.innerHTML = "";
+        }
 
-        emptyState.classList.add("show");
+        if (emptyState) {
+            emptyState.classList.add("show");
+        }
 
         return;
     }
 
 
-    emptyState.classList.remove("show");
+    if (emptyState) {
+        emptyState.classList.remove("show");
+    }
 
 
-    vagaList.innerHTML =
-        filtradas
-            .map(vaga => vagaCardHtml(vaga))
-            .join("");
+    if (vagaList) {
+
+        vagaList.innerHTML =
+            filtradas
+                .map(vagaCardHtml)
+                .join("");
+    }
 }
 
 
 // ===============================================================
-// BUSCA
+// CARREGA VAGAS DA API
+// ===============================================================
+
+async function carregarVagas() {
+
+    try {
+
+        console.log("Buscando vagas na API...");
+
+
+        const resposta =
+            await fetchComAuth(
+                `${API_URL}/vagas`,
+                {
+                    method: "GET"
+                }
+            );
+
+
+        if (!resposta.ok) {
+
+            throw new Error(
+                `Erro ao buscar vagas: ${resposta.status}`
+            );
+        }
+
+
+        const dados =
+            await resposta.json();
+
+
+        console.log(
+            "Vagas recebidas da API:",
+            dados
+        );
+
+
+        if (!Array.isArray(dados)) {
+
+            throw new Error(
+                "A API não retornou uma lista."
+            );
+        }
+
+
+        TODAS_VAGAS =
+            dados.map(
+                (vaga, index) =>
+                    converterVaga(
+                        vaga,
+                        index
+                    )
+            );
+
+
+        console.log(
+            "Vagas convertidas:",
+            TODAS_VAGAS
+        );
+
+
+        console.log(
+            "Tipos disponíveis:",
+            TODAS_VAGAS.map(
+                vaga => vaga.tipo
+            )
+        );
+
+
+        console.log(
+            "Modalidades disponíveis:",
+            TODAS_VAGAS.map(
+                vaga => vaga.modalidade
+            )
+        );
+
+
+        console.log(
+            "Áreas disponíveis:",
+            TODAS_VAGAS.map(
+                vaga => vaga.area
+            )
+        );
+
+
+        aplicarFiltros();
+
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar vagas:",
+            erro
+        );
+
+
+        TODAS_VAGAS = [];
+
+
+        if (resultsCount) {
+            resultsCount.textContent = "0";
+        }
+
+
+        if (vagaList) {
+            vagaList.innerHTML = "";
+        }
+
+
+        if (emptyState) {
+            emptyState.classList.add("show");
+        }
+    }
+}
+
+
+// ===============================================================
+// CARREGA VAGAS SALVAS
+// ===============================================================
+
+async function carregarVagasSalvas() {
+
+    try {
+
+        const resposta =
+            await fetchComAuth(
+                `${API_URL}/vagas/salvas`
+            );
+
+
+        if (!resposta.ok) {
+
+            console.warn(
+                "Não foi possível carregar vagas salvas."
+            );
+
+            return;
+        }
+
+
+        const idsSalvos =
+            await resposta.json();
+
+
+        if (Array.isArray(idsSalvos)) {
+
+            idsSalvos.forEach(id => {
+
+                vagasSalvas.add(
+                    String(id)
+                );
+
+            });
+        }
+
+
+        aplicarFiltros();
+
+
+    } catch (erro) {
+
+        console.warn(
+            "Erro ao carregar vagas salvas:",
+            erro
+        );
+    }
+}
+
+
+// ===============================================================
+// SALVAR / REMOVER VAGA
+// ===============================================================
+
+async function alternarSalvar(
+    event,
+    btn,
+    vagaId
+) {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+
+    const id =
+        String(vagaId);
+
+
+    const estavaSalva =
+        vagasSalvas.has(id);
+
+
+    // Atualização otimista
+
+    if (estavaSalva) {
+
+        vagasSalvas.delete(id);
+
+        btn.classList.remove("saved");
+
+    } else {
+
+        vagasSalvas.add(id);
+
+        btn.classList.add("saved");
+    }
+
+
+    try {
+
+        const resposta =
+            await fetchComAuth(
+
+                `${API_URL}/vagas/${encodeURIComponent(id)}/salvar`,
+
+                {
+                    method:
+                        estavaSalva
+                            ? "DELETE"
+                            : "POST"
+                }
+            );
+
+
+        if (!resposta.ok) {
+
+            throw new Error(
+                `Falha ao salvar vaga: ${resposta.status}`
+            );
+        }
+
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao salvar vaga:",
+            erro
+        );
+
+
+        // Desfaz alteração otimista
+
+        if (estavaSalva) {
+
+            vagasSalvas.add(id);
+
+            btn.classList.add("saved");
+
+        } else {
+
+            vagasSalvas.delete(id);
+
+            btn.classList.remove("saved");
+        }
+    }
+
+
+    return false;
+}
+
+
+window.alternarSalvar =
+    alternarSalvar;
+
+
+// ===============================================================
+// PESQUISA
 // ===============================================================
 
 let debounceTimer;
 
 
-searchInput.addEventListener("input", () => {
+if (searchInput) {
 
-    clearTimeout(debounceTimer);
+    searchInput.addEventListener(
+        "input",
+        () => {
+
+            clearTimeout(
+                debounceTimer
+            );
 
 
-    debounceTimer = setTimeout(
-        aplicarFiltros,
-        250
+            debounceTimer =
+                setTimeout(
+                    aplicarFiltros,
+                    250
+                );
+
+        }
     );
-
-});
+}
 
 
 // ===============================================================
@@ -641,7 +1082,9 @@ searchInput.addEventListener("input", () => {
 // ===============================================================
 
 document
-    .querySelectorAll('input[data-group]')
+    .querySelectorAll(
+        "input[data-group]"
+    )
     .forEach(input => {
 
         input.addEventListener(
@@ -656,27 +1099,37 @@ document
 // ORDENAÇÃO
 // ===============================================================
 
-sortSelect.addEventListener(
-    "change",
-    aplicarFiltros
-);
+if (sortSelect) {
+
+    sortSelect.addEventListener(
+        "change",
+        aplicarFiltros
+    );
+}
 
 
 // ===============================================================
-// COMPATIBILIDADE
+// RANGE DE MATCH
 // ===============================================================
 
-matchRange.addEventListener(
-    "input",
-    () => {
+if (matchRange) {
 
-        matchRangeVal.textContent =
-            matchRange.value + "%";
+    matchRange.addEventListener(
+        "input",
+        () => {
 
-        aplicarFiltros();
+            if (matchRangeVal) {
 
-    }
-);
+                matchRangeVal.textContent =
+                    matchRange.value + "%";
+            }
+
+
+            aplicarFiltros();
+
+        }
+    );
+}
 
 
 // ===============================================================
@@ -685,11 +1138,15 @@ matchRange.addEventListener(
 
 function limparFiltros() {
 
-    searchInput.value = "";
+    if (searchInput) {
+        searchInput.value = "";
+    }
 
 
     document
-        .querySelectorAll('input[data-group]')
+        .querySelectorAll(
+            "input[data-group]"
+        )
         .forEach(input => {
 
             input.checked = false;
@@ -697,36 +1154,59 @@ function limparFiltros() {
         });
 
 
-    matchRange.value = 0;
+    if (matchRange) {
+        matchRange.value = 0;
+    }
 
-    matchRangeVal.textContent = "0%";
 
-    sortSelect.value = "recentes";
+    if (matchRangeVal) {
+        matchRangeVal.textContent = "0%";
+    }
+
+
+    if (sortSelect) {
+        sortSelect.value = "recentes";
+    }
 
 
     aplicarFiltros();
 }
 
 
-document
-    .getElementById("btnLimpar")
-    .addEventListener(
+// ===============================================================
+// BOTÕES DE LIMPAR
+// ===============================================================
+
+const btnLimpar =
+    document.getElementById("btnLimpar");
+
+
+if (btnLimpar) {
+
+    btnLimpar.addEventListener(
         "click",
         limparFiltros
     );
+}
 
 
-document
-    .getElementById("btnLimparVazio")
-    .addEventListener(
+const btnLimparVazio =
+    document.getElementById("btnLimparVazio");
+
+
+if (btnLimparVazio) {
+
+    btnLimparVazio.addEventListener(
         "click",
         limparFiltros
     );
+}
 
 
 // ===============================================================
-// INICIAR
+// INICIALIZAÇÃO
 // ===============================================================
 
 carregarVagas();
 
+carregarVagasSalvas();

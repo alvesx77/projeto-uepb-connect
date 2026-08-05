@@ -5,9 +5,10 @@ async function carregarUsuario(){
 
     try {
 
-        const resposta = await fetch(API_URL, {
-            method: "GET",
-            credentials: "include"
+        // fetchComAuth (definido em auth-fetch.js) revalida o token
+        // automaticamente se a API responder 401
+        const resposta = await fetchComAuth(API_URL, {
+            method: "GET"
         });
 
 
@@ -53,12 +54,6 @@ function renderTagList(containerId, lista) {
 
 function preencherDados(usuario){
 
-    document.getElementById("nome-sidebar").textContent =
-    usuario.nomeCompleto;
-
-    document.getElementById("curso-sidebar").textContent =
-    `${usuario.curso} · ${usuario.periodo}`;
-
     document.querySelector(".profile-name").textContent =
         usuario.nomeCompleto;
 
@@ -96,7 +91,7 @@ function preencherDados(usuario){
 
     renderTagList("linguagens-container", usuario.linguagens);
     renderTagList("frameworks-container", usuario.frameworks);
-    renderTagList("cloud-container", usuario.clouds);
+    renderTagList("cloud-container", usuario.cloud);
     renderTagList("bancoDados-container", usuario.bancoDados);
 
 }
