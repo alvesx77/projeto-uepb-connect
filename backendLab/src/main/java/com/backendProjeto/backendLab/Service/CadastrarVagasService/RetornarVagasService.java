@@ -38,4 +38,28 @@ public class RetornarVagasService {
                 ))
                 .toList();
     }
+
+    @Transactional(readOnly = true)
+    public VagasResponseDto buscarPorId(Long id) {
+
+        return vagasRepository.findById(id)
+                .map(vaga -> new VagasResponseDto(
+                        vaga.getIdVaga(),
+                        vaga.getEmpresa().getIdEmpresa(),
+                        vaga.getEmpresa().getNome(),
+                        vaga.getEmpresa().getLocal(),
+                        vaga.getNome(),
+                        vaga.getArea(),
+                        vaga.getLinguagens(),
+                        vaga.getFrameworks(),
+                        vaga.getTipoEmprego(),
+                        vaga.getModoTrabalho(),
+                        vaga.getSobreVaga(),
+                        vaga.getRequisitos(),
+                        vaga.getDetalhes()
+                ))
+                .orElseThrow(() ->
+                        new RuntimeException("Vaga não encontrada")
+                );
+    }
 }

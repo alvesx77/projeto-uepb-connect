@@ -1,6 +1,6 @@
-package com.backendProjeto.backendLab.Controller.Vagas;
+package com.backendProjeto.backendLab.Controller.Excluir;
 
-import com.backendProjeto.backendLab.Service.ServicePaginacaoVagas.PaginasVagas;
+import com.backendProjeto.backendLab.Service.Excluir.PaginasVagas;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;

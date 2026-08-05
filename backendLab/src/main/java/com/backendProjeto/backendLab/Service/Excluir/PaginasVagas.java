@@ -1,4 +1,4 @@
-package com.backendProjeto.backendLab.Service.ServicePaginacaoVagas;
+package com.backendProjeto.backendLab.Service.Excluir;
 
 import com.backendProjeto.backendLab.Model.Usuarios.Usuarios;
 import org.springframework.data.domain.Page;

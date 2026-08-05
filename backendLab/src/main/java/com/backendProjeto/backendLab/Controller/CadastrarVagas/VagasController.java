@@ -2,7 +2,7 @@ package com.backendProjeto.backendLab.Controller.CadastrarVagas;
 
 import com.backendProjeto.backendLab.DTOS.Vagas.ReceberVagas;
 import com.backendProjeto.backendLab.Model.Vagas.Vagas;
-import com.backendProjeto.backendLab.Service.CadastrarVagasService.VagasService;
+import com.backendProjeto.backendLab.Service.CadastrarVagasService.SalvaVagasService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/cadastrarVaga")
 public class VagasController {
 
-    private final VagasService vagasService;
+    private final SalvaVagasService vagasService;
 
-    public VagasController(VagasService vagasService) {
+    public VagasController(SalvaVagasService vagasService) {
         this.vagasService = vagasService;
     }
 

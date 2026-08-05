@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class VagasService {
+public class SalvaVagasService {
 
     private final VagasRepository vagasRepository;
     private final EmpresasRepository empresasRepository;
 
-    public VagasService(
+    public SalvaVagasService(
             VagasRepository vagasRepository,
             EmpresasRepository empresasRepository
     ) {
@@ -60,6 +60,12 @@ public class VagasService {
 
         vaga.setTipoEmprego(dados.getTipoEmprego());
         vaga.setModoTrabalho(dados.getModoTrabalho());
+
+        vaga.setRemuneracao(dados.getRemuneracao());
+        vaga.setCargaHoraria(dados.getCargaHoraria());
+        vaga.setDuracao(dados.getDuracao());
+        vaga.setBeneficios(dados.getBeneficios());
+        vaga.setInicioPrevisto(dados.getInicioPrevisto());
 
         vaga.setSobreVaga(dados.getSobreVaga());
         vaga.setRequisitos(dados.getRequisitos());
