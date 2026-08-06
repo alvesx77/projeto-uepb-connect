@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UEPB Connect — Cadastrar vaga</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<link rel="stylesheet" href="../css/cadastrar-vaga.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-mark">UP</div>
+    <div class="sidebar-logo-text">UEPB Connect<span>Portal do aluno</span></div>
+  </div>
+  <a href="dashboard.html" class="nav-item"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
+  <a href="vagas.html" class="nav-item active"><i class="ti ti-briefcase"></i> Vagas</a>
+  <a href="#" class="nav-item"><i class="ti ti-building"></i> Empresas</a>
+  <a href="vagas-salvas.html" class="nav-item"><i class="ti ti-heart"></i> Salvos</a>
+  <div class="nav-sep"></div>
+  <a href="perfil.html" class="nav-item"><i class="ti ti-user"></i> Meu perfil</a>
+  <a href="#" class="nav-item"><i class="ti ti-settings"></i> Configurações</a>
+  <div class="nav-avatar">
+    <div class="av-circle">MS</div>
+    <div class="av-text"><p>Maria Silva</p><span>CC · 5º período</span></div>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <a href="vagas.html" class="back-btn"><i class="ti ti-arrow-left"></i> Voltar</a>
+    <div class="topbar-sep"></div>
+    <div class="breadcrumb">Cadastrar vaga</div>
+  </div>
+
+  <div class="content">
+
+    <div class="page-head">
+      <h1>Cadastrar nova vaga</h1>
+      <p>Preencha as informações abaixo para publicar uma oportunidade para os alunos.</p>
+    </div>
+
+    <div class="toast" id="toast"><i class="ti ti-circle-check"></i> <span>Vaga cadastrada com sucesso!</span></div>
+
+    <form id="form-vaga">
+
+      <!-- Empresa e vaga -->
+      <div class="card">
+        <div class="card-title"><i class="ti ti-building"></i> Empresa e vaga</div>
+        <div class="grid2">
+          <div class="field">
+            <label for="nome">Nome da empresa <span class="req">*</span></label>
+            <input type="text" id="nome" name="nome" placeholder="Ex: SertãoLabs" required>
+          </div>
+          <div class="field">
+            <label for="local">Local <span class="req">*</span></label>
+            <input type="text" id="local" name="local" placeholder="Ex: Campina Grande, PB ou Remoto" required>
+          </div>
+          <div class="field full">
+            <label for="nomeVaga">Nome da vaga <span class="req">*</span></label>
+            <input type="text" id="nomeVaga" name="nomeVaga" placeholder="Ex: Estágio em ciência de dados" required>
+          </div>
+        </div>
+      </div>
+
+      <!-- Classificação -->
+      <div class="card">
+        <div class="card-title"><i class="ti ti-target"></i> Classificação</div>
+
+        <div class="field full" style="margin-bottom:16px">
+          <label for="area">Área <span class="req">*</span></label>
+          <select id="area" name="area" required>
+            <option value="" disabled selected>Selecione uma área</option>
+            <option value="Ciência de dados">Ciência de dados</option>
+            <option value="Inteligência artificial">Inteligência artificial</option>
+            <option value="Desenvolvimento web">Desenvolvimento web</option>
+            <option value="Desenvolvimento mobile">Desenvolvimento mobile</option>
+            <option value="DevOps / Cloud">DevOps / Cloud</option>
+            <option value="UX / Design de produto">UX / Design de produto</option>
+          </select>
+        </div>
+
+        <div class="sec-label">Tipo de emprego <span class="req">*</span></div>
+        <div class="status-grid" id="tipoEmpregoGrid">
+          <div class="status-card" data-value="estagio">
+            <i class="ti ti-school"></i>
+            <div><p>Estágio</p><span>Vaga de estágio remunerado</span></div>
+          </div>
+          <div class="status-card" data-value="clt">
+            <i class="ti ti-briefcase"></i>
+            <div><p>CLT</p><span>Contratação formal</span></div>
+          </div>
+          <div class="status-card" data-value="freelance">
+            <i class="ti ti-file-invoice"></i>
+            <div><p>Freelance / PJ</p><span>Projeto ou prestação de serviço</span></div>
+          </div>
+        </div>
+        <input type="hidden" id="tipoEmprego" name="tipoEmprego" required>
+
+        <div class="sec-label">Modo de trabalho <span class="req">*</span></div>
+        <div class="status-grid" id="modoTrabalhoGrid">
+          <div class="status-card" data-value="presencial">
+            <i class="ti ti-building-store"></i>
+            <div><p>Presencial</p><span>Trabalho no local</span></div>
+          </div>
+          <div class="status-card" data-value="remoto">
+            <i class="ti ti-home"></i>
+            <div><p>Remoto</p><span>Trabalho à distância</span></div>
+          </div>
+          <div class="status-card" data-value="hibrido">
+            <i class="ti ti-adjustments"></i>
+            <div><p>Híbrido</p><span>Presencial e remoto</span></div>
+          </div>
+        </div>
+        <input type="hidden" id="modoTrabalho" name="modoTrabalho" required>
+      </div>
+
+      <!-- Detalhes da vaga (mesmas informações do card "Detalhes da vaga" exibido na tela de detalhe) -->
+      <div class="card">
+        <div class="card-title"><i class="ti ti-info-circle"></i> Detalhes da vaga</div>
+        <div class="grid2">
+          <div class="field">
+            <label for="remuneracao">Remuneração <span class="req">*</span></label>
+            <input type="text" id="remuneracao" name="remuneracao" placeholder="Ex: R$ 1.200/mês" required>
+          </div>
+          <div class="field">
+            <label for="cargaHoraria">Carga horária <span class="req">*</span></label>
+            <input type="text" id="cargaHoraria" name="cargaHoraria" placeholder="Ex: 30h/semana" required>
+          </div>
+          <div class="field">
+            <label for="duracao">Duração</label>
+            <input type="text" id="duracao" name="duracao" placeholder="Ex: 12 meses">
+          </div>
+          <div class="field">
+            <label for="beneficios">Benefícios</label>
+            <input type="text" id="beneficios" name="beneficios" placeholder="Ex: VT + VR">
+          </div>
+          <div class="field full">
+            <label for="inicioPrevisto">Início previsto</label>
+            <input type="text" id="inicioPrevisto" name="inicioPrevisto" placeholder="Ex: Julho 2026">
+          </div>
+        </div>
+        <span class="hint" style="display:block;margin-top:10px">Essas informações aparecem no card "Detalhes da vaga" na tela de detalhe da vaga.</span>
+      </div>
+
+      <!-- Tecnologias -->
+      <div class="card">
+        <div class="card-title"><i class="ti ti-code"></i> Tecnologias</div>
+
+        <div class="sec-label">Linguagens</div>
+        <div class="chips" id="linguagens-chips">
+          <span class="chip" data-value="Python">Python</span>
+          <span class="chip" data-value="Java">Java</span>
+          <span class="chip" data-value="JavaScript">JavaScript</span>
+          <span class="chip" data-value="TypeScript">TypeScript</span>
+          <span class="chip" data-value="C#">C#</span>
+          <span class="chip" data-value="C++">C++</span>
+          <span class="chip" data-value="Go">Go</span>
+          <span class="chip" data-value="PHP">PHP</span>
+          <span class="chip" data-value="Kotlin">Kotlin</span>
+          <span class="chip" data-value="Swift">Swift</span>
+        </div>
+
+        <div class="sec-label">Frameworks / tecnologias</div>
+        <div class="chips" id="frameworks-chips">
+          <span class="chip" data-value="React">React</span>
+          <span class="chip" data-value="Node.js">Node.js</span>
+          <span class="chip" data-value="Angular">Angular</span>
+          <span class="chip" data-value="Vue">Vue</span>
+          <span class="chip" data-value="Django">Django</span>
+          <span class="chip" data-value="Flask">Flask</span>
+          <span class="chip" data-value="Spring Boot">Spring Boot</span>
+          <span class="chip" data-value=".NET">.NET</span>
+          <span class="chip" data-value="TensorFlow">TensorFlow</span>
+          <span class="chip" data-value="PyTorch">PyTorch</span>
+          <span class="chip" data-value="Flutter">Flutter</span>
+          <span class="chip" data-value="Docker">Docker</span>
+          <span class="chip" data-value="AWS">AWS</span>
+        </div>
+      </div>
+
+      <!-- Descrição -->
+      <div class="card">
+        <div class="card-title"><i class="ti ti-file-description"></i> Descrição da vaga</div>
+
+        <div class="field full" style="margin-bottom:16px">
+          <label for="sobreVaga">Sobre a vaga <span class="req">*</span></label>
+          <textarea id="sobreVaga" name="sobreVaga" rows="4" placeholder="Descreva o dia a dia, o time e o objetivo da vaga..." required></textarea>
+        </div>
+
+        <div class="field full" style="margin-bottom:16px">
+          <label for="requisitos">Requisitos <span class="req">*</span></label>
+          <textarea id="requisitos" name="requisitos" rows="4" placeholder="Ex: Cursando Ciência da Computação a partir do 4º período, conhecimento em Python..." required></textarea>
+          <span class="hint">Dica: separe cada requisito por uma nova linha</span>
+        </div>
+
+        <div class="field full">
+          <label for="detalhes">Detalhes adicionais</label>
+          <textarea id="detalhes" name="detalhes" rows="4" placeholder="Processo seletivo, etapas, observações, etc. (opcional)"></textarea>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <a href="vagas.html"><button type="button" class="btn">Cancelar</button></a>
+        <button type="submit" class="btn btn-primary">
+          <i class="ti ti-send" style="font-size:14px;vertical-align:-2px;margin-right:4px"></i> Publicar vaga
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+<script src="../js/auth-fetch.js"></script>
+<script src="../js/cadastrar-vaga.js"></script>
+</body>
+</html>
