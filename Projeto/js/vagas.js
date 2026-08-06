@@ -3,6 +3,7 @@
 // ===============================================================
 
 const API_URL = "http://localhost:8080";
+const API_URL_USUARIO = "http://localhost:8080/retornarDadosDashboard";
 
 let TODAS_VAGAS = [];
 
@@ -25,7 +26,7 @@ const matchRangeVal = document.getElementById("matchRangeVal");
 
 
 // ===============================================================
-// USUÁRIO
+// USUÁRIO (tipo, pra mostrar botão de admin)
 // ===============================================================
 
 const tipoUsuario = localStorage.getItem("tipoUsuario");
@@ -37,6 +38,61 @@ if (tipoUsuario === "ADMIN" && btnNovaVaga) {
     btnNovaVaga.addEventListener("click", () => {
         window.location.href = "cadastrar-vaga.html";
     });
+}
+
+
+// ===============================================================
+// CARREGAR DADOS REAIS DO USUÁRIO NA SIDEBAR
+//
+// Antes o nome/curso/período na sidebar (nav-avatar) ficavam
+// fixos como "Maria Silva" / "CC · 5º período". Agora busca do
+// mesmo endpoint usado no dashboard e preenche os elementos
+// pelos IDs navAvCircle / navAvNome / navAvInfo.
+// ===============================================================
+
+async function carregarUsuarioSidebar() {
+
+    try {
+
+        const resposta = await fetchComAuth(API_URL_USUARIO, {
+            method: "GET"
+        });
+
+        if (!resposta.ok) {
+            return;
+        }
+
+        const usuario = await resposta.json();
+
+        const iniciais = usuario.nomeCompleto
+            .split(" ")
+            .map(nome => nome[0])
+            .slice(0, 2)
+            .join("")
+            .toUpperCase();
+
+        const navAvCircle = document.getElementById("navAvCircle");
+
+        if (navAvCircle) {
+            navAvCircle.textContent = iniciais;
+        }
+
+        const navAvNome = document.getElementById("navAvNome");
+
+        if (navAvNome) {
+            const partesNome = usuario.nomeCompleto.split(" ");
+            navAvNome.textContent = partesNome.slice(0, 2).join(" ");
+        }
+
+        const navAvInfo = document.getElementById("navAvInfo");
+
+        if (navAvInfo) {
+            navAvInfo.textContent = `${usuario.curso} · ${usuario.periodo}`;
+        }
+
+    } catch (error) {
+        console.warn("Erro ao carregar dados do usuário na sidebar:", error);
+    }
 }
 
 
@@ -264,32 +320,15 @@ function converterVaga(vaga, index) {
             vaga.localEmpresa ||
             "Local não informado",
 
-        // =======================================================
-        // TIPO
-        //
-        // PJ      -> pj
-        // freelance -> pj
-        // ESTAGIO -> estagio
-        // CLT     -> clt
-        // =======================================================
-
         tipo:
             normalizarTipo(
                 vaga.tipoEmprego
             ),
 
-        // =======================================================
-        // MODALIDADE
-        // =======================================================
-
         modalidade:
             normalizarModalidade(
                 vaga.modoTrabalho
             ),
-
-        // =======================================================
-        // ÁREA
-        // =======================================================
 
         area:
             normalizarArea(
@@ -360,69 +399,25 @@ function converterVaga(vaga, index) {
 
 function lerFiltrosAtivos() {
 
-    // ===========================================================
-    // TIPOS
-    //
-    // Aqui está a correção principal.
-    //
-    // HTML:
-    // value="freelance"
-    //
-    // vira:
-    // pj
-    //
-    // API:
-    // PJ
-    //
-    // também vira:
-    // pj
-    // ===========================================================
-
     const tiposSelecionados = [
         ...document.querySelectorAll(
             'input[data-group="tipo"]:checked'
         )
-    ].map(input => {
+    ].map(input => normalizarTipo(input.value));
 
-        return normalizarTipo(
-            input.value
-        );
-
-    });
-
-
-    // ===========================================================
-    // MODALIDADES
-    // ===========================================================
 
     const modalidadesSelecionadas = [
         ...document.querySelectorAll(
             'input[data-group="modalidade"]:checked'
         )
-    ].map(input => {
+    ].map(input => normalizarModalidade(input.value));
 
-        return normalizarModalidade(
-            input.value
-        );
-
-    });
-
-
-    // ===========================================================
-    // ÁREAS
-    // ===========================================================
 
     const areasSelecionadas = [
         ...document.querySelectorAll(
             'input[data-group="area"]:checked'
         )
-    ].map(input => {
-
-        return normalizarArea(
-            input.value
-        );
-
-    });
+    ].map(input => normalizarArea(input.value));
 
 
     return {
@@ -459,10 +454,6 @@ function lerFiltrosAtivos() {
 
 function vagaPassaNoFiltro(vaga, filtros) {
 
-    // ===========================================================
-    // BUSCA
-    // ===========================================================
-
     const titulo =
         normalizarTexto(vaga.titulo);
 
@@ -484,10 +475,6 @@ function vagaPassaNoFiltro(vaga, filtros) {
     }
 
 
-    // ===========================================================
-    // TIPO
-    // ===========================================================
-
     const tipoVaga =
         normalizarTipo(vaga.tipo);
 
@@ -500,10 +487,6 @@ function vagaPassaNoFiltro(vaga, filtros) {
         return false;
     }
 
-
-    // ===========================================================
-    // MODALIDADE
-    // ===========================================================
 
     const modalidadeVaga =
         normalizarModalidade(vaga.modalidade);
@@ -520,10 +503,6 @@ function vagaPassaNoFiltro(vaga, filtros) {
     }
 
 
-    // ===========================================================
-    // ÁREA
-    // ===========================================================
-
     const areaVaga =
         normalizarArea(vaga.area);
 
@@ -536,10 +515,6 @@ function vagaPassaNoFiltro(vaga, filtros) {
         return false;
     }
 
-
-    // ===========================================================
-    // MATCH
-    // ===========================================================
 
     if (
         Number(vaga.match) <
@@ -785,6 +760,14 @@ function aplicarFiltros() {
 
 // ===============================================================
 // CARREGA VAGAS DA API
+//
+// ATENÇÃO: esta função busca a LISTA COMPLETA de vagas
+// (usada pelos filtros de vagas.html), não as vagas salvas.
+//
+// A URL abaixo ainda está como "/vagas/salvas", que é a mesma
+// usada por engano em carregarVagasSalvas(). Confirme qual é
+// o endpoint real de listagem geral de vagas no seu backend
+// (ex: GET /vagas, GET /vagas/todas, etc) e ajuste aqui.
 // ===============================================================
 
 async function carregarVagas() {
@@ -796,7 +779,7 @@ async function carregarVagas() {
 
         const resposta =
             await fetchComAuth(
-                `${API_URL}/vagas`,
+                `${API_URL}/vagas/salvas`, // <-- CONFIRME ESTA ROTA
                 {
                     method: "GET"
                 }
@@ -837,36 +820,6 @@ async function carregarVagas() {
                         index
                     )
             );
-
-
-        console.log(
-            "Vagas convertidas:",
-            TODAS_VAGAS
-        );
-
-
-        console.log(
-            "Tipos disponíveis:",
-            TODAS_VAGAS.map(
-                vaga => vaga.tipo
-            )
-        );
-
-
-        console.log(
-            "Modalidades disponíveis:",
-            TODAS_VAGAS.map(
-                vaga => vaga.modalidade
-            )
-        );
-
-
-        console.log(
-            "Áreas disponíveis:",
-            TODAS_VAGAS.map(
-                vaga => vaga.area
-            )
-        );
 
 
         aplicarFiltros();
@@ -910,7 +863,7 @@ async function carregarVagasSalvas() {
 
         const resposta =
             await fetchComAuth(
-                `${API_URL}/vagas/salvas`
+                `${API_URL}/vagas-salvas`
             );
 
 
@@ -975,8 +928,6 @@ async function alternarSalvar(
         vagasSalvas.has(id);
 
 
-    // Atualização otimista
-
     if (estavaSalva) {
 
         vagasSalvas.delete(id);
@@ -996,13 +947,10 @@ async function alternarSalvar(
         const resposta =
             await fetchComAuth(
 
-                `${API_URL}/vagas/${encodeURIComponent(id)}/salvar`,
+                `${API_URL}/vagas-salvas/${encodeURIComponent(id)}`,
 
                 {
-                    method:
-                        estavaSalva
-                            ? "DELETE"
-                            : "POST"
+                    method: "POST"
                 }
             );
 
@@ -1015,6 +963,19 @@ async function alternarSalvar(
         }
 
 
+        const dados =
+            await resposta.json();
+
+
+        if (dados.salva) {
+            vagasSalvas.add(id);
+            btn.classList.add("saved");
+        } else {
+            vagasSalvas.delete(id);
+            btn.classList.remove("saved");
+        }
+
+
     } catch (erro) {
 
         console.error(
@@ -1023,18 +984,11 @@ async function alternarSalvar(
         );
 
 
-        // Desfaz alteração otimista
-
         if (estavaSalva) {
-
             vagasSalvas.add(id);
-
             btn.classList.add("saved");
-
         } else {
-
             vagasSalvas.delete(id);
-
             btn.classList.remove("saved");
         }
     }
@@ -1207,6 +1161,6 @@ if (btnLimparVazio) {
 // INICIALIZAÇÃO
 // ===============================================================
 
+carregarUsuarioSidebar();
 carregarVagas();
-
 carregarVagasSalvas();

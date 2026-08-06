@@ -130,6 +130,13 @@ function preencherTela(dados) {
 
     document.getElementById("pv-visibilidade").textContent =
         VIS_LABELS[dados.visibilidadePerfil] || VIS_LABELS.todos;
+
+    // Reaproveita os mesmos dados para preencher a sidebar,
+    // evitando uma segunda chamada à API feita por sidebar-usuario.js
+    window.__usuarioJaCarregadoNaSidebar = true;
+    if (typeof preencherSidebarUsuario === "function") {
+        preencherSidebarUsuario(dados);
+    }
 }
 
 

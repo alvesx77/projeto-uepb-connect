@@ -7,8 +7,7 @@
 
   <title>UEPB Connect — Detalhe da vaga</title>
 
-  <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 
   <link rel="stylesheet" href="../CSS/indexVagasDetalhe.css">
 </head>
@@ -45,7 +44,7 @@
       Empresas
     </a>
 
-    <a href="#" class="nav-item">
+    <a href="vagas-salvas.html" class="nav-item">
       <i class="ti ti-heart"></i>
       Salvos
     </a>
@@ -63,11 +62,11 @@
     </a>
 
     <div class="nav-avatar">
-      <div class="av-circle">MS</div>
+      <div class="av-circle" id="navAvCircle">MS</div>
 
       <div class="av-text">
-        <p>Maria Silva</p>
-        <span>CC · 5º período</span>
+        <p id="navAvNome">Maria Silva</p>
+        <span id="navAvInfo">CC · 5º período</span>
       </div>
     </div>
 
@@ -161,8 +160,7 @@
                 <!-- Modalidade -->
                 <span class="vtag loc">
 
-                  <i class="ti ti-map-pin"
-                     style="font-size:11px;vertical-align:-1px">
+                  <i class="ti ti-map-pin" style="font-size:11px;vertical-align:-1px">
                   </i>
 
                   <span id="vagaModalidade">
@@ -209,14 +207,6 @@
 
           <div class="req-list">
 
-            <!--
-              Aqui estamos usando o campo requisitos
-              que vem do backend.
-
-              A parte de compatibilidade com o perfil
-              continua sem alteração.
-            -->
-
             <div class="req-item ok">
 
               <i class="ti ti-circle-check"></i>
@@ -243,9 +233,6 @@
 
         <!-- ===================================================
              CANDIDATAR-SE
-
-             NÃO ALTERADO
-             Será implementado posteriormente.
         ==================================================== -->
 
         <div class="apply-card">
@@ -258,9 +245,7 @@
             Seu perfil será enviado para a empresa
           </div>
 
-          <button
-            class="apply-btn"
-            onclick="showToast('Candidatura enviada com sucesso!')">
+          <button class="apply-btn" onclick="candidatarVaga()">
 
             <i class="ti ti-send" style="font-size:14px"></i>
 
@@ -268,15 +253,9 @@
 
           </button>
 
-          <button
-            class="save-btn2"
-            id="saveBtn"
-            onclick="toggleSave()">
+          <button class="save-btn2" id="saveBtn" onclick="toggleSave()">
 
-            <i
-              class="ti ti-heart"
-              style="font-size:14px"
-              id="saveIcon">
+            <i class="ti ti-heart" style="font-size:14px" id="saveIcon">
             </i>
 
             <span id="saveText">
@@ -298,9 +277,6 @@
 
         <!-- ===================================================
              DETALHES DA VAGA
-
-             NÃO ALTERADO
-             Será implementado posteriormente.
         ==================================================== -->
 
         <div class="card">
@@ -313,36 +289,35 @@
 
             <tr>
               <td>Remuneração</td>
-              <td>R$ 1.200/mês</td>
+              <td id="vagaRemuneracao">Carregando...</td>
             </tr>
 
             <tr>
               <td>Carga horária</td>
-              <td>30h/semana</td>
+              <td id="vagaCargaHoraria">Carregando...</td>
             </tr>
 
             <tr>
               <td>Modalidade</td>
-              <td>Presencial</td>
+              <td id="vagaModalidadeTabela">Carregando...</td>
             </tr>
 
             <tr>
               <td>Duração</td>
-              <td>12 meses</td>
+              <td id="vagaDuracao">Carregando...</td>
             </tr>
 
             <tr>
               <td>Benefícios</td>
-              <td>VT + VR</td>
+              <td id="vagaBeneficios">Carregando...</td>
             </tr>
 
             <tr>
               <td>Início previsto</td>
-              <td>Julho 2026</td>
+              <td id="vagaInicioPrevisto">Carregando...</td>
             </tr>
 
           </table>
-
         </div>
 
 
@@ -377,9 +352,7 @@
 
               <div class="match-bg">
 
-                <div
-                  class="match-fill green"
-                  style="width:100%">
+                <div class="match-fill green" style="width:100%">
                 </div>
 
               </div>
@@ -399,9 +372,7 @@
 
               <div class="match-bg">
 
-                <div
-                  class="match-fill green"
-                  style="width:90%">
+                <div class="match-fill green" style="width:90%">
                 </div>
 
               </div>
@@ -421,9 +392,7 @@
 
               <div class="match-bg">
 
-                <div
-                  class="match-fill amber"
-                  style="width:80%">
+                <div class="match-fill amber" style="width:80%">
                 </div>
 
               </div>
@@ -451,65 +420,7 @@
             Vagas similares
           </div>
 
-          <div class="similar-list">
-
-            <a href="vaga-detalhe.html" class="sim-item">
-
-              <div
-                class="sim-logo"
-                style="background:#EEEDFE;color:#3C3489">
-
-                NX
-
-              </div>
-
-              <div class="sim-text">
-
-                <p>
-                  Estágio ML
-                </p>
-
-                <span>
-                  NexaTech · Remoto
-                </span>
-
-              </div>
-
-              <div class="sim-pct">
-                91%
-              </div>
-
-            </a>
-
-
-            <a href="vaga-detalhe.html" class="sim-item">
-
-              <div
-                class="sim-logo"
-                style="background:#E1F5EE;color:#085041">
-
-                DG
-
-              </div>
-
-              <div class="sim-text">
-
-                <p>
-                  Analista dados Jr.
-                </p>
-
-                <span>
-                  DataGov PB
-                </span>
-
-              </div>
-
-              <div class="sim-pct">
-                88%
-              </div>
-
-            </a>
-
+          <div class="similar-list"  id="listaVagasSimilares">
           </div>
 
         </div>

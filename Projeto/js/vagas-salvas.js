@@ -7,28 +7,118 @@ const resultsCount = document.getElementById("results-count");
 let vagasSalvas = [];
 
 // ---------------------------------------------------------------
+// GERA INICIAIS DA EMPRESA
+// ---------------------------------------------------------------
+function gerarIniciais(nome) {
+
+    if (!nome) {
+        return "V";
+    }
+
+    const palavras = String(nome).trim().split(/\s+/);
+
+    if (palavras.length === 1) {
+        return palavras[0].substring(0, 2).toUpperCase();
+    }
+
+    return (
+        palavras[0][0] +
+        palavras[palavras.length - 1][0]
+    ).toUpperCase();
+}
+
+// ---------------------------------------------------------------
+// FORMATA TIPO DE EMPREGO
+// ---------------------------------------------------------------
+function formatarTipoEmprego(tipo) {
+
+    if (!tipo) {
+        return "Não informado";
+    }
+
+    const tipos = {
+        ESTAGIO: "Estágio",
+        CLT: "CLT",
+        PJ: "Freelance / PJ",
+        TEMPORARIO: "Temporário",
+        APRENDIZ: "Aprendiz"
+    };
+
+    return tipos[tipo] || tipo;
+}
+
+// ---------------------------------------------------------------
+// FORMATA MODALIDADE
+// ---------------------------------------------------------------
+function formatarModalidade(modalidade) {
+
+    if (!modalidade) {
+        return "Não informado";
+    }
+
+    const modalidades = {
+        PRESENCIAL: "Presencial",
+        REMOTO: "Remoto",
+        HIBRIDO: "Híbrido"
+    };
+
+    return modalidades[modalidade] || modalidade;
+}
+
+// ---------------------------------------------------------------
+// CRIA TAGS DE LINGUAGENS/FRAMEWORKS
+//
+// Os campos vêm da API como string separada por vírgula
+// (ex: "Java, JavaScript"), então precisam ser divididos
+// em tags individuais.
+// ---------------------------------------------------------------
+function criarTagsTecnologia(v) {
+
+    const linguagens = v.linguagens
+        ? v.linguagens.split(",").map(s => s.trim()).filter(Boolean)
+        : [];
+
+    const frameworks = v.frameworks
+        ? v.frameworks.split(",").map(s => s.trim()).filter(Boolean)
+        : [];
+
+    return [...linguagens, ...frameworks]
+        .map(tech => `<span class="vtag tech">${tech}</span>`)
+        .join("");
+}
+
+// ---------------------------------------------------------------
 // Renderização
+//
+// Usa os campos reais do VagasResponseDto (idVaga, nome,
+// nomeEmpresa, localEmpresa, area, tipoEmprego, modoTrabalho,
+// Remuneracao, linguagens, frameworks), sem badge de match —
+// essa informação não existe nesse DTO.
 // ---------------------------------------------------------------
 function vagaCardHtml(v) {
-    const matchClass = v.match >= 85 ? "match-high" : "match-med";
-    const tagsHtml = (v.tags || []).map(t => `<span class="vtag ${t.tipo}">${t.label}</span>`).join("");
+
+    const iniciais = gerarIniciais(v.nomeEmpresa);
+    const tagsTecnologia = criarTagsTecnologia(v);
 
     return `
-      <a href="vaga-detalhe.html?id=${v.id}" class="vaga" data-vaga-id="${v.id}">
-        <div class="vaga-logo" style="background:${v.logoBg};color:${v.logoColor}">${v.logoIniciais}</div>
+      <a href="vaga-detalhe.html?id=${v.idVaga}" class="vaga" data-vaga-id="${v.idVaga}">
+        <div class="vaga-logo">${iniciais}</div>
         <div class="vaga-body">
           <div class="vaga-top">
             <div>
-              <div class="vaga-title">${v.titulo}</div>
-              <div class="vaga-company">${v.empresa} · ${v.local}</div>
+              <div class="vaga-title">${v.nome || "Vaga sem título"}</div>
+              <div class="vaga-company">${v.nomeEmpresa || "Empresa não informada"} · ${v.localEmpresa || "Local não informado"}</div>
             </div>
-            <div class="match-badge ${matchClass}"><i class="ti ti-bolt" style="font-size:11px"></i> ${v.match}% match</div>
           </div>
-          <div class="vaga-tags">${tagsHtml}</div>
+          <div class="vaga-tags">
+            <span class="vtag area">${v.area || "Área não informada"}</span>
+            <span class="vtag tipo">${formatarTipoEmprego(v.tipoEmprego)}</span>
+            ${tagsTecnologia}
+          </div>
           <div class="vaga-footer">
-            <span class="vaga-meta"><i class="ti ti-coin"></i> ${v.remuneracaoTexto || ""}</span>
-            <span class="vaga-meta"><i class="ti ti-clock"></i> ${v.publicadoHa || ""}</span>
-            <button class="save-btn saved" onclick="return removerSalva(event, this, '${v.id}')" aria-label="Remover dos salvos"><i class="ti ti-heart"></i></button>
+            <span class="vaga-meta"><i class="ti ti-coin"></i> ${v.Remuneracao || "Não informado"}</span>
+            <span class="vaga-meta"><i class="ti ti-map-pin"></i> ${formatarModalidade(v.modoTrabalho)}</span>
+            <button class="save-btn saved" onclick="return removerSalva(event, this, '${v.idVaga}')" aria-label="Remover dos salvos"><i class="ti ti-heart"></i></button>
           </div>
         </div>
       </a>`;
@@ -47,18 +137,19 @@ function renderizar() {
 }
 
 // ---------------------------------------------------------------
-// Remover uma vaga dos salvos (chama a mesma rota usada em vagas.js)
+// Remover uma vaga dos salvos
+//
+// POST /vagas-salvas/{idVaga} alterna o estado no backend.
+// Como a vaga já está salva nessa tela, o toggle sempre remove.
 // ---------------------------------------------------------------
 async function removerSalva(event, btn, vagaId) {
     event.preventDefault();
 
     try {
-        // fetchComAuth (definido em auth-fetch.js) revalida o token
-        // automaticamente se a API responder 401
-        const resposta = await fetchComAuth(`${API_URL}/vagas/${vagaId}/salvar`, { method: "DELETE" });
+        const resposta = await fetchComAuth(`${API_URL}/vagas-salvas/${vagaId}`, { method: "POST" });
         if (!resposta.ok) throw new Error("Falha ao remover vaga salva");
 
-        vagasSalvas = vagasSalvas.filter(v => v.id !== vagaId);
+        vagasSalvas = vagasSalvas.filter(v => String(v.idVaga) !== String(vagaId));
         renderizar();
 
     } catch (erro) {
@@ -72,13 +163,13 @@ window.removerSalva = removerSalva;
 
 // ---------------------------------------------------------------
 // Carrega as vagas salvas do usuário
-// Espera que a API retorne um array de objetos de vaga (mesmo
-// formato usado em vagas.js: id, titulo, empresa, local, match,
-// remuneracaoTexto, publicadoHa, tags, logoIniciais, logoBg, logoColor)
+//
+// Rota corrigida: GET /vagas-salvas/detalhes, que devolve a
+// lista de VagasResponseDto (vagas completas), não só os IDs.
 // ---------------------------------------------------------------
 async function carregarVagasSalvas() {
     try {
-        const resposta = await fetchComAuth(`${API_URL}/vagas/salvas`);
+        const resposta = await fetchComAuth(`${API_URL}/vagas-salvas/detalhes`);
         if (!resposta.ok) {
             renderizar();
             return;

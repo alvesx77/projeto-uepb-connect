@@ -1,5 +1,5 @@
-
 const API_URL = "http://localhost:8080";
+const API_URL_USUARIO = "http://localhost:8080/retornarDadosDashboard";
 
 // ===============================================================
 // ELEMENTOS
@@ -16,9 +16,18 @@ const vagaFrameworks = document.getElementById("vagaFrameworks");
 const vagaTipo = document.getElementById("vagaTipo");
 const vagaModalidade = document.getElementById("vagaModalidade");
 
+const vagaRemuneracao = document.getElementById("vagaRemuneracao");
+const vagaCargaHoraria = document.getElementById("vagaCargaHoraria");
+const vagaModalidadeTabela = document.getElementById("vagaModalidadeTabela");
+const vagaDuracao = document.getElementById("vagaDuracao");
+const vagaBeneficios = document.getElementById("vagaBeneficios");
+const vagaInicioPrevisto = document.getElementById("vagaInicioPrevisto");
+
 const vagaSobre = document.getElementById("vagaSobre");
 const vagaRequisitos = document.getElementById("vagaRequisitos");
 const vagaDetalhes = document.getElementById("vagaDetalhes");
+
+const listaVagasSimilares = document.getElementById("listaVagasSimilares");
 
 
 // ===============================================================
@@ -49,6 +58,202 @@ async function fetchComAuth(url, options = {}) {
     return fetch(url, config);
 }
 
+
+// ===============================================================
+// CARREGAR DADOS REAIS DO USUÁRIO NA SIDEBAR
+//
+// Antes o nome/curso/período na sidebar (nav-avatar) ficavam
+// fixos como "Maria Silva" / "CC · 5º período". Agora busca do
+// mesmo endpoint usado no dashboard e preenche pelos IDs
+// navAvCircle / navAvNome / navAvInfo.
+// ===============================================================
+
+async function carregarUsuarioSidebar() {
+
+    try {
+
+        const resposta = await fetchComAuth(API_URL_USUARIO, {
+            method: "GET"
+        });
+
+        if (!resposta.ok) {
+            return;
+        }
+
+        const usuario = await resposta.json();
+
+        const iniciais = usuario.nomeCompleto
+            .split(" ")
+            .map(nome => nome[0])
+            .slice(0, 2)
+            .join("")
+            .toUpperCase();
+
+        const navAvCircle = document.getElementById("navAvCircle");
+
+        if (navAvCircle) {
+            navAvCircle.textContent = iniciais;
+        }
+
+        const navAvNome = document.getElementById("navAvNome");
+
+        if (navAvNome) {
+            const partesNome = usuario.nomeCompleto.split(" ");
+            navAvNome.textContent = partesNome.slice(0, 2).join(" ");
+        }
+
+        const navAvInfo = document.getElementById("navAvInfo");
+
+        if (navAvInfo) {
+            navAvInfo.textContent = `${usuario.curso} · ${usuario.periodo}`;
+        }
+
+    } catch (error) {
+        console.warn("Erro ao carregar dados do usuário na sidebar:", error);
+    }
+}
+
+
+async function carregarVagasSimilares(area) {
+
+    try {
+
+        const resposta = await fetchComAuth(
+            `${API_URL}/paginas/adicionarVagas/${area}`,
+            {
+                method:"GET"
+            }
+        );
+
+
+        if(!resposta.ok){
+            throw new Error(
+                "Erro ao buscar vagas similares"
+            );
+        }
+
+
+        const dados = await resposta.json();
+
+
+        console.log(
+            "Vagas similares:",
+            dados
+        );
+
+
+        renderizarVagasSimilares(
+            dados.content
+        );
+
+
+    } catch(error){
+
+        console.error(
+            error
+        );
+
+    }
+
+}
+
+async function candidatarVaga() {
+
+    const params = new URLSearchParams(window.location.search);
+    const idVaga = params.get("id");
+
+    try {
+
+        const resposta = await fetchComAuth(
+            `${API_URL}/candidaturas/${idVaga}`,
+            { method: "POST" }
+        );
+
+        if (resposta.status === 201) {
+            showToast("Candidatura enviada com sucesso!");
+            return;
+        }
+
+        if (resposta.status === 409) {
+            showToast("Você já se candidatou a essa vaga.");
+            return;
+        }
+
+        if (resposta.status === 404) {
+            showToast("Vaga não encontrada.");
+            return;
+        }
+
+        throw new Error("Erro ao candidatar");
+
+    } catch (error) {
+        console.error(error);
+        showToast("Erro ao enviar candidatura. Tente novamente.");
+    }
+
+}
+
+
+function renderizarVagasSimilares(vagas){
+
+    listaVagasSimilares.innerHTML = "";
+
+
+    vagas.forEach(vaga => {
+
+
+        const iniciais =
+            gerarIniciais(vaga.nomeEmpresa);
+
+
+
+        listaVagasSimilares.innerHTML += `
+
+        <a href="vaga-detalhe.html?id=${vaga.idVaga}" 
+           class="sim-item">
+
+
+            <div class="sim-logo">
+
+                ${iniciais}
+
+            </div>
+
+
+            <div class="sim-text">
+
+                <p>
+                    ${vaga.nome}
+                </p>
+
+
+                <span>
+
+                    ${vaga.nomeEmpresa}
+                    ·
+                    ${formatarModalidade(vaga.modoTrabalho)}
+
+                </span>
+
+
+            </div>
+
+
+            <div class="sim-pct">
+
+                90%
+
+            </div>
+
+
+        </a>
+
+        `;
+
+
+    });
+
+}
 
 // ===============================================================
 // VERIFICA ID
@@ -232,6 +437,100 @@ async function carregarVaga(id) {
     }
 }
 
+async function toggleSave() {
+
+    const params = new URLSearchParams(window.location.search);
+    const idVaga = params.get("id");
+
+    const saveBtn = document.getElementById("saveBtn");
+    const saveText = document.getElementById("saveText");
+
+    if (!saveBtn) {
+        return;
+    }
+
+    try {
+
+        const resposta = await fetchComAuth(
+            `${API_URL}/vagas-salvas/${idVaga}`,
+            { method: "POST" }
+        );
+
+        if (!resposta.ok) {
+            throw new Error("Erro ao salvar vaga");
+        }
+
+        const dados = await resposta.json();
+
+        saveBtn.classList.toggle("saved", dados.salva);
+
+        if (saveText) {
+            saveText.textContent = dados.salva ? "Vaga salva" : "Salvar vaga";
+        }
+
+        showToast(dados.salva ? "Vaga salva!" : "Vaga removida dos salvos.");
+
+    } catch (error) {
+        console.error(error);
+        showToast("Erro ao salvar vaga. Tente novamente.");
+    }
+
+}
+
+async function verificarSeSalva(idVaga) {
+
+    const saveBtn = document.getElementById("saveBtn");
+    const saveText = document.getElementById("saveText");
+
+    if (!saveBtn) {
+        return;
+    }
+
+    try {
+
+        const resposta = await fetchComAuth(
+            `${API_URL}/vagas-salvas/${idVaga}`,
+            { method: "GET" }
+        );
+
+        if (!resposta.ok) {
+            return;
+        }
+
+        const dados = await resposta.json();
+
+        saveBtn.classList.toggle("saved", dados.salva);
+
+        if (saveText) {
+            saveText.textContent = dados.salva ? "Vaga salva" : "Salvar vaga";
+        }
+
+    } catch (error) {
+        console.error("Erro ao verificar salvamento:", error);
+    }
+
+}
+
+// ===============================================================
+// TOAST
+// ===============================================================
+
+function showToast(mensagem) {
+
+    const toast = document.getElementById("toast");
+
+    if (!toast) {
+        return;
+    }
+
+    toast.textContent = mensagem;
+    toast.classList.add("show");
+
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 3000);
+}
+
 
 // ===============================================================
 // PREENCHER PÁGINA
@@ -258,8 +557,7 @@ function preencherPagina(vaga) {
     if (vagaEmpresa) {
 
         vagaEmpresa.textContent =
-            `${vaga.nomeEmpresa || "Empresa não informada"} · ${
-                vaga.localEmpresa || "Local não informado"
+            `${vaga.nomeEmpresa || "Empresa não informada"} · ${vaga.localEmpresa || "Local não informado"
             }`;
     }
 
@@ -326,4 +624,50 @@ function preencherPagina(vaga) {
         vagaDetalhes.textContent =
             vaga.detalhes || "Não informado";
     }
+
+
+    // -----------------------------------------------------------
+    // DETALHES DA VAGA
+    // -----------------------------------------------------------
+
+    if (vagaRemuneracao) {
+        vagaRemuneracao.textContent =
+            vaga.remuneracao || "Não informado";
+    }
+
+    if (vagaCargaHoraria) {
+        vagaCargaHoraria.textContent =
+            vaga.cargaHoraria || "Não informado";
+    }
+
+    if (vagaModalidadeTabela) {
+        vagaModalidadeTabela.textContent =
+            formatarModalidade(vaga.modoTrabalho);
+    }
+
+    if (vagaDuracao) {
+        vagaDuracao.textContent =
+            vaga.duracao || "Não informado";
+    }
+
+    if (vagaBeneficios) {
+        vagaBeneficios.textContent =
+            vaga.beneficios || "Não informado";
+    }
+
+    if (vagaInicioPrevisto) {
+        vagaInicioPrevisto.textContent =
+            vaga.inicioPrevisto || "Não informado";
+    }
+    
+    carregarVagasSimilares(vaga.area);
+    verificarSeSalva(vaga.idVaga);
+
 }
+
+
+// ===============================================================
+// INICIAR
+// ===============================================================
+
+carregarUsuarioSidebar();

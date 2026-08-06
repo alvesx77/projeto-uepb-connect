@@ -22,8 +22,8 @@
   <a href="perfil.html" class="nav-item"><i class="ti ti-user"></i> Meu perfil</a>
   <a href="#" class="nav-item"><i class="ti ti-settings"></i> Configurações</a>
   <div class="nav-avatar">
-    <div class="av-circle">MS</div>
-    <div class="av-text"><p>Maria Silva</p><span>CC · 5º período</span></div>
+    <div class="av-circle" id="navAvCircle">MS</div>
+    <div class="av-text"><p id="navAvNome">Maria Silva</p><span id="navAvInfo">CC · 5º período</span></div>
   </div>
 </aside>
 
@@ -80,115 +80,13 @@
           <span class="filter-chip" onclick="toggleFilter(this)">CLT</span>
           <span class="filter-chip" onclick="toggleFilter(this)">Freelance</span>
           <span class="filter-label" style="margin-left:6px">Área:</span>
-          <span class="filter-chip area-on" onclick="toggleFilter(this)">IA / Dados</span>
+          <span class="filter-chip" onclick="toggleFilter(this)">IA / Dados</span>
           <span class="filter-chip" onclick="toggleFilter(this)">Web</span>
           <span class="filter-chip" onclick="toggleFilter(this)">Mobile</span>
           <span class="filter-chip" onclick="toggleFilter(this)">Cloud</span>
         </div>
 
         <div class="vaga-list" id="recomendadas-list">
-          <div class="empty-state" id="recomendadas-empty" style="display:none;padding:2rem 1rem;text-align:center;color:var(--text-tertiary);font-size:13px">
-            Nenhuma vaga recomendada bate com esse filtro no momento.
-          </div>
-          <a href="vaga-detalhe.html" class="vaga destaque" data-tipo="estagio" data-area="ia-dados">
-            <div class="vaga-logo" style="background:#E6F1FB;color:#0C447C">SL</div>
-            <div class="vaga-body">
-              <div class="vaga-top">
-                <div>
-                  <div class="vaga-title">Estágio em ciência de dados</div>
-                  <div class="vaga-company">SertãoLabs · Campina Grande, PB</div>
-                </div>
-                <div class="match-badge match-high"><i class="ti ti-bolt" style="font-size:11px"></i> 97% match</div>
-              </div>
-              <div class="vaga-tags">
-                <span class="vtag area">Ciência de dados</span>
-                <span class="vtag tech">Python</span>
-                <span class="vtag tech">TensorFlow</span>
-                <span class="vtag tipo">Estágio</span>
-              </div>
-              <div class="vaga-footer">
-                <span class="vaga-meta"><i class="ti ti-coin"></i> R$ 1.200/mês</span>
-                <span class="vaga-meta"><i class="ti ti-clock"></i> Há 1 dia</span>
-                <span class="vaga-meta"><i class="ti ti-map-pin"></i> Presencial</span>
-                <button class="save-btn saved" onclick="event.preventDefault();this.classList.toggle('saved')" aria-label="Salvo"><i class="ti ti-heart"></i></button>
-              </div>
-            </div>
-          </a>
-
-          <a href="vaga-detalhe.html" class="vaga" data-tipo="estagio" data-area="ia-dados">
-            <div class="vaga-logo" style="background:#EEEDFE;color:#3C3489">NX</div>
-            <div class="vaga-body">
-              <div class="vaga-top">
-                <div>
-                  <div class="vaga-title">Estágio em machine learning</div>
-                  <div class="vaga-company">NexaTech · Recife, PE (remoto)</div>
-                </div>
-                <div class="match-badge match-high"><i class="ti ti-bolt" style="font-size:11px"></i> 91% match</div>
-              </div>
-              <div class="vaga-tags">
-                <span class="vtag area">Inteligência artificial</span>
-                <span class="vtag tech">Python</span>
-                <span class="vtag tech">PyTorch</span>
-                <span class="vtag tipo">Estágio</span>
-              </div>
-              <div class="vaga-footer">
-                <span class="vaga-meta"><i class="ti ti-coin"></i> R$ 1.500/mês</span>
-                <span class="vaga-meta"><i class="ti ti-clock"></i> Há 2 dias</span>
-                <span class="vaga-meta"><i class="ti ti-map-pin"></i> Remoto</span>
-                <button class="save-btn" onclick="event.preventDefault();this.classList.toggle('saved')" aria-label="Salvar"><i class="ti ti-heart"></i></button>
-              </div>
-            </div>
-          </a>
-
-          <a href="vaga-detalhe.html" class="vaga" data-tipo="clt" data-area="ia-dados">
-            <div class="vaga-logo" style="background:#E1F5EE;color:#085041">DG</div>
-            <div class="vaga-body">
-              <div class="vaga-top">
-                <div>
-                  <div class="vaga-title">Analista de dados júnior</div>
-                  <div class="vaga-company">DataGov PB · João Pessoa, PB</div>
-                </div>
-                <div class="match-badge match-high"><i class="ti ti-bolt" style="font-size:11px"></i> 88% match</div>
-              </div>
-              <div class="vaga-tags">
-                <span class="vtag area">Ciência de dados</span>
-                <span class="vtag tech">Python</span>
-                <span class="vtag tech">Java</span>
-                <span class="vtag tipo">CLT</span>
-              </div>
-              <div class="vaga-footer">
-                <span class="vaga-meta"><i class="ti ti-coin"></i> R$ 2.800/mês</span>
-                <span class="vaga-meta"><i class="ti ti-clock"></i> Há 3 dias</span>
-                <span class="vaga-meta"><i class="ti ti-map-pin"></i> Híbrido</span>
-                <button class="save-btn" onclick="event.preventDefault();this.classList.toggle('saved')" aria-label="Salvar"><i class="ti ti-heart"></i></button>
-              </div>
-            </div>
-          </a>
-
-          <a href="vaga-detalhe.html" class="vaga" data-tipo="estagio" data-area="web">
-            <div class="vaga-logo" style="background:#FAEEDA;color:#633806">CR</div>
-            <div class="vaga-body">
-              <div class="vaga-top">
-                <div>
-                  <div class="vaga-title">Estágio em desenvolvimento web</div>
-                  <div class="vaga-company">Coruja Digital · Remoto</div>
-                </div>
-                <div class="match-badge match-med"><i class="ti ti-bolt" style="font-size:11px"></i> 74% match</div>
-              </div>
-              <div class="vaga-tags">
-                <span class="vtag area">Desenvolvimento web</span>
-                <span class="vtag tech">React</span>
-                <span class="vtag tech">Node.js</span>
-                <span class="vtag tipo">Estágio</span>
-              </div>
-              <div class="vaga-footer">
-                <span class="vaga-meta"><i class="ti ti-coin"></i> R$ 1.000/mês</span>
-                <span class="vaga-meta"><i class="ti ti-clock"></i> Há 4 dias</span>
-                <span class="vaga-meta"><i class="ti ti-map-pin"></i> Remoto</span>
-                <button class="save-btn" onclick="event.preventDefault();this.classList.toggle('saved')" aria-label="Salvar"><i class="ti ti-heart"></i></button>
-              </div>
-            </div>
-          </a>
         </div>
       </div>
     </div>
@@ -250,53 +148,5 @@
 <script src="../js/auth-fetch.js"></script>
 <script src="../js/dashboard.js"></script>
 
-<script>
-const GRUPO_TIPO = ['Todos', 'Estágio', 'CLT', 'Freelance'];
-const GRUPO_AREA = ['IA / Dados', 'Web', 'Mobile', 'Cloud'];
-
-const MAPA_TIPO = { 'Todos': null, 'Estágio': 'estagio', 'CLT': 'clt', 'Freelance': 'freelance' };
-const MAPA_AREA = { 'IA / Dados': 'ia-dados', 'Web': 'web', 'Mobile': 'mobile', 'Cloud': 'cloud' };
-
-function toggleFilter(el) {
-  const texto = el.textContent.trim();
-
-  if (GRUPO_TIPO.includes(texto)) {
-    document.querySelectorAll('.filter-chip').forEach(c => {
-      if (GRUPO_TIPO.includes(c.textContent.trim())) c.classList.remove('on');
-    });
-    el.classList.add('on');
-  } else if (GRUPO_AREA.includes(texto)) {
-    document.querySelectorAll('.filter-chip').forEach(c => {
-      if (GRUPO_AREA.includes(c.textContent.trim())) c.classList.remove('area-on');
-    });
-    el.classList.add('area-on');
-  }
-
-  aplicarFiltroRecomendadas();
-}
-
-function aplicarFiltroRecomendadas() {
-  const chipTipo = document.querySelector('.filter-chip.on');
-  const chipArea = document.querySelector('.filter-chip.area-on');
-  const tipoFiltro = chipTipo ? MAPA_TIPO[chipTipo.textContent.trim()] : null;
-  const areaFiltro = chipArea ? MAPA_AREA[chipArea.textContent.trim()] : null;
-
-  const vagas = document.querySelectorAll('#recomendadas-list .vaga');
-  let visiveis = 0;
-
-  vagas.forEach(v => {
-    const tipoOk = !tipoFiltro || v.dataset.tipo === tipoFiltro;
-    const areaOk = !areaFiltro || v.dataset.area === areaFiltro;
-    const mostrar = tipoOk && areaOk;
-    v.style.display = mostrar ? '' : 'none';
-    if (mostrar) visiveis++;
-  });
-
-  const empty = document.getElementById('recomendadas-empty');
-  if (empty) empty.style.display = visiveis === 0 ? 'block' : 'none';
-}
-
-document.addEventListener('DOMContentLoaded', aplicarFiltroRecomendadas);
-</script>
 </body>
 </html>
