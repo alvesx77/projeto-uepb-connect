@@ -2,6 +2,7 @@ package com.backendProjeto.backendLab.Service.CadastrarVagasService;
 
 import com.backendProjeto.backendLab.DTOS.Vagas.VagasResponseDto;
 import com.backendProjeto.backendLab.Repository.VagasRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +20,7 @@ public class RetornarVagasService {
     @Transactional(readOnly = true)
     public List<VagasResponseDto> listarVagas() {
 
-        return vagasRepository.findAll()
+        return vagasRepository.findAll(Sort.by(Sort.Direction.DESC, "idVaga"))
                 .stream()
                 .map(vaga -> new VagasResponseDto(
                         vaga.getIdVaga(),
@@ -32,6 +33,11 @@ public class RetornarVagasService {
                         vaga.getFrameworks(),
                         vaga.getTipoEmprego(),
                         vaga.getModoTrabalho(),
+                        vaga.getRemuneracao(),
+                        vaga.getCargaHoraria(),
+                        vaga.getDuracao(),
+                        vaga.getBeneficios(),
+                        vaga.getInicioPrevisto(),
                         vaga.getSobreVaga(),
                         vaga.getRequisitos(),
                         vaga.getDetalhes()
@@ -54,6 +60,11 @@ public class RetornarVagasService {
                         vaga.getFrameworks(),
                         vaga.getTipoEmprego(),
                         vaga.getModoTrabalho(),
+                        vaga.getRemuneracao(),
+                        vaga.getCargaHoraria(),
+                        vaga.getDuracao(),
+                        vaga.getBeneficios(),
+                        vaga.getInicioPrevisto(),
                         vaga.getSobreVaga(),
                         vaga.getRequisitos(),
                         vaga.getDetalhes()

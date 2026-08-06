@@ -39,13 +39,13 @@ public class Vagas {
     private ModoTrabalho modoTrabalho;
 
     @Column(columnDefinition = "TEXT")
-    private String Remuneracao;
+    private String remuneracao;
     @Column(columnDefinition = "TEXT")
     private String cargaHoraria;
     @Column(columnDefinition = "TEXT")
     private String duracao;
     @Column(columnDefinition = "TEXT")
-    private String Beneficios;
+    private String beneficios;
     @Column(columnDefinition = "TEXT")
     private String inicioPrevisto;
 

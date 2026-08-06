@@ -27,10 +27,10 @@ public class ReceberVagas {
     private TipoEmprego tipoEmprego;
     private ModoTrabalho modoTrabalho;
 
-    private String Remuneracao;
+    private String remuneracao;
     private String cargaHoraria;
     private String duracao;
-    private String Beneficios;
+    private String beneficios;
     private String inicioPrevisto;
 
     private String sobreVaga;

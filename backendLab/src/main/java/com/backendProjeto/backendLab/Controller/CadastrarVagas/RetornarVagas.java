@@ -20,7 +20,7 @@ public class RetornarVagas {
         this.vagasService = vagasService;
     }
 
-    @GetMapping
+    @GetMapping("/salvas")
     public ResponseEntity<List<VagasResponseDto>> listarVagas() {
 
         List<VagasResponseDto> vagas = vagasService.listarVagas();

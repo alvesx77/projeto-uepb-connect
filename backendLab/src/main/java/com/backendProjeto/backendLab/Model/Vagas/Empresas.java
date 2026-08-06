@@ -1,5 +1,6 @@
 package com.backendProjeto.backendLab.Model.Vagas;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,6 +30,7 @@ public class Empresas {
     @Column(name = "created_at", insertable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "empresa")
     private List<Vagas> vagas = new ArrayList<>();
 }

@@ -2,32 +2,31 @@ package com.backendProjeto.backendLab.Model.Vagas;
 
 import com.backendProjeto.backendLab.Model.Usuarios.Usuarios;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
 @Entity
 @Table(
-        name = "candidaturas",
+        name = "vagas_salvas",
         uniqueConstraints = {
                 @UniqueConstraint(
-                        name = "uk_usuario_vaga",
+                        name = "uk_usuario_vaga_salva",
                         columnNames = {"id_usuario", "id_vaga"}
                 )
         }
 )
-public class Candidatura {
+
+public class SalvarVagas {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_candidatura")
-    private Long idCandidatura;
+    @Column(name = "id_vaga_salva")
+    private Long idVagaSalva;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario", nullable = false)
@@ -37,9 +36,7 @@ public class Candidatura {
     @JoinColumn(name = "id_vaga", nullable = false)
     private Vagas vaga;
 
-    @Column(name = "data_candidatura", insertable = false, updatable = false)
-    private LocalDateTime dataCandidatura;
+    @Column(name = "created_at", insertable = false, updatable = false)
+    private LocalDateTime createdAt;
 
-    @Column(name = "updated_at", insertable = false, updatable = false)
-    private LocalDateTime updatedAt;
 }

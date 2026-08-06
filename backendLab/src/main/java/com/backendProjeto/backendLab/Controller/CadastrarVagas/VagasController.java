@@ -1,6 +1,7 @@
 package com.backendProjeto.backendLab.Controller.CadastrarVagas;
 
 import com.backendProjeto.backendLab.DTOS.Vagas.ReceberVagas;
+import com.backendProjeto.backendLab.DTOS.Vagas.VagasResponseDto;
 import com.backendProjeto.backendLab.Model.Vagas.Vagas;
 import com.backendProjeto.backendLab.Service.CadastrarVagasService.SalvaVagasService;
 import org.springframework.http.HttpStatus;
@@ -23,12 +24,32 @@ public class VagasController {
     ) {
 
         try {
-
             Vagas vaga = vagasService.cadastrarVaga(dados);
+
+            VagasResponseDto response = new VagasResponseDto(
+                    vaga.getIdVaga(),
+                    vaga.getEmpresa().getIdEmpresa(),
+                    vaga.getEmpresa().getNome(),
+                    vaga.getEmpresa().getLocal(),
+                    vaga.getNome(),
+                    vaga.getArea(),
+                    vaga.getLinguagens(),
+                    vaga.getFrameworks(),
+                    vaga.getTipoEmprego(),
+                    vaga.getModoTrabalho(),
+                    vaga.getRemuneracao(),
+                    vaga.getCargaHoraria(),
+                    vaga.getDuracao(),
+                    vaga.getBeneficios(),
+                    vaga.getInicioPrevisto(),
+                    vaga.getSobreVaga(),
+                    vaga.getRequisitos(),
+                    vaga.getDetalhes()
+            );
 
             return ResponseEntity
                     .status(HttpStatus.CREATED)
-                    .body(vaga);
+                    .body(response);
 
         } catch (Exception e) {
 
