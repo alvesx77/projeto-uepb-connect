@@ -20,6 +20,7 @@ const modoTrabalhoInput = document.getElementById("modoTrabalho");
 const linguagensChips = document.getElementById("linguagens-chips");
 const frameworksChips = document.getElementById("frameworks-chips");
 
+
 // ---------------------------------------------------------------
 // Seleção única (status-card): tipo de emprego / modo de trabalho
 // ---------------------------------------------------------------
