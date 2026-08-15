@@ -363,41 +363,41 @@ muriloxmacedo@gmail.com
 
 <td align="center" width="25%">
 
-<a href="https://github.com/">
+<a href="https://github.com/DevItaloDias">
 <img src="https://github.com/.png" width="120px;" alt="Italo"/>
 </a>
 
-### Italo
+### Italo Dias dos Santos
 
-<a href="https://github.com/">
+<a href="https://github.com/DevItaloDias">
 <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white"/>
 </a>
 
-<a href="https://linkedin.com/in/">
+<a href="https://www.linkedin.com/in/dev-italo-dias">
 <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white"/>
 </a>
 
-📧 emailItalo@gmail.com
+italo.dias@aluno.uepb.edu.br
 
 </td>
 
 <td align="center" width="25%">
 
-<a href="https://github.com/">
+<a href="https://github.com/laryssa-souza">
 <img src="https://github.com/.png" width="120px;" alt="Laryssa Medeiros"/>
 </a>
 
 ### Laryssa
 
-<a href="https://github.com/">
+<a href="https://github.com/laryssa-souza">
 <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white"/>
 </a>
 
-<a href="https://linkedin.com/in/">
+<a href="https://br.linkedin.com/in/laryssa-medeiros-de-souza-191922193">
 <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white"/>
 </a>
 
-📧 emailLaryssa@gmail.com
+laryssamedeiros64.lm@gmail.com
 
 </td>
 
