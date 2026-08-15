@@ -310,7 +310,325 @@ spring.datasource.username=SEU_USUARIO
 spring.datasource.password=SUA_SENHA
 ```
 
-> **Observação:** O nome do banco de dados já está configurado como `testebanco`, portanto não é necessário alterá-lo.
+> **Observação:** O nome do banco de dados já está configurado como `testebanco`, portanto não é necessário alterá-lo.  
+
+# API — Endpoints
+
+A API do **UEPB Connect** é baseada no padrão REST e utiliza os métodos HTTP `GET`, `POST` e `PUT` para comunicação entre o frontend e o backend.
+
+A autenticação é realizada por meio de **JWT (JSON Web Token)**. Após o login, o sistema gera um `accessToken` e um `refreshToken`, armazenados em cookies. Os endpoints protegidos exigem que o usuário esteja autenticado.
+
+## Legenda de Acesso
+
+| Símbolo | Significado |
+|:---:|---|
+| 🔒 | **Autenticado** — requer autenticação |
+| 👑 | **Administrador** — requer autenticação com perfil de administrador |
+| 🌐 | **Público** — pode ser acessado sem autenticação |
+
+---
+
+## Usuários
+
+### Cadastrar usuário
+
+`POST /cadastrarUsuario` 🌐
+
+Realiza o cadastro de um novo usuário na plataforma.
+
+- **Corpo da requisição:** `UsuarioDto`
+- **Resposta de sucesso:** `201 Created`
+
+---
+
+## Autenticação
+
+### Login
+
+`POST /login` 🌐
+
+Realiza a autenticação do usuário utilizando e-mail institucional e senha.
+
+Após a autenticação, são gerados:
+
+- `accessToken` — validade de **2 horas**
+- `refreshToken` — validade de **7 dias**
+
+Os tokens são armazenados em cookies.
+
+- **Resposta de sucesso:** `200 OK`
+- **Credenciais inválidas:** `400 Bad Request`
+
+### Renovar autenticação
+
+`POST /auth/refresh` 🌐
+
+Utiliza o `refreshToken` para gerar um novo `accessToken` e um novo `refreshToken`. O refresh token anterior é revogado durante o processo de renovação.
+
+| Status | Descrição |
+|---|---|
+| `200 OK` | Tokens renovados com sucesso |
+| `401 Unauthorized` | Refresh token não fornecido |
+| `403 Forbidden` | Token inválido ou expirado |
+
+### Logout
+
+`POST /auth/logout` 🌐
+
+Encerra a autenticação do usuário, revogando o refresh token e removendo os cookies de autenticação.
+
+- **Resposta:** `200 OK`
+
+---
+
+## Validação de Cadastro
+
+Os endpoints abaixo são utilizados para verificar se determinados dados já estão cadastrados no sistema.
+
+### Validar e-mail
+
+`GET /validacao/email?valor={email}` 🌐
+
+Verifica a disponibilidade do e-mail institucional informado.
+
+| Parâmetro | Tipo | Descrição |
+|---|---|---|
+| `valor` | `String` | E-mail a ser verificado |
+
+### Validar telefone
+
+`GET /validacao/telefone?valor={telefone}` 🌐
+
+Verifica a disponibilidade do telefone informado.
+
+| Parâmetro | Tipo | Descrição |
+|---|---|---|
+| `valor` | `String` | Telefone a ser verificado |
+
+### Validar matrícula
+
+`GET /validacao/matricula?valor={matricula}` 🌐
+
+Verifica a disponibilidade da matrícula informada.
+
+| Parâmetro | Tipo | Descrição |
+|---|---|---|
+| `valor` | `String` | Matrícula a ser verificada |
+
+---
+
+## Dashboard
+
+### Retornar dados do Dashboard
+
+`GET /retornarDadosDashboard` 🔒
+
+Retorna as principais informações do usuário autenticado para utilização no dashboard, incluindo:
+
+- Nome completo
+- Curso
+- Período
+- Situação de empregabilidade
+- Áreas de afinidade
+- Linguagens
+- Frameworks
+- Cloud
+- Bancos de dados
+
+---
+
+## Perfil
+
+### Consultar perfil
+
+`GET /retornarDadosPerfil` 🔒
+
+Retorna os dados completos do perfil do usuário autenticado, incluindo dados acadêmicos e pessoais, links profissionais, currículo, situação de empregabilidade, visibilidade do perfil e competências cadastradas.
+
+### Consultar dados para edição
+
+`GET /retornarDadosEditarPerfil` 🔒
+
+Retorna os dados atuais do usuário para preenchimento da tela de edição do perfil.
+
+### Editar perfil
+
+`PUT /editarDadosPerfil` 🔒
+
+Atualiza os dados do perfil do usuário autenticado.
+
+- **Corpo da requisição:** `InformacoesEditarPerfilDto`
+- **Resposta de sucesso:** `200 OK`
+
+---
+
+## Vagas
+
+### Cadastrar vaga
+
+`POST /cadastrarVaga` 👑
+
+Cadastra uma nova oportunidade de emprego ou estágio no sistema. O endpoint recebe os dados da vaga através do `ReceberVagas`.
+
+- **Resposta de sucesso:** `201 Created`
+- **Erro no cadastro:** `400 Bad Request`
+
+### Listar vagas
+
+`GET /vagas/salvas` 🔒
+
+Retorna a lista de vagas disponibilizadas no sistema.
+
+- **Resposta de sucesso:** `200 OK`
+
+> **Observação:** apesar do caminho conter `/salvas`, o Controller responsável por essa rota utiliza o método `listarVagas()`, retornando as vagas disponibilizadas pelo sistema. As vagas efetivamente salvas pelo usuário são tratadas pelos endpoints `/vagas-salvas`.
+
+### Consultar vaga
+
+`GET /vagas/{id}` 🔒
+
+Retorna os dados de uma vaga específica.
+
+| Parâmetro | Tipo | Descrição |
+|---|---|---|
+| `id` | `Long` | Identificador da vaga |
+
+**Exemplo:**
+```
+GET /vagas/10
+```
+
+---
+
+## Vagas Salvas
+
+### Listar vagas salvas
+
+`GET /vagas-salvas` 🔒
+
+Retorna os identificadores das vagas salvas pelo usuário autenticado.
+
+### Verificar se uma vaga está salva
+
+`GET /vagas-salvas/{idVaga}` 🔒
+
+Verifica se determinada vaga está salva pelo usuário.
+
+| Parâmetro | Tipo | Descrição |
+|---|---|---|
+| `idVaga` | `Long` | Identificador da vaga |
+
+**Exemplo de resposta:**
+```json
+{
+  "salva": true
+}
+```
+
+### Salvar ou remover vaga
+
+`POST /vagas-salvas/{idVaga}` 🔒
+
+Alterna o estado de salvamento de uma vaga. Caso a vaga ainda não esteja salva, ela é adicionada às vagas salvas. Caso já esteja salva, o salvamento é removido.
+
+**Exemplo de resposta:**
+```json
+{
+  "salva": true
+}
+```
+
+### Listar detalhes das vagas salvas
+
+`GET /vagas-salvas/detalhes` 🔒
+
+Retorna os dados completos das vagas salvas pelo usuário autenticado.
+
+---
+
+## Candidaturas
+
+### Candidatar-se a uma vaga
+
+`POST /candidaturas/{idVaga}` 🔒
+
+Registra a candidatura do usuário autenticado em uma determinada vaga.
+
+| Parâmetro | Tipo | Descrição |
+|---|---|---|
+| `idVaga` | `Long` | Identificador da vaga |
+
+**Exemplo:**
+```
+POST /candidaturas/10
+```
+
+> O usuário é identificado automaticamente por meio da autenticação, não sendo necessário enviar seu ID na requisição.
+
+- **Resposta de sucesso:** `201 Created`
+
+---
+
+## Vagas Paginadas
+
+### Retornar vagas do Dashboard
+
+`GET /paginas/retornarVagasDashboard` 🔒
+
+Retorna as vagas organizadas para apresentação no dashboard.
+
+### Retornar vagas por área
+
+`GET /paginas/adicionarVagas/{area}` 🔒
+
+Retorna vagas relacionadas a uma determinada área de afinidade.
+
+| Parâmetro | Tipo | Descrição |
+|---|---|---|
+| `area` | `String` | Área de afinidade utilizada na busca |
+
+**Exemplo:**
+```
+GET /paginas/adicionarVagas/Desenvolvimento Web
+```
+
+---
+
+## Resumo dos Endpoints
+
+| Método | Endpoint | Acesso | Finalidade |
+|---|---|:---:|---|
+| `POST` | `/cadastrarUsuario` | 🌐 | Cadastro de usuário |
+| `POST` | `/login` | 🌐 | Autenticação |
+| `POST` | `/auth/refresh` | 🌐 | Renovação dos tokens |
+| `POST` | `/auth/logout` | 🌐 | Encerramento da autenticação |
+| `GET` | `/validacao/email` | 🌐 | Validação de e-mail |
+| `GET` | `/validacao/telefone` | 🌐 | Validação de telefone |
+| `GET` | `/validacao/matricula` | 🌐 | Validação de matrícula |
+| `GET` | `/retornarDadosDashboard` | 🔒 | Dados do Dashboard |
+| `GET` | `/retornarDadosPerfil` | 🔒 | Dados do perfil |
+| `GET` | `/retornarDadosEditarPerfil` | 🔒 | Dados para edição |
+| `PUT` | `/editarDadosPerfil` | 🔒 | Atualização do perfil |
+| `POST` | `/cadastrarVaga` | 👑 | Cadastro de vaga |
+| `GET` | `/vagas/salvas` | 🔒 | Listagem de vagas |
+| `GET` | `/vagas/{id}` | 🔒 | Consulta de vaga |
+| `GET` | `/vagas-salvas` | 🔒 | Vagas salvas |
+| `GET` | `/vagas-salvas/{idVaga}` | 🔒 | Verificação de vaga salva |
+| `POST` | `/vagas-salvas/{idVaga}` | 🔒 | Salvar/remover vaga |
+| `GET` | `/vagas-salvas/detalhes` | 🔒 | Detalhes das vagas salvas |
+| `POST` | `/candidaturas/{idVaga}` | 🔒 | Candidatura em vaga |
+| `GET` | `/paginas/retornarVagasDashboard` | 🔒 | Vagas do Dashboard |
+| `GET` | `/paginas/adicionarVagas/{area}` | 🔒 | Vagas por área |
+
+---
+
+## Autenticação da API
+
+Os endpoints marcados como 🔒 **Autenticado** utilizam o mecanismo de autenticação baseado em JWT implementado no backend. O token de acesso é armazenado no cookie `accessToken` e validado pelo sistema a cada requisição.
+
+O endpoint de cadastro de vagas (`/cadastrarVaga`) possui uma restrição adicional, sendo acessível somente a usuários com a função `ADMIN`.
+
+> **Nota:** os exemplos acima foram elaborados diretamente a partir dos Controllers e da configuração de segurança fornecidos. Os campos exatos dos corpos das requisições (`UsuarioDto`, `LoginDto`, `ReceberVagas` e `InformacoesEditarPerfilDto`) podem ser documentados posteriormente a partir dos respectivos DTOs.
 
 ## Equipe de Desenvolvimento
 
