@@ -364,7 +364,7 @@ muriloxmacedo@gmail.com
 <td align="center" width="25%">
 
 <a href="https://github.com/DevItaloDias">
-<img src="https://github.com/.png" width="120px;" alt="Italo"/>
+<img src="https://github.com/DevItaloDias.png" width="120px;" alt="Italo"/>
 </a>
 
 ### Italo Dias dos Santos
@@ -384,7 +384,7 @@ italo.dias@aluno.uepb.edu.br
 <td align="center" width="25%">
 
 <a href="https://github.com/laryssa-souza">
-<img src="https://github.com/.png" width="120px;" alt="Laryssa Medeiros"/>
+<img src="https://github.com/laryssa-souza.png" width="120px;" alt="Laryssa Medeiros"/>
 </a>
 
 ### Laryssa
