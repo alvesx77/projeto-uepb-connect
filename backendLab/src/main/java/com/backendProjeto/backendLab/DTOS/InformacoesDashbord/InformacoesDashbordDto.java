@@ -1,4 +1,4 @@
-package com.backendProjeto.backendLab.DTOS.InformaçõesDashbord;
+package com.backendProjeto.backendLab.DTOS.InformacoesDashbord;
 
 
 import lombok.*;

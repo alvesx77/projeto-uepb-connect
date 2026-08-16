@@ -1,7 +1,6 @@
 package com.backendProjeto.backendLab.Controller.Dashboard;
 
-import com.backendProjeto.backendLab.DTOS.InformaçõesDashbord.InformacoesEditarPerfilDto;
-import com.backendProjeto.backendLab.DTOS.InformaçõesDashbord.InformacoesPefilDto;
+import com.backendProjeto.backendLab.DTOS.InformacoesDashbord.InformacoesEditarPerfilDto;
 import com.backendProjeto.backendLab.Model.Usuarios.*;
 import com.backendProjeto.backendLab.Service.AtualizarDados.AtualizarDadosService;
 import jakarta.validation.Valid;

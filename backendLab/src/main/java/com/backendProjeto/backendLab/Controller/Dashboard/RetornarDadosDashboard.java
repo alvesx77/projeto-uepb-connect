@@ -1,6 +1,6 @@
 package com.backendProjeto.backendLab.Controller.Dashboard;
 
-import com.backendProjeto.backendLab.DTOS.InformaçõesDashbord.InformacoesDashbordDto;
+import com.backendProjeto.backendLab.DTOS.InformacoesDashbord.InformacoesDashbordDto;
 import com.backendProjeto.backendLab.Model.Usuarios.Usuarios;
 import com.backendProjeto.backendLab.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;

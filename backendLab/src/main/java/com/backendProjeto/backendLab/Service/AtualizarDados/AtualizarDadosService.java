@@ -1,6 +1,6 @@
 package com.backendProjeto.backendLab.Service.AtualizarDados;
 
-import com.backendProjeto.backendLab.DTOS.InformaçõesDashbord.InformacoesEditarPerfilDto;
+import com.backendProjeto.backendLab.DTOS.InformacoesDashbord.InformacoesEditarPerfilDto;
 import com.backendProjeto.backendLab.Erros.DadoDuplicadoException;
 import com.backendProjeto.backendLab.Erros.ResourceNotFoundException;
 import com.backendProjeto.backendLab.Model.Usuarios.*;
@@ -8,7 +8,6 @@ import com.backendProjeto.backendLab.Repository.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
