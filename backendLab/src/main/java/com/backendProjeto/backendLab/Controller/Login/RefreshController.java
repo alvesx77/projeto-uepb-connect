@@ -50,16 +50,16 @@ public class RefreshController {
 
             ResponseCookie accessCookie = ResponseCookie.from("accessToken",novoAccessToken)
                     .httpOnly(true)
-                    .secure(false)
-                    .sameSite("Lax")
+                    .secure(true)
+                    .sameSite("None")
                     .path("/")
                     .maxAge(Duration.ofHours(2))
                     .build();
 
             ResponseCookie refreshCookie = ResponseCookie.from("refreshToken",novoRefreshToken)
                     .httpOnly(true)
-                    .secure(false)
-                    .sameSite("Lax")
+                    .secure(true)
+                    .sameSite("None")
                     .path("/")
                     .maxAge(Duration.ofDays(7))
                     .build();
@@ -82,16 +82,16 @@ public class RefreshController {
 
         ResponseCookie accessCookie = ResponseCookie.from("accessToken","")
                 .httpOnly(true)
-                .secure(false)
-                .sameSite("Lax")
+                .secure(true)
+                .sameSite("None")
                 .path("/")
                 .maxAge(0)
                 .build();
 
         ResponseCookie refreshCookie = ResponseCookie.from("refreshToken","")
                 .httpOnly(true)
-                .secure(false)
-                .sameSite("Lax")
+                .secure(true)
+                .sameSite("None")
                 .path("/")
                 .maxAge(0)
                 .build();

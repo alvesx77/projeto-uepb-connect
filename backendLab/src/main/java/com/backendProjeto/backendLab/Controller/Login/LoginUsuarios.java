@@ -42,16 +42,16 @@ public class LoginUsuarios {
 
             ResponseCookie accessCookie = ResponseCookie.from("accessToken",accsseToken)
                     .httpOnly(true)
-                    .secure(false)
-                    .sameSite("Lax")
+                    .secure(true)
+                    .sameSite("None")
                     .path("/")
                     .maxAge(Duration.ofHours(2))
                     .build();
 
             ResponseCookie refreshCookie = ResponseCookie.from("refreshToken",refreshToken)
                     .httpOnly(true)
-                    .secure(false)
-                    .sameSite("Lax")
+                    .secure(true)
+                    .sameSite("None")
                     .path("/")
                     .maxAge(Duration.ofDays(7))
                     .build();
