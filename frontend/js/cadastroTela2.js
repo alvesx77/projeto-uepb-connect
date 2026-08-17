@@ -31,7 +31,7 @@ function validarPeriodo() {
 
 function validarMatricula(){
     const valor = Imatricula.value.trim();
-    if(valor === "") return true;
+    if(valor === "") return false;
     return REGEX.matricula.test(valor);
 }
 
@@ -95,7 +95,6 @@ btn.addEventListener("click", async () => {
     btn.textContent = "Verificando...";
 
     try {
-    if (Imatricula.value.trim() !== "") {
         const resultadoMatricula = await verificarDisponibilidade(
             "matricula",
             Imatricula.value.trim()
@@ -104,7 +103,6 @@ btn.addEventListener("click", async () => {
             mostrarErro(resultadoMatricula.mensagem);
             return;
         }
-    }
 
     let dadosTela = JSON.parse(localStorage.getItem("cadastroTela")) || {};
     dadosTela.curso = Icursos.value;
