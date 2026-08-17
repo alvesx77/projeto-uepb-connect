@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8080";
+const API_URL = "https://projeto-uepb-connect-production.up.railway.app";
 
 const vagaList = document.getElementById("vaga-list");
 const emptyState = document.getElementById("empty-state");

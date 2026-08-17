@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8080/cadastrarVaga";
+const API_URL = "https://projeto-uepb-connect-production.up.railway.app/cadastrarVaga";
 
 // ---------------------------------------------------------------
 // Só ADMIN pode acessar essa tela (mesmo critério usado em vagas.js

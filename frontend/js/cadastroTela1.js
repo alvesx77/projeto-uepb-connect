@@ -6,7 +6,7 @@ const IconfirmaSenha = document.querySelector(".confirmarSenha");
 const btn = document.querySelector(".btn-primary");
 const errorBox = document.getElementById("passo1-error");
 
-const API_URL = "http://localhost:8080";
+const API_URL = "https://projeto-uepb-connect-production.up.railway.app";
 
 const REGEX = {
     nome: /^[A-Za-zÀ-ÖØ-öø-ÿ']+(\s[A-Za-zÀ-ÖØ-öø-ÿ']+)+$/,

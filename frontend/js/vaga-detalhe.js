@@ -1,5 +1,5 @@
-const API_URL = "http://localhost:8080";
-const API_URL_USUARIO = "http://localhost:8080/retornarDadosDashboard";
+const API_URL = "https://projeto-uepb-connect-production.up.railway.app";
+const API_URL_USUARIO = "https://projeto-uepb-connect-production.up.railway.app/retornarDadosDashboard";
 
 // ===============================================================
 // ELEMENTOS

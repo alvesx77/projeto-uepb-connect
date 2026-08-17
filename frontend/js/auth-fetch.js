@@ -12,7 +12,7 @@
 // Uso: troque `fetch(url, options)` por `fetchComAuth(url, options)`
 // em qualquer chamada que dependa do usuário estar logado.
 // ---------------------------------------------------------------
-const AUTH_API_URL = "http://localhost:8080";
+const AUTH_API_URL = "https://projeto-uepb-connect-production.up.railway.app";
 
 async function revalidarToken() {
     try {

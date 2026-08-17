@@ -4,7 +4,7 @@ const Iportfolio = document.querySelector(".url-portfolio");
 const btn = document.getElementById("btnFinish");
 const errorBox = document.getElementById("passo4-error");
 
-const API_URL = "http://localhost:8080";
+const API_URL = "https://projeto-uepb-connect-production.up.railway.app";
 
 const REGEX = {
     linkedin: /^https:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9-]+\/?$/i,

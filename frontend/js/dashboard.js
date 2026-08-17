@@ -1,6 +1,6 @@
-const API_URL = "http://localhost:8080/retornarDadosDashboard";
-const API_URL_VAGAS = "http://localhost:8080/paginas/retornarVagasDashboard";
-const API_URL_BASE = "http://localhost:8080";
+const API_URL = "https://projeto-uepb-connect-production.up.railway.app/retornarDadosDashboard";
+const API_URL_VAGAS = "https://projeto-uepb-connect-production.up.railway.app/paginas/retornarVagasDashboard";
+const API_URL_BASE = "https://projeto-uepb-connect-production.up.railway.app";
 
 let vagasSalvas = new Set();
 

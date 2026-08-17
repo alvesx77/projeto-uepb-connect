@@ -401,7 +401,7 @@ function marcarChipsPorTexto(lista, seletorContainer, classeSelecao) {
 // preenche o formulário inteiro
 // ---------------------------------------------------------------
 function carregarDados() {
-    fetch("http://localhost:8080/retornarDadosEditarPerfil", {
+    fetch("https://projeto-uepb-connect-production.up.railway.app/retornarDadosEditarPerfil", {
         method: "GET",
         credentials: "include"
     })
@@ -563,7 +563,7 @@ btnSalvar.addEventListener("click", () => {
 
     const dadosAtualizados = coletarDadosFormulario();
 
-    fetch("http://localhost:8080/editarDadosPerfil", {
+    fetch("https://projeto-uepb-connect-production.up.railway.app/editarDadosPerfil", {
         method: "PUT",
         credentials: "include",
         headers: {

@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8080/retornarDadosPerfil";
+const API_URL = "https://projeto-uepb-connect-production.up.railway.app/retornarDadosPerfil";
 
 const STATUS_LABELS = {
     buscando: "Buscando oportunidade",

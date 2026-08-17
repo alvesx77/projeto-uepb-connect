@@ -1,4 +1,4 @@
-const SIDEBAR_API_URL = "http://localhost:8080/retornarDadosPerfil";
+const SIDEBAR_API_URL = "https://projeto-uepb-connect-production.up.railway.app/retornarDadosPerfil";
 
 function iniciaisNomeSidebar(nome) {
     if (!nome || !nome.trim()) return "??";

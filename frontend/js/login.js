@@ -5,7 +5,7 @@ const errorBox = document.getElementById("login-error");
 const toggleSenha = document.getElementById("toggleSenha");
 
 const DOMINIO_INSTITUCIONAL = "@aluno.uepb.edu.br";
-const API_URL = "http://localhost:8080";
+const API_URL = "https://projeto-uepb-connect-production.up.railway.app";
 
 function mostrarErro(msg) {
     errorBox.textContent = msg;
