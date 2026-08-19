@@ -448,6 +448,7 @@ function preencherDados(usuario) {
     const quantidadeVagas = usuario.quantidadeVagas ?? 0;
     const quantidadeCandidaturas = usuario.quantidadeCandidaturas ?? 0;
     const quantidadeVagasSalvas = usuario.quantidadeVagasSalvas ?? 0;
+    const quantidadeMatch = usuario.quantidadeMatch ?? 0;
 
     // ===============================
         // MÉTRICAS
@@ -455,6 +456,9 @@ function preencherDados(usuario) {
 
         document.getElementById("quantidade-vagas").textContent =
             quantidadeVagas;
+
+        document.getElementById("quantidade-match").textContent =
+                quantidadeMatch;
 
         document.getElementById("quantidade-candidaturas").textContent =
             quantidadeCandidaturas;

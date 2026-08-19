@@ -23,4 +23,6 @@ public class InformacoesDashbordDto {
     private long quantidadeCandidaturas;
 
     private long quantidadeVagasSalvas;
+
+    private long quantidadeMatch;
 }

@@ -2,6 +2,7 @@ package com.backendProjeto.backendLab.Controller.Dashboard;
 
 import com.backendProjeto.backendLab.DTOS.InformacoesDashbord.InformacoesDashbordDto;
 import com.backendProjeto.backendLab.Model.Usuarios.Usuarios;
+import com.backendProjeto.backendLab.Model.Vagas.Vagas;
 import com.backendProjeto.backendLab.Repository.CandidaturaRepository;
 import com.backendProjeto.backendLab.Repository.UsuarioRepository;
 import com.backendProjeto.backendLab.Repository.VagaSalvaRepository;
@@ -19,6 +20,43 @@ import java.util.List;
 @RestController
 @RequestMapping("/retornarDadosDashboard")
 public class RetornarDadosDashboard {
+
+    private boolean vagaCompativelPorArea(
+            Vagas vaga,
+            List<String> areasUsuario
+    ) {
+
+        if (vaga.getArea() == null ||
+                areasUsuario == null) {
+
+            return false;
+        }
+
+        String areaVaga =
+                normalizar(vaga.getArea());
+
+        return areasUsuario.stream()
+                .filter(area -> area != null)
+                .map(this::normalizar)
+                .anyMatch(areaVaga::equals);
+    }
+
+
+    private String normalizar(String texto) {
+
+        if (texto == null) {
+            return "";
+        }
+
+        return java.text.Normalizer
+                .normalize(
+                        texto,
+                        java.text.Normalizer.Form.NFD
+                )
+                .replaceAll("\\p{M}", "")
+                .trim()
+                .toLowerCase();
+    }
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -62,6 +100,19 @@ public class RetornarDadosDashboard {
                         usuarioAutenticado.getId()
                 );
 
+        List<Vagas> vagas =
+                vagasRepository.findAll();
+
+        long quantidadeMatch =
+                vagas.stream()
+                        .filter(vaga ->
+                                vagaCompativelPorArea(
+                                        vaga,
+                                        areas
+                                )
+                        )
+                        .count();
+
         InformacoesDashbordDto dto = new InformacoesDashbordDto();
 
         dto.setNomeCompleto(usuarioAutenticado.getNomeCompleto());
@@ -76,7 +127,7 @@ public class RetornarDadosDashboard {
         dto.setQuantidadeVagas(quantidadeVagas);
         dto.setQuantidadeCandidaturas(candidaturas);
         dto.setQuantidadeVagasSalvas(vagasSalvas);
-
+        dto.setQuantidadeMatch(quantidadeMatch);
         return ResponseEntity.ok(dto);
     }
 }
