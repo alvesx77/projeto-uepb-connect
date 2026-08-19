@@ -14,4 +14,6 @@ public interface VagaSalvaRepository extends JpaRepository<SalvarVagas,Long> {
 
     List<SalvarVagas> findByUsuario_Id(long idUsuario);
 
+    long countByUsuario_Id(Long idUsuario);
+
 }

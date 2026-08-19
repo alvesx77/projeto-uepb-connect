@@ -445,6 +445,14 @@ async function carregarUsuario() {
 
 
 function preencherDados(usuario) {
+    document.getElementById("quantidade-vagas").textContent =
+        usuario.quantidadeVagas ?? 0;
+
+    document.getElementById("quantidade-candidaturas").textContent =
+        usuario.candidaturas ?? 0;
+
+    document.getElementById("quantidade-vagas-salvas").textContent =
+        usuario.vagasSalvas ?? 0;
 
     document.querySelector(".profile-name").textContent =
         usuario.nomeCompleto;

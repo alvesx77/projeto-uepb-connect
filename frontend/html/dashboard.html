@@ -38,28 +38,72 @@
 
   <div class="body">
     <div class="col-left">
-      <div class="metrics">
-        <div class="metric">
-          <div class="metric-label"><i class="ti ti-briefcase"></i> Vagas novas</div>
-          <div class="metric-val">24</div>
-          <div class="metric-change up"><i class="ti ti-arrow-up" style="font-size:10px"></i> 8 essa semana</div>
+        <div class="metrics">
+
+            <div class="metric">
+                <div class="metric-label">
+                    <i class="ti ti-briefcase"></i>
+                    Vagas
+                </div>
+
+                <div class="metric-val" id="quantidade-vagas">
+                    0
+                </div>
+
+                <div class="metric-change neutral">
+                    Vagas cadastradas
+                </div>
+            </div>
+
+
+            <div class="metric">
+                <div class="metric-label">
+                    <i class="ti ti-target"></i>
+                    Match alto
+                </div>
+
+                <div class="metric-val" id="quantidade-match">
+                    0
+                </div>
+
+                <div class="metric-change neutral">
+                    Vagas compatíveis
+                </div>
+            </div>
+
+
+            <div class="metric">
+                <div class="metric-label">
+                    <i class="ti ti-send"></i>
+                    Candidaturas
+                </div>
+
+                <div class="metric-val" id="quantidade-candidaturas">
+                    0
+                </div>
+
+                <div class="metric-change neutral">
+                    Candidaturas realizadas
+                </div>
+            </div>
+
+
+            <div class="metric">
+                <div class="metric-label">
+                    <i class="ti ti-heart"></i>
+                    Salvos
+                </div>
+
+                <div class="metric-val" id="quantidade-vagas-salvas">
+                    0
+                </div>
+
+                <div class="metric-change neutral">
+                    Vagas salvas
+                </div>
+            </div>
+
         </div>
-        <div class="metric">
-          <div class="metric-label"><i class="ti ti-target"></i> Match alto</div>
-          <div class="metric-val">9</div>
-          <div class="metric-change up"><i class="ti ti-arrow-up" style="font-size:10px"></i> +3 hoje</div>
-        </div>
-        <div class="metric">
-          <div class="metric-label"><i class="ti ti-send"></i> Candidaturas</div>
-          <div class="metric-val">3</div>
-          <div class="metric-change neutral">2 em análise</div>
-        </div>
-        <div class="metric">
-          <div class="metric-label"><i class="ti ti-heart"></i> Salvos</div>
-          <div class="metric-val">7</div>
-          <div class="metric-change neutral">1 expira em breve</div>
-        </div>
-      </div>
 
       <div class="card">
         <div class="card-hdr">
@@ -99,8 +143,15 @@
         <div class="profile-status"><div class="profile-dot"></div> Buscando oportunidade</div>
         <div class="profile-divider"></div>
         <div class="profile-stat">Período <span>5º</span></div>
-        <div class="profile-stat">Vagas compatíveis <span>24</span></div>
-        <div class="profile-stat">Candidaturas ativas <span>3</span></div>
+        <div class="profile-stat">
+          Vagas cadastradas
+          <span id="perfil-quantidade-vagas">0</span>
+        </div>
+        
+        <div class="profile-stat">
+          Candidaturas
+          <span id="perfil-quantidade-candidaturas">0</span>
+        </div>
         <div class="complete-bar-wrap">
           <div class="complete-bar-label"><span>Perfil completo</span><span>78%</span></div>
           <div class="complete-bar-bg"><div class="complete-bar-fill" style="width:78%"></div></div>

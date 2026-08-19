@@ -18,4 +18,9 @@ public class InformacoesDashbordDto {
     private List<String> clouds;
     private List<String> bancoDados;
 
+    private long quantidadeVagas;
+
+    private long quantidadeCandidaturas;
+
+    private long quantidadeVagasSalvas;
 }

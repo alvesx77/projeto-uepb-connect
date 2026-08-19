@@ -2,7 +2,10 @@ package com.backendProjeto.backendLab.Controller.Dashboard;
 
 import com.backendProjeto.backendLab.DTOS.InformacoesDashbord.InformacoesDashbordDto;
 import com.backendProjeto.backendLab.Model.Usuarios.Usuarios;
+import com.backendProjeto.backendLab.Repository.CandidaturaRepository;
 import com.backendProjeto.backendLab.Repository.UsuarioRepository;
+import com.backendProjeto.backendLab.Repository.VagaSalvaRepository;
+import com.backendProjeto.backendLab.Repository.VagasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +22,15 @@ public class RetornarDadosDashboard {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private CandidaturaRepository candidaturaRepository;
+
+    @Autowired
+    private VagasRepository vagasRepository;
+
+    @Autowired
+    private VagaSalvaRepository vagaSalvaRepository;
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> retornaDados(@AuthenticationPrincipal Usuarios usuarioAutenticado ){
@@ -38,6 +50,18 @@ public class RetornarDadosDashboard {
 
         List<String> bancoDados = usuarioRepository.buscarNomesBancosDados(usuarioAutenticado.getEmailInstitucional());
 
+        long quantidadeVagas = vagasRepository.count();
+
+        long candidaturas =
+                candidaturaRepository.countByUsuario_Id(
+                        usuarioAutenticado.getId()
+                );
+
+        long vagasSalvas =
+                vagaSalvaRepository.countByUsuario_Id(
+                        usuarioAutenticado.getId()
+                );
+
         InformacoesDashbordDto dto = new InformacoesDashbordDto();
 
         dto.setNomeCompleto(usuarioAutenticado.getNomeCompleto());
@@ -49,6 +73,9 @@ public class RetornarDadosDashboard {
         dto.setFrameworks(frameworks);
         dto.setClouds(clouds);
         dto.setBancoDados(bancoDados);
+        dto.setQuantidadeVagas(quantidadeVagas);
+        dto.setQuantidadeCandidaturas(candidaturas);
+        dto.setQuantidadeVagasSalvas(vagasSalvas);
 
         return ResponseEntity.ok(dto);
     }

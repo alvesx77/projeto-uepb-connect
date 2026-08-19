@@ -3,7 +3,7 @@ package com.backendProjeto.backendLab.Model.Vagas;
 public enum TipoEmprego {
     //enum('Estagio','Trainee','CLT','PJ','Freelancer','Temporario')
     ESTAGIO("ESTAGIO"),
-    TRAINeE("TRAINEE"),
+    TRAINEE("TRAINEE"),
     CLT("CLT"),
     PJ("PJ"),
     FREELANCER("FREELANCER"),
