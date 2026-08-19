@@ -446,10 +446,10 @@ async function carregarUsuario() {
 
 function preencherDados(usuario) {
     const quantidadeVagas = usuario.quantidadeVagas ?? 0;
-        const quantidadeCandidaturas = usuario.quantidadeCandidaturas ?? 0;
-        const quantidadeVagasSalvas = usuario.quantidadeVagasSalvas ?? 0;
+    const quantidadeCandidaturas = usuario.quantidadeCandidaturas ?? 0;
+    const quantidadeVagasSalvas = usuario.quantidadeVagasSalvas ?? 0;
 
-        // ===============================
+    // ===============================
         // MÉTRICAS
         // ===============================
 
@@ -467,8 +467,8 @@ function preencherDados(usuario) {
         // CARD DO PERFIL
         // ===============================
 
-        document.getElementById("perfil-quantidade-vagas").textContent =
-            quantidadeVagas;
+        document.getElementById("perfil-quantidade-vagas-salvas").textContent =
+            quantidadeVagasSalvas;
 
         document.getElementById("perfil-quantidade-candidaturas").textContent =
             quantidadeCandidaturas;
