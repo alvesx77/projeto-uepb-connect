@@ -4,7 +4,9 @@ const btnLogin = document.getElementById("btnLogin");
 const errorBox = document.getElementById("login-error");
 const toggleSenha = document.getElementById("toggleSenha");
 
-const DOMINIO_INSTITUCIONAL = "@aluno.uepb.edu.br";
+const DOMINIO_INSTITUCIONAL = ["@aluno.uepb.edu.br",
+"@servidor.uepb.edu.br"];
+
 const API_URL = "https://projeto-uepb-connect-production.up.railway.app";
 
 function mostrarErro(msg) {
@@ -16,7 +18,13 @@ function esconderErro() {
 }
 
 function validarEmailInstitucional(email) {
-    return email.trim().toLowerCase().endsWith(DOMINIO_INSTITUCIONAL);
+     const emailNormalizado =
+            email.trim().toLowerCase();
+
+        return DOMINIOS_INSTITUCIONAIS.some(
+            dominio =>
+                emailNormalizado.endsWith(dominio)
+        );
 }
 
 // Olhinho: mostra/esconde a senha digitada
