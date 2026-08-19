@@ -445,14 +445,33 @@ async function carregarUsuario() {
 
 
 function preencherDados(usuario) {
-    document.getElementById("quantidade-vagas").textContent =
-        usuario.quantidadeVagas ?? 0;
+    const quantidadeVagas = usuario.quantidadeVagas ?? 0;
+        const quantidadeCandidaturas = usuario.quantidadeCandidaturas ?? 0;
+        const quantidadeVagasSalvas = usuario.quantidadeVagasSalvas ?? 0;
 
-    document.getElementById("quantidade-candidaturas").textContent =
-        usuario.candidaturas ?? 0;
+        // ===============================
+        // MÉTRICAS
+        // ===============================
 
-    document.getElementById("quantidade-vagas-salvas").textContent =
-        usuario.vagasSalvas ?? 0;
+        document.getElementById("quantidade-vagas").textContent =
+            quantidadeVagas;
+
+        document.getElementById("quantidade-candidaturas").textContent =
+            quantidadeCandidaturas;
+
+        document.getElementById("quantidade-vagas-salvas").textContent =
+            quantidadeVagasSalvas;
+
+
+        // ===============================
+        // CARD DO PERFIL
+        // ===============================
+
+        document.getElementById("perfil-quantidade-vagas").textContent =
+            quantidadeVagas;
+
+        document.getElementById("perfil-quantidade-candidaturas").textContent =
+            quantidadeCandidaturas;
 
     document.querySelector(".profile-name").textContent =
         usuario.nomeCompleto;
