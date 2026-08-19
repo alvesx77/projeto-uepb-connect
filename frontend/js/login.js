@@ -4,8 +4,10 @@ const btnLogin = document.getElementById("btnLogin");
 const errorBox = document.getElementById("login-error");
 const toggleSenha = document.getElementById("toggleSenha");
 
-const DOMINIO_INSTITUCIONAL = ["@aluno.uepb.edu.br",
-"@servidor.uepb.edu.br"];
+const DOMINIOS_INSTITUCIONAIS = [
+    "@aluno.uepb.edu.br",
+    "@servidor.uepb.edu.br"
+];
 
 const API_URL = "https://projeto-uepb-connect-production.up.railway.app";
 
@@ -13,18 +15,20 @@ function mostrarErro(msg) {
     errorBox.textContent = msg;
     errorBox.classList.add("show");
 }
+
 function esconderErro() {
     errorBox.classList.remove("show");
 }
 
 function validarEmailInstitucional(email) {
-     const emailNormalizado =
-            email.trim().toLowerCase();
 
-        return DOMINIOS_INSTITUCIONAIS.some(
-            dominio =>
-                emailNormalizado.endsWith(dominio)
-        );
+    const emailNormalizado =
+        email.trim().toLowerCase();
+
+    return DOMINIOS_INSTITUCIONAIS.some(
+        dominio =>
+            emailNormalizado.endsWith(dominio)
+    );
 }
 
 // Olhinho: mostra/esconde a senha digitada
@@ -64,7 +68,7 @@ btnLogin.addEventListener("click", async function () {
         return;
     }
     if (!validarEmailInstitucional(Iemail.value)) {
-        mostrarErro("Use seu e-mail institucional (" + DOMINIO_INSTITUCIONAL + ").");
+        mostrarErro("Use seu e-mail institucional (" + DOMINIOS_INSTITUCIONAIS.join(" ou ") + ").");
         return;
     }
     if (Isenha.value.trim() === "" || Isenha.value.length < 8) {
